@@ -13,8 +13,7 @@ export function truncateWords(text: string, maxChars: number): string {
 
 /** Akzente entfernen – für Suche, Slugs und Sortierung. */
 export function deburr(value: string): string {
-  // ̀-ͯ = kombinierende diakritische Zeichen
-  // eslint-disable-next-line no-misleading-character-class
+  // U+0300–U+036F: kombinierende diakritische Zeichen
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 

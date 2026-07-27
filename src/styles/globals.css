@@ -17,6 +17,7 @@
 
   --color-accent-700: var(--color-accent-700);
   --color-accent-600: var(--color-accent-600);
+  --color-accent-hover: var(--color-accent-hover);
   --color-accent-100: var(--color-accent-100);
 
   --color-support-700: var(--color-support-700);
@@ -114,7 +115,9 @@
     line-height: 1.2;
     letter-spacing: -0.005em;
     text-wrap: balance;
-    color: var(--color-ink);
+    /* Bewusst keine feste Farbe: Überschriften erben sie vom Kontext.
+       Sonst blieben sie in Fußzeile und Hero dunkel auf dunklem Grund. */
+    color: inherit;
   }
 
   p,
@@ -241,6 +244,18 @@
   }
 }
 
+/**
+ * Label mit optisch verstecktem Eingabefeld (Radio/Checkbox als Chip oder
+ * Kachel). Der Fokusring gehört auf das Label – am `sr-only`-Input wäre er
+ * nicht zu sehen.
+ */
+@utility focus-ring-within {
+  &:has(:focus-visible) {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+}
+
 /* Fließtext aus dem CMS */
 @utility prose-cm {
   max-width: var(--measure);
@@ -334,6 +349,11 @@
 /* ==========================================================================
    Druck
    ========================================================================== */
+
+/* Solange der Cookie-Hinweis steht, bleibt unten Platz frei. */
+body {
+  padding-block-end: var(--consent-height, 0px);
+}
 
 @media print {
   :root {

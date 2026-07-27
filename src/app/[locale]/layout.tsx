@@ -17,6 +17,7 @@ import { AlertBar } from '@/components/layout/alert-bar';
 import { CookieConsent } from '@/components/layout/cookie-consent';
 import { Analytics } from '@/components/layout/analytics';
 import { BackToTop } from '@/components/layout/back-to-top';
+import { ServiceWorkerRegistration } from '@/components/layout/service-worker';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -57,7 +58,6 @@ export async function generateMetadata({
     },
     icons: {
       icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
-      apple: [{ url: '/apple-icon.png' }],
     },
     formatDetection: { telephone: true, address: true },
   };
@@ -120,6 +120,7 @@ export default async function LocaleLayout({
         <BackToTop label={dict.common.backToTop} />
         <CookieConsent locale={locale} dict={dict} />
         <Analytics />
+        <ServiceWorkerRegistration />
       </body>
     </html>
   );

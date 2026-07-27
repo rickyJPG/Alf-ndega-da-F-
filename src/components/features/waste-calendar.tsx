@@ -36,6 +36,7 @@ export function WasteCalendar({
   locale,
   dict,
   fixedFreguesia,
+  headingLevel = 3,
 }: {
   schedules: WasteSchedule[];
   freguesias: Freguesia[];
@@ -43,8 +44,15 @@ export function WasteCalendar({
   dict: Dictionary;
   /** Auf der Freguesia-Seite ist die Auswahl bereits getroffen. */
   fixedFreguesia?: string;
+  /**
+   * Ebene der Zwischenüberschriften. Auf der eigenen Seite folgt der Block
+   * direkt auf die H1 (also 2); innerhalb eines Abschnitts mit eigener
+   * Überschrift ist 3 richtig. Übersprungene Ebenen wären ein Fehler.
+   */
+  headingLevel?: 2 | 3;
 }) {
   const [selected, setSelected] = useState(fixedFreguesia ?? freguesias[0]?.slug ?? '');
+  const Heading = (headingLevel === 2 ? 'h2' : 'h3') as 'h2' | 'h3';
 
   const schedule = schedules.find((entry) => entry.freguesiaSlug === selected);
   const freguesia = freguesias.find((entry) => entry.slug === selected);
@@ -157,7 +165,7 @@ export function WasteCalendar({
         </p>
       ) : (
         <>
-          <h3 className="sr-only">{dict.waste.nextCollection}</h3>
+          <Heading className="sr-only">{dict.waste.nextCollection}</Heading>
           <ol className="grid gap-2 md:grid-cols-7">
             {upcoming.map((day, index) => {
               const date = new Date(`${day.date}T00:00:00.000Z`);
@@ -203,7 +211,7 @@ export function WasteCalendar({
             })}
           </ol>
 
-          <h3 className="mt-8 font-serif text-xl">O que passa e quando</h3>
+          <Heading className="mt-8 font-serif text-xl">O que passa e quando</Heading>
           <ul className="mt-3 divide-y divide-line rounded-lg border border-line bg-surface">
             {(Object.keys(schedule.streams) as WasteStream[]).map((stream) => {
               const days = schedule.streams[stream];

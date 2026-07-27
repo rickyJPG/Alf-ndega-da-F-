@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Município de Alfândega da Fé">
+  <rect width="64" height="64" rx="12" fill="#08283D"/>
+  <g fill="#FFFFFF">
+    <path d="M12 12h7v4h5v-4h8v4h5v-4h7v4h5v-4h3v9H12v-9Z" opacity="0.92"/>
+    <rect x="12" y="22" width="40" height="3" rx="1"/>
+  </g>
+  <path d="M14 28h36v14c0 8.4-6.4 14.8-18 18-11.6-3.2-18-9.6-18-18V28Z" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+  <path d="M32 33v5m0 0-5 4m5-4 5 4" stroke="#B4232E" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <circle cx="26.5" cy="45" r="4.6" fill="#B4232E"/>
+  <circle cx="37.5" cy="45" r="4.6" fill="#B4232E"/>
+</svg>

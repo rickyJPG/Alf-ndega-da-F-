@@ -107,7 +107,7 @@ export default async function SearchPage({
             />
             <button
               type="submit"
-              className="inline-flex min-h-12 items-center gap-2 rounded-e-md border-2 border-accent-600 bg-accent-600 px-5 font-semibold text-white hover:bg-accent-700"
+              className="inline-flex min-h-12 items-center gap-2 rounded-e-md border-2 border-accent-600 bg-accent-600 px-5 font-semibold text-white hover:bg-accent-hover"
             >
               <Icon name="search" size={19} />
               {dict.common.search}

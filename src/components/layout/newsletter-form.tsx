@@ -60,7 +60,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
               <label
                 key={topic.id}
                 className={cn(
-                  'cursor-pointer rounded-pill border px-3 py-1.5 text-sm',
+                  'focus-ring-within cursor-pointer rounded-pill border px-3 py-1.5 text-sm',
                   checked
                     ? 'border-accent-600 bg-accent-600 font-semibold text-white'
                     : 'border-white/30 text-white/85 hover:border-white/60',
@@ -105,7 +105,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
         <button
           type="submit"
           disabled={state === 'sending'}
-          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-accent-600 bg-accent-600 px-4 font-semibold text-white hover:bg-accent-700 disabled:opacity-60"
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-accent-600 bg-accent-600 px-4 font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
         >
           {state === 'sending' ? dict.forms.sending : dict.footer.newsletterCta}
         </button>

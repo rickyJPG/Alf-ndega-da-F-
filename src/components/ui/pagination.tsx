@@ -48,6 +48,8 @@ export function Pagination({
         <Link
           href={buildHref(currentPage - 1)}
           rel="prev"
+          /* O texto é escondido em ecrã pequeno; o nome acessível não pode ser. */
+          aria-label={`${labels.previous} — ${labels.page} ${currentPage - 1}`}
           className={cn(cell, 'border-line-strong text-ink hover:bg-primary-100 gap-1')}
         >
           <Icon name="chevronLeft" size={16} />
@@ -85,6 +87,7 @@ export function Pagination({
         <Link
           href={buildHref(currentPage + 1)}
           rel="next"
+          aria-label={`${labels.next} — ${labels.page} ${currentPage + 1}`}
           className={cn(cell, 'border-line-strong text-ink hover:bg-primary-100 gap-1')}
         >
           <span className="hidden sm:inline">{labels.next}</span>

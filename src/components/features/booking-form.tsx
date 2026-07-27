@@ -138,7 +138,7 @@ export function BookingForm({
               <li key={candidate}>
                 <label
                   className={cn(
-                    'flex min-h-16 w-20 cursor-pointer flex-col items-center justify-center rounded-md border',
+                    'focus-ring-within flex min-h-16 w-20 cursor-pointer flex-col items-center justify-center rounded-md border',
                     count === 0 && 'cursor-not-allowed opacity-45',
                     day === candidate
                       ? 'border-accent-600 bg-accent-100/50 font-semibold'
@@ -182,7 +182,7 @@ export function BookingForm({
               <li key={slot}>
                 <label
                   className={cn(
-                    'inline-flex min-h-11 cursor-pointer items-center rounded-md border px-4 tabular-nums',
+                    'focus-ring-within inline-flex min-h-11 cursor-pointer items-center rounded-md border px-4 tabular-nums',
                     time === slot
                       ? 'border-accent-600 bg-accent-600 font-semibold text-white'
                       : 'border-line-strong hover:bg-surface-alt',
@@ -241,10 +241,10 @@ export function BookingForm({
 
       {service ? (
         <div className="rounded-lg border border-line bg-surface-alt p-5">
-          <h3 className="flex items-center gap-2 font-serif text-lg">
+          <h2 className="flex items-center gap-2 font-serif text-lg">
             <Icon name="briefcase" size={19} className="text-primary-700" />
             {dict.booking.bringDocuments}
-          </h3>
+          </h2>
           <ul className="mt-2 flex flex-col gap-1.5">
             {tx(service.bring, locale).map((item) => (
               <li key={item} className="flex items-start gap-2">

@@ -60,7 +60,9 @@ export function AlertBar({
   if (visible.length === 0) return null;
 
   return (
-    <div data-print="hide">
+    /* Ein einziger benannter Bereich für alle Meldungen: mehrere Regionen mit
+       demselben Namen wären für die Landmarken-Navigation nicht unterscheidbar. */
+    <section aria-label={dict.alerts.label} data-print="hide">
       {visible.map((alert) => {
         const style = severityStyles[alert.severity];
         const canDismiss = alert.severity !== 'danger';
@@ -68,8 +70,7 @@ export function AlertBar({
         return (
           <div
             key={alert.id}
-            role={alert.severity === 'danger' ? 'alert' : 'region'}
-            aria-label={dict.alerts.label}
+            role={alert.severity === 'danger' ? 'alert' : undefined}
             className={cn('border-b-2', style.bar)}
           >
             <div className="container-page flex items-start gap-3 py-2.5">
@@ -103,6 +104,6 @@ export function AlertBar({
           </div>
         );
       })}
-    </div>
+    </section>
   );
 }

@@ -137,7 +137,7 @@ export function AccessibilityPanel({ locale, dict }: { locale: Locale; dict: Dic
                   <label
                     key={value}
                     className={cn(
-                      'flex min-h-11 cursor-pointer flex-col items-center justify-center gap-1 rounded-md border p-2 text-sm',
+                      'focus-ring-within flex min-h-11 cursor-pointer flex-col items-center justify-center gap-1 rounded-md border p-2 text-sm',
                       prefs.theme === value
                         ? 'border-accent-600 bg-accent-100 font-semibold text-accent-700'
                         : 'border-line hover:bg-surface-alt',

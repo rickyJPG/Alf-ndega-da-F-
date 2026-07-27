@@ -72,7 +72,7 @@ export function DocumentRow({
         {document.onlinePath ? (
           <Link
             href={localePath(locale, document.onlinePath)}
-            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-accent-600 bg-accent-600 px-4 font-semibold text-white no-underline hover:bg-accent-700"
+            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-accent-600 bg-accent-600 px-4 font-semibold text-white no-underline hover:bg-accent-hover"
           >
             <Icon name="arrowRight" size={17} />
             {dict.documents.doOnline}

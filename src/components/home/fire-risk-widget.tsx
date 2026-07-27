@@ -31,10 +31,15 @@ export function FireRiskWidget({
   const today = days[0];
   if (!today) return null;
 
+  /**
+   * Die Farben sind die offiziellen IPMA-Stufen und dürfen nicht verändert
+   * werden. Anpassbar ist nur die Textfarbe darauf: Gelb und Orange tragen
+   * dunklen Text, sonst bleibt die Zahl unter 4.5:1.
+   */
   const levelClasses: Record<number, string> = {
     1: 'bg-risk-1 text-white',
     2: 'bg-risk-2 text-ink',
-    3: 'bg-risk-3 text-white',
+    3: 'bg-risk-3 text-ink',
     4: 'bg-risk-4 text-white',
     5: 'bg-risk-5 text-white',
   };

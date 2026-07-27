@@ -55,7 +55,7 @@ export function HeaderSearch({
         type="submit"
         className={cn(
           'inline-flex min-h-11 items-center gap-1.5 rounded-e-md border border-accent-600',
-          'bg-accent-600 px-4 font-semibold text-white hover:bg-accent-700 hover:border-accent-700',
+          'bg-accent-600 px-4 font-semibold text-white hover:bg-accent-hover hover:border-accent-hover',
         )}
       >
         <span className="sr-only sm:not-sr-only">{submitLabel}</span>

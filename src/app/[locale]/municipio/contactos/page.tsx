@@ -188,7 +188,7 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
       </Section>
 
       <Section title={dict.freguesias.title} headingLevel={2}>
-        <DataTable caption={dict.freguesias.title} captionVisible={false}>
+        <DataTable caption="Contactos das juntas de freguesia" captionVisible={false}>
           <Thead>
             <Tr>
               <Th>{dict.forms.freguesia}</Th>

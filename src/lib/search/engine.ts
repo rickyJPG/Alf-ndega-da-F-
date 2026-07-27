@@ -150,14 +150,22 @@ export class SearchIndex {
 
     let scored = this.score(terms);
 
-    // Wenig Treffer? Dann tolerant nachsuchen und einen Vorschlag anbieten.
+    /**
+     * Wenig Treffer? Dann zusätzlich tolerant suchen.
+     *
+     * Die exakten Treffer bleiben dabei immer vorn und werden nie verworfen:
+     * wer „cercea“ tippt und ein Dokument enthält genau dieses Wort, muss es
+     * bekommen – auch wenn „cerca“ mehr Treffer liefern würde.
+     */
     let suggestion: string | undefined;
     if (scored.length < 3) {
       const corrected = terms.map((term) => this.nearestTerm(term) ?? term);
       if (corrected.join(' ') !== terms.join(' ')) {
         const fuzzy = this.score(corrected);
-        if (fuzzy.length > scored.length) {
-          scored = fuzzy;
+        const already = new Set(scored.map((hit) => hit.document.id));
+        const extra = fuzzy.filter((hit) => !already.has(hit.document.id));
+        if (extra.length > 0) {
+          scored = [...scored, ...extra];
           suggestion = corrected.join(' ');
         }
       }

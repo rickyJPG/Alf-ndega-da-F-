@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { localePath, type Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n';
 import { Icon } from '@/components/ui/icon';
@@ -25,6 +25,7 @@ export function CookieConsent({ locale, dict }: { locale: Locale; dict: Dictiona
   const [visible, setVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [analytics, setAnalytics] = useState(false);
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     try {
@@ -34,6 +35,33 @@ export function CookieConsent({ locale, dict }: { locale: Locale; dict: Dictiona
       /* Kein Speicher verfügbar: nichts messen, nichts fragen. */
     }
   }, []);
+
+  /**
+   * Der Hinweis liegt fix am unteren Rand. Ohne freigehaltenen Platz würde er
+   * auf kleinen Bildschirmen die letzten Bedienelemente einer Seite dauerhaft
+   * verdecken – etwa den Absenden-Knopf eines Formulars.
+   */
+  useEffect(() => {
+    const root = document.documentElement;
+    if (!visible) {
+      root.style.removeProperty('--consent-height');
+      return;
+    }
+
+    const element = bannerRef.current;
+    if (!element) return;
+
+    const observer = new ResizeObserver(() => {
+      root.style.setProperty('--consent-height', `${element.offsetHeight}px`);
+    });
+    observer.observe(element);
+    root.style.setProperty('--consent-height', `${element.offsetHeight}px`);
+
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty('--consent-height');
+    };
+  }, [visible, showDetails]);
 
   function decide(value: boolean) {
     const consent: Consent = { analytics: value, decidedAt: new Date().toISOString() };
@@ -53,6 +81,7 @@ export function CookieConsent({ locale, dict }: { locale: Locale; dict: Dictiona
 
   return (
     <div
+      ref={bannerRef}
       role="dialog"
       aria-modal="false"
       aria-labelledby="cookie-title"

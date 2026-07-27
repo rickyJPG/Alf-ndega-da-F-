@@ -15,6 +15,7 @@
   /* --- Akzent: Kirsche (sparsam: CTA, aktive Zustände, Warnungen) ---------- */
   --color-accent-700: #8e1b26;
   --color-accent-600: #b4232e;
+  --color-accent-hover: #8e1b26;
   --color-accent-100: #fbeaeb;
 
   /* --- Natur / Umwelt / Sabor ---------------------------------------------- */
@@ -35,7 +36,7 @@
   --color-info-surface: #e8f0f6;
   --color-success: #1e7a46;
   --color-success-surface: #e6f4ec;
-  --color-warning: #a85d00;
+  --color-warning: #8a4d00;
   --color-warning-surface: #fdf1e2;
   --color-danger: #b4232e;
   --color-danger-surface: #fbeaeb;
@@ -117,12 +118,16 @@
   /* Blau wird im Dunkeln aufgehellt, damit Links 4.5:1 erreichen */
   --color-primary-900: #04121c;
   --color-primary-800: #0b2c42;
-  --color-primary-700: #17557e;
+  /* 700 trägt im Dunkeln Text auf primary-100 – deshalb hell, nicht dunkel. */
+  --color-primary-700: #a8d5f2;
   --color-primary-600: #78bce8;
   --color-primary-100: #12293a;
 
   --color-accent-700: #ffb3b8;
-  --color-accent-600: #e8636d;
+  /* Dunkler als im Hellmodus, damit Weiß darauf 4.5:1 erreicht und die
+     Fläche selbst 3:1 gegen den Seitenhintergrund hält. */
+  --color-accent-600: #c62f3a;
+  --color-accent-hover: #d8434e;
   --color-accent-100: #37161a;
 
   --color-support-700: #6fc9b1;
@@ -163,11 +168,12 @@
   :root:not([data-theme]) {
     --color-primary-900: #04121c;
     --color-primary-800: #0b2c42;
-    --color-primary-700: #17557e;
+    --color-primary-700: #a8d5f2;
     --color-primary-600: #78bce8;
     --color-primary-100: #12293a;
     --color-accent-700: #ffb3b8;
-    --color-accent-600: #e8636d;
+    --color-accent-600: #c62f3a;
+    --color-accent-hover: #d8434e;
     --color-accent-100: #37161a;
     --color-support-700: #6fc9b1;
     --color-support-100: #122b26;
@@ -209,6 +215,7 @@
   --color-surface-sunken: #f0f2f4;
   --color-primary-600: #0b4f77;
   --color-accent-600: #8e1b26;
+  --color-accent-hover: #6d141d;
 }
 
 :root[data-theme='dark'][data-contrast='high'] {

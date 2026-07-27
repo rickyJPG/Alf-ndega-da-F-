@@ -64,7 +64,13 @@ export default async function WastePage({ params }: { params: Promise<{ locale: 
       />
 
       <Section>
-        <WasteCalendar schedules={schedules} freguesias={freguesias} locale={locale} dict={dict} />
+        <WasteCalendar
+          schedules={schedules}
+          freguesias={freguesias}
+          locale={locale}
+          dict={dict}
+          headingLevel={2}
+        />
       </Section>
 
       <Section tone="alt">
