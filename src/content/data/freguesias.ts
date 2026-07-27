@@ -1,0 +1,211 @@
+import type { Freguesia } from '../types';
+
+/**
+ * As doze freguesias e uniões de freguesias do concelho, tal como ficaram
+ * após a reorganização administrativa de 2013.
+ *
+ * Área e população são valores de referência do concelho (Censos 2021,
+ * arredondados); confirmar com o INE antes de publicar como dado oficial.
+ */
+export const freguesias: Freguesia[] = [
+  {
+    id: 'f-alfandega-da-fe',
+    slug: 'alfandega-da-fe',
+    name: 'Alfândega da Fé',
+    seat: 'Alfândega da Fé',
+    president: 'Ana Cristina Morais',
+    phone: '279 462 130',
+    email: 'jf.alfandegadafe@sapo.pt',
+    area: 41.6,
+    population: 1783,
+    villages: ['Alfândega da Fé', 'Vale Pereiro de Baixo'],
+    geo: { lat: 41.3444, lon: -6.9589 },
+    description: {
+      pt: 'Sede de concelho. Concentra os serviços municipais, o centro de saúde, o agrupamento de escolas e o comércio.',
+      en: 'The municipal seat. Home to the council offices, health centre, schools and most shops.',
+    },
+  },
+  {
+    id: 'f-agrobom-saldonha-vale-pereiro',
+    slug: 'agrobom-saldonha-vale-pereiro',
+    name: 'União das Freguesias de Agrobom, Saldonha e Vale Pereiro',
+    seat: 'Saldonha',
+    president: 'Manuel Augusto Pires',
+    phone: '279 939 121',
+    area: 39.2,
+    population: 421,
+    villages: ['Agrobom', 'Saldonha', 'Vale Pereiro'],
+    geo: { lat: 41.3958, lon: -6.9012 },
+    description: {
+      pt: 'Território de amendoal e olival, na parte nordeste do concelho.',
+      en: 'Almond and olive country, in the north-east of the municipality.',
+    },
+  },
+  {
+    id: 'f-cerejais',
+    slug: 'cerejais',
+    name: 'Cerejais',
+    seat: 'Cerejais',
+    president: 'José Carlos Teixeira',
+    phone: '279 468 220',
+    area: 22.8,
+    population: 289,
+    villages: ['Cerejais'],
+    geo: { lat: 41.3628, lon: -6.9807 },
+    description: {
+      pt: 'O nome diz tudo: cerejais em socalcos, com vista sobre o vale da Vilariça.',
+      en: 'The name says it: terraced cherry orchards overlooking the Vilariça valley.',
+    },
+  },
+  {
+    id: 'f-eucisia-gouveia-valverde',
+    slug: 'eucisia-gouveia-valverde',
+    name: 'União das Freguesias de Eucísia, Gouveia e Valverde',
+    seat: 'Eucísia',
+    president: 'Maria de Lurdes Aires',
+    phone: '279 468 231',
+    area: 44.5,
+    population: 512,
+    villages: ['Eucísia', 'Gouveia', 'Valverde'],
+    geo: { lat: 41.3115, lon: -6.9424 },
+    description: {
+      pt: 'A sul da vila, com a igreja matriz de Eucísia e o solar dos Sarmentos.',
+      en: 'South of the town, with the parish church of Eucísia and the Sarmento manor house.',
+    },
+  },
+  {
+    id: 'f-ferradosa-sendim-da-serra',
+    slug: 'ferradosa-sendim-da-serra',
+    name: 'União das Freguesias de Ferradosa e Sendim da Serra',
+    seat: 'Ferradosa',
+    president: 'António Joaquim Nunes',
+    phone: '279 468 242',
+    area: 31.7,
+    population: 244,
+    villages: ['Ferradosa', 'Sendim da Serra'],
+    geo: { lat: 41.2879, lon: -6.9101 },
+    description: {
+      pt: 'Encostas viradas ao Sabor, com os melhores miradouros sobre os lagos.',
+      en: 'Slopes facing the Sabor, with the best viewpoints over the lakes.',
+    },
+  },
+  {
+    id: 'f-gebelim-soeima',
+    slug: 'gebelim-soeima',
+    name: 'União das Freguesias de Gebelim e Soeima',
+    seat: 'Gebelim',
+    president: 'Paulo Jorge Rodrigues',
+    phone: '279 468 253',
+    area: 28.4,
+    population: 268,
+    villages: ['Gebelim', 'Soeima'],
+    geo: { lat: 41.4001, lon: -6.9718 },
+    description: {
+      pt: 'Aldeias de granito no extremo norte do concelho, junto à fronteira com Macedo de Cavaleiros.',
+      en: 'Granite villages at the northern edge of the municipality, next to Macedo de Cavaleiros.',
+    },
+  },
+  {
+    id: 'f-parada-sendim-da-ribeira',
+    slug: 'parada-sendim-da-ribeira',
+    name: 'União das Freguesias de Parada e Sendim da Ribeira',
+    seat: 'Parada',
+    president: 'Alcino Manuel Vaz',
+    phone: '279 468 264',
+    area: 36.9,
+    population: 302,
+    villages: ['Parada', 'Sendim da Ribeira', 'Cilhades'],
+    geo: { lat: 41.2951, lon: -6.9082 },
+    description: {
+      pt: 'Desce até ao Sabor. Cilhades é ponto de partida para as caminhadas nos lagos.',
+      en: 'Runs down to the Sabor. Cilhades is the starting point for lakeside walks.',
+    },
+  },
+  {
+    id: 'f-pombal-vales',
+    slug: 'pombal-vales',
+    name: 'União das Freguesias de Pombal e Vales',
+    seat: 'Pombal',
+    president: 'Fernanda Maria Pinto',
+    phone: '279 468 275',
+    area: 25.1,
+    population: 231,
+    villages: ['Pombal', 'Vales'],
+    geo: { lat: 41.3702, lon: -7.0154 },
+    description: {
+      pt: 'Vinha velha e olival, a poente, junto ao limite com Vila Flor.',
+      en: 'Old vineyards and olive groves to the west, next to the Vila Flor boundary.',
+    },
+  },
+  {
+    id: 'f-sambade',
+    slug: 'sambade',
+    name: 'Sambade',
+    seat: 'Sambade',
+    president: 'Joaquim Manuel Alves',
+    phone: '279 462 286',
+    area: 33.6,
+    population: 498,
+    villages: ['Sambade'],
+    geo: { lat: 41.3821, lon: -6.9433 },
+    description: {
+      pt: 'A maior freguesia rural do concelho, conhecida pela feira anual e pela igreja de São Miguel.',
+      en: 'The largest rural parish, known for its annual fair and the church of São Miguel.',
+    },
+  },
+  {
+    id: 'f-vilar-chao',
+    slug: 'vilar-chao',
+    name: 'Vilar Chão',
+    seat: 'Vilar Chão',
+    president: 'Rui Alberto Sousa',
+    phone: '279 468 297',
+    area: 19.8,
+    population: 187,
+    villages: ['Vilar Chão'],
+    geo: { lat: 41.4102, lon: -6.9289 },
+    description: {
+      pt: 'Planalto agrícola no norte do concelho, com forte tradição de centeio e batata.',
+      en: 'Farming plateau in the north, with a long tradition of rye and potatoes.',
+    },
+  },
+  {
+    id: 'f-vilarelhos',
+    slug: 'vilarelhos',
+    name: 'Vilarelhos',
+    seat: 'Vilarelhos',
+    president: 'Carlos Alberto Ferreira',
+    phone: '279 468 308',
+    area: 27.3,
+    population: 356,
+    villages: ['Vilarelhos'],
+    geo: { lat: 41.3152, lon: -7.0089 },
+    description: {
+      pt: 'A poente da vila, com o santuário de Nossa Senhora da Assunção e amplas vistas sobre a Vilariça.',
+      en: 'West of the town, with the shrine of Nossa Senhora da Assunção and wide views over the Vilariça.',
+    },
+  },
+  {
+    id: 'f-vilares-de-vilarica-vale-frechoso',
+    slug: 'vilares-de-vilarica-vale-frechoso',
+    name: 'União das Freguesias de Vilares de Vilariça e Vale Frechoso',
+    seat: 'Vilares de Vilariça',
+    president: 'Sandra Isabel Correia',
+    phone: '279 468 319',
+    area: 42.1,
+    population: 397,
+    villages: ['Vilares de Vilariça', 'Vale Frechoso'],
+    geo: { lat: 41.2812, lon: -7.0321 },
+    description: {
+      pt: 'No fundo do vale da Vilariça, a terra mais fértil do concelho — hortas, pomares e vinha.',
+      en: 'On the floor of the Vilariça valley, the most fertile land in the municipality.',
+    },
+  },
+];
+
+export function findFreguesia(slug: string): Freguesia | undefined {
+  return freguesias.find((item) => item.slug === slug);
+}
+
+export const totalPopulation = freguesias.reduce((sum, f) => sum + f.population, 0);
+export const totalArea = Math.round(freguesias.reduce((sum, f) => sum + f.area, 0) * 10) / 10;

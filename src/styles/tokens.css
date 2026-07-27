@@ -1,0 +1,234 @@
+/* ==========================================================================
+   Design-Tokens – Município de Alfândega da Fé
+   Einzige Quelle der Wahrheit. Tailwind spiegelt diese Werte in globals.css
+   über @theme, damit Utilities und CSS-Variablen nie auseinanderlaufen.
+   ========================================================================== */
+
+:root {
+  /* --- Marke: institutionelles Blau --------------------------------------- */
+  --color-primary-900: #08283d;
+  --color-primary-800: #0f3d5c;
+  --color-primary-700: #16537c;
+  --color-primary-600: #1d6fa3;
+  --color-primary-100: #e8f0f6;
+
+  /* --- Akzent: Kirsche (sparsam: CTA, aktive Zustände, Warnungen) ---------- */
+  --color-accent-700: #8e1b26;
+  --color-accent-600: #b4232e;
+  --color-accent-100: #fbeaeb;
+
+  /* --- Natur / Umwelt / Sabor ---------------------------------------------- */
+  --color-support-700: #1f6f5c;
+  --color-support-100: #e6f2ef;
+
+  /* --- Neutrale ------------------------------------------------------------ */
+  --color-ink: #11161c;
+  --color-ink-muted: #4a5560;
+  --color-line: #dde3e9;
+  --color-line-strong: #b9c3cd;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f5f7f9;
+  --color-surface-sunken: #eceff3;
+
+  /* --- Semantisch ---------------------------------------------------------- */
+  --color-info: #1d6fa3;
+  --color-info-surface: #e8f0f6;
+  --color-success: #1e7a46;
+  --color-success-surface: #e6f4ec;
+  --color-warning: #a85d00;
+  --color-warning-surface: #fdf1e2;
+  --color-danger: #b4232e;
+  --color-danger-surface: #fbeaeb;
+
+  /* --- Waldbrandrisiko (offizielle IPMA-Stufen) ---------------------------- */
+  --risk-1: #2e7d32;
+  --risk-2: #fbc02d;
+  --risk-3: #f57c00;
+  --risk-4: #d32f2f;
+  --risk-5: #7b1fa2;
+
+  /* --- Typografie ---------------------------------------------------------- */
+  --font-serif: 'Source Serif 4', 'Source Serif Pro', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-legible: 'Atkinson Hyperlegible', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', 'Liberation Mono', monospace;
+
+  /* Nutzerskalierung aus dem Barrierefreiheits-Panel (100 % = 1) */
+  --a11y-scale: 1;
+  --a11y-leading: 1.6;
+
+  /* Fluid Type Scale, Basis 17px */
+  --text-2xs: calc(0.75rem * var(--a11y-scale));
+  --text-xs: calc(0.8125rem * var(--a11y-scale));
+  --text-sm: calc(0.9375rem * var(--a11y-scale));
+  --text-base: calc(clamp(1.0625rem, 1.0125rem + 0.16vw, 1.125rem) * var(--a11y-scale));
+  --text-lg: calc(clamp(1.1875rem, 1.125rem + 0.2vw, 1.3125rem) * var(--a11y-scale));
+  --text-xl: calc(clamp(1.375rem, 1.28rem + 0.3vw, 1.5625rem) * var(--a11y-scale));
+  --text-2xl: calc(clamp(1.625rem, 1.47rem + 0.5vw, 1.9375rem) * var(--a11y-scale));
+  --text-3xl: calc(clamp(1.9375rem, 1.7rem + 0.78vw, 2.4375rem) * var(--a11y-scale));
+  --text-4xl: calc(clamp(2.25rem, 1.9rem + 1.15vw, 3.0625rem) * var(--a11y-scale));
+
+  /* --- Spacing (4px-Basis) -------------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* --- Radien --------------------------------------------------------------- */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 999px;
+
+  /* --- Schatten: genau zwei Stufen, neutral, sehr subtil --------------------- */
+  --shadow-1: 0 1px 2px rgb(17 22 28 / 0.06);
+  --shadow-2: 0 2px 4px rgb(17 22 28 / 0.06), 0 6px 16px rgb(17 22 28 / 0.07);
+
+  /* --- Maße ----------------------------------------------------------------- */
+  --container-max: 1280px;
+  --measure: 68ch;
+  --header-height: 4.5rem;
+
+  /* --- Fokus ---------------------------------------------------------------- */
+  --focus-ring-color: var(--color-accent-600);
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+
+  /* --- Bewegung -------------------------------------------------------------- */
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0.2, 1);
+
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   Dark Mode
+   Das Inline-Skript in <head> setzt data-theme immer explizit auf light|dark.
+   Der @media-Block deckt den Moment davor und Browser ohne JS ab.
+   ========================================================================== */
+
+:root[data-theme='dark'] {
+  /* Blau wird im Dunkeln aufgehellt, damit Links 4.5:1 erreichen */
+  --color-primary-900: #04121c;
+  --color-primary-800: #0b2c42;
+  --color-primary-700: #17557e;
+  --color-primary-600: #78bce8;
+  --color-primary-100: #12293a;
+
+  --color-accent-700: #ffb3b8;
+  --color-accent-600: #e8636d;
+  --color-accent-100: #37161a;
+
+  --color-support-700: #6fc9b1;
+  --color-support-100: #122b26;
+
+  --color-ink: #eef2f6;
+  --color-ink-muted: #a8b4c0;
+  --color-line: #26323d;
+  --color-line-strong: #3d4c59;
+  --color-surface: #0d1319;
+  --color-surface-alt: #141c24;
+  --color-surface-sunken: #1b242d;
+
+  --color-info: #78bce8;
+  --color-info-surface: #12293a;
+  --color-success: #63c98d;
+  --color-success-surface: #12291d;
+  --color-warning: #e0a256;
+  --color-warning-surface: #2c1f0e;
+  --color-danger: #f08a92;
+  --color-danger-surface: #2e1418;
+
+  --risk-1: #66bb6a;
+  --risk-2: #ffd54f;
+  --risk-3: #ffa726;
+  --risk-4: #ef5350;
+  --risk-5: #ba68c8;
+
+  --focus-ring-color: #ffb3b8;
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5);
+  --shadow-2: 0 2px 4px rgb(0 0 0 / 0.4), 0 6px 16px rgb(0 0 0 / 0.5);
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-primary-900: #04121c;
+    --color-primary-800: #0b2c42;
+    --color-primary-700: #17557e;
+    --color-primary-600: #78bce8;
+    --color-primary-100: #12293a;
+    --color-accent-700: #ffb3b8;
+    --color-accent-600: #e8636d;
+    --color-accent-100: #37161a;
+    --color-support-700: #6fc9b1;
+    --color-support-100: #122b26;
+    --color-ink: #eef2f6;
+    --color-ink-muted: #a8b4c0;
+    --color-line: #26323d;
+    --color-line-strong: #3d4c59;
+    --color-surface: #0d1319;
+    --color-surface-alt: #141c24;
+    --color-surface-sunken: #1b242d;
+    --color-info: #78bce8;
+    --color-info-surface: #12293a;
+    --color-success: #63c98d;
+    --color-success-surface: #12291d;
+    --color-warning: #e0a256;
+    --color-warning-surface: #2c1f0e;
+    --color-danger: #f08a92;
+    --color-danger-surface: #2e1418;
+    --risk-1: #66bb6a;
+    --risk-2: #ffd54f;
+    --risk-3: #ffa726;
+    --risk-4: #ef5350;
+    --risk-5: #ba68c8;
+    --focus-ring-color: #ffb3b8;
+    color-scheme: dark;
+  }
+}
+
+/* ==========================================================================
+   Hoher Kontrast (Barrierefreiheits-Panel)
+   ========================================================================== */
+
+:root[data-contrast='high'] {
+  --color-ink: #000000;
+  --color-ink-muted: #1c2530;
+  --color-line: #5a6672;
+  --color-line-strong: #2b3641;
+  --color-surface-alt: #ffffff;
+  --color-surface-sunken: #f0f2f4;
+  --color-primary-600: #0b4f77;
+  --color-accent-600: #8e1b26;
+}
+
+:root[data-theme='dark'][data-contrast='high'] {
+  --color-ink: #ffffff;
+  --color-ink-muted: #dbe3ea;
+  --color-line: #7b8894;
+  --color-line-strong: #a9b4bf;
+  --color-surface: #000000;
+  --color-surface-alt: #0a0f14;
+  --color-surface-sunken: #131a21;
+  --color-primary-600: #9ed0f2;
+}
+
+/* Dyslexiefreundliche / maximal lesbare Schrift */
+:root[data-font='legible'] {
+  --font-sans: var(--font-legible);
+  --font-serif: var(--font-legible);
+}
+
+/* Größerer Zeilenabstand */
+:root[data-spacing='loose'] {
+  --a11y-leading: 1.9;
+}
