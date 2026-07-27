@@ -35,15 +35,27 @@ const round = (n) => Math.round(n * 10) / 10;
 /* --------------------------------------------------------------- paletas -- */
 
 const PALETTES = {
-  /** Fim de tarde sobre a vila: o céu quente da Terra Quente transmontana. */
+  /** Dia de verão sobre a vila: céu azul, encostas verdes, casario branco. */
+  verao: {
+    sky: ['#F2F9FD', '#D8ECF8', '#B5DBF0'],
+    sun: '#FFF7DC',
+    hills: ['#B5C98F', '#8FB06A', '#6E9455', '#54763F'],
+    field: '#93B26E',
+    tree: '#57432F',
+    leaf: '#47734C',
+    village: '#FFFFFF',
+    roof: '#B4232E',
+    line: '#FFFFFF',
+  },
+  /** Fim de tarde sobre a vila — quente, mas claro. */
   entardecer: {
-    sky: ['#FBE3C6', '#F5B989', '#E08F5E'],
-    sun: '#FFF3DF',
-    hills: ['#B98060', '#8A5744', '#5E3A33', '#3A2422'],
-    field: '#7C4C3C',
-    tree: '#3B2523',
-    leaf: '#5C7346',
-    village: '#FFF6EC',
+    sky: ['#FDF0DC', '#FAD5A8', '#F2B583'],
+    sun: '#FFF8E6',
+    hills: ['#D9AE8C', '#C08F6D', '#A16F52', '#7E523E'],
+    field: '#B07E5D',
+    tree: '#5C4232',
+    leaf: '#6E8757',
+    village: '#FFFAF2',
     roof: '#B4232E',
     line: '#FFFFFF',
   },
@@ -383,7 +395,7 @@ function motifCerejas({ width, height, seed, background = '#FBEAEB' }) {
 
 const files = [
   // Imagem principal da página inicial — 16:9
-  { name: 'hero-alfandega.svg', svg: sceneVila({ width: 1600, height: 900, palette: PALETTES.entardecer, seed: 7 }) },
+  { name: 'hero-alfandega.svg', svg: sceneVila({ width: 1600, height: 900, palette: PALETTES.verao, seed: 7 }) },
 
   // Turismo — 3:2
   { name: 'visitar/lagos-do-sabor.svg', svg: sceneSabor({ width: 1200, height: 800, palette: PALETTES.sabor, seed: 21 }) },

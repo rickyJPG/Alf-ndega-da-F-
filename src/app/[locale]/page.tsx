@@ -143,8 +143,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             sizes="100vw"
             className="object-cover"
           />
-          {/* Véu leve: mantém a paisagem visível e o contraste do que está por cima. */}
-          <div aria-hidden="true" className="absolute inset-0 bg-primary-900/12" />
         </div>
 
         <div className="container-page py-10 md:py-16">

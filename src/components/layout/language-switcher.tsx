@@ -34,7 +34,7 @@ export function LanguageSwitcher({
       <Popover.Trigger
         className={cn(
           'inline-flex min-h-9 items-center gap-1.5 rounded-md px-2 py-1',
-          'text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white',
+          'text-sm font-medium text-primary-700 hover:bg-primary-100',
         )}
         aria-label={`${changeLabel} — ${localeNames[locale]}`}
       >

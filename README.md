@@ -135,9 +135,13 @@ Alfândega da Fé é a capital nacional da cereja e é isso que o portal mostra,
 sem o transformar em decoração:
 
 - **Faixa de navegação em vermelho-cereja** (`accent-600`), por baixo da faixa
-  de identidade. É a barra que separa quem entra do que pode fazer.
-- **Brasão** com coroa mural de quatro torres, ramo de cerejas e a barra ondada
-  do Sabor, em `src/components/layout/brasao.tsx`.
+  de identidade. É a única superfície de cor do cabeçalho — todo o resto é
+  claro, de propósito: o portal não tem grandes áreas escuras.
+- **Brasão oficial** em `src/components/layout/brasao.tsx`, redesenhado em
+  vetor segundo a ordenação heráldica de 1935: escudo de negro, torre torreada
+  de prata aberta e iluminada de vermelho, sete abelhas de ouro em semicírculo
+  voltadas ao centro, coroa mural de prata de quatro torres, listel branco
+  «Vila de Alfândega da Fé».
 - **Assinatura** «Município de Alfândega da Fé — Terra da cereja ·
   Trás-os-Montes», escrita como texto e não como imagem: lê-se com leitor de
   ecrã, escala com o texto e não borra em ecrãs de alta densidade.
@@ -145,10 +149,11 @@ sem o transformar em decoração:
   traço curto, sempre no mesmo sítio, que dá ritmo às páginas sem ruído.
 - **Ramo de cerejas** como motivo, usado uma única vez por página.
 
-O cabeçalho tem três faixas, de cima para baixo: barra de serviço (azul
-institucional, com Área de Munícipe, contactos, acessibilidade e idioma),
-faixa de identidade (brasão, assinatura e pesquisa, sobre branco) e barra de
-navegação (vermelho-cereja).
+O cabeçalho tem três faixas, de cima para baixo: barra de serviço (clara, com
+Área de Munícipe, contactos, acessibilidade e idioma), faixa de identidade
+(brasão, assinatura e pesquisa, sobre branco) e barra de navegação
+(vermelho-cereja). O rodapé é igualmente claro, rematado pelo filete de
+cereja.
 
 ### Cores
 
@@ -157,7 +162,8 @@ Tailwind em `src/styles/globals.css`. Como as utilidades do Tailwind apontam
 para as variáveis CSS, o modo escuro e o modo de contraste elevado funcionam
 sem duplicar uma única classe.
 
-- **Azul institucional** (`primary-*`) — cabeçalho, rodapé, estrutura.
+- **Azul institucional** (`primary-*`) — ligações, botões secundários,
+  estrutura.
 - **Cereja** (`accent-*`) — usado com parcimónia: a ação principal, o estado
   ativo, o prazo a terminar. Alfândega da Fé é a capital nacional da cereja; o
   acento é o único sítio onde isso aparece.
@@ -343,12 +349,15 @@ Basta pôr o ficheiro em `public/images` com o mesmo nome (`.jpg` em vez de
 
 ### Brasão
 
-`src/components/layout/brasao.tsx` desenha um sinal heráldico simples (escudo,
-coroa mural de quatro torres, ramo de cerejas e a barra ondada do Sabor).
-**Não é o brasão oficial**: substitua-o pelo ficheiro oficial em SVG antes do
-lançamento, mantendo as duas variantes — `cor` para o cabeçalho e `mono` para
-o rodapé, que herda a cor do texto. Tem de ser vetorial: o portal não usa um
-único símbolo em píxeis.
+`src/components/layout/brasao.tsx` desenha o brasão municipal segundo a
+ordenação heráldica oficial (parecer da Comissão de Heráldica da Associação
+dos Arqueólogos Portugueses de 20/11/1934, aprovado em 27/04/1935): escudo de
+negro, torre torreada de prata aberta e iluminada de vermelho, sete abelhas de
+ouro em semicírculo, coroa mural de prata de quatro torres. É um redesenho
+vetorial dessa ordenação — se a autarquia tiver o ficheiro oficial em SVG,
+substitua-o aí, mantendo as duas variantes (`cor` e `mono`) e a propriedade
+`withListel`. Tem de ser vetorial: o portal não usa um único símbolo em
+píxeis.
 
 A assinatura ao lado (`Wordmark`) é texto, não imagem. Se o Município tiver
 uma assinatura tipográfica fixada em manual de normas, é aí que se troca.
@@ -535,8 +544,9 @@ eletrónico.
 Coisas que **exigem decisão ou dados do Município** e que não podem ser
 inventadas por quem desenvolve:
 
-1. **Brasão oficial** em SVG, a substituir o marcador em
-   `src/components/layout/brasao.tsx`.
+1. **Confirmar o brasão.** O desenho em `src/components/layout/brasao.tsx`
+   segue a ordenação heráldica oficial de 1935, mas é um redesenho; se a
+   autarquia tiver o ficheiro oficial em vetor, deve substituí-lo.
 2. **Fotografias reais**, a substituir as ilustrações em `public/images`,
    mantendo as proporções.
 3. **Dados verdadeiros.** Os conteúdos em `src/content/data/` são exemplos

@@ -50,7 +50,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-3">
       <fieldset className="flex flex-col gap-2">
-        <legend className="mb-1 text-sm font-semibold text-white/80">
+        <legend className="mb-1 text-sm font-semibold text-ink">
           {dict.footer.newsletterTopics}
         </legend>
         <div className="flex flex-wrap gap-2">
@@ -63,7 +63,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
                   'focus-ring-within cursor-pointer rounded-pill border px-3 py-1.5 text-sm',
                   checked
                     ? 'border-accent-600 bg-accent-600 font-semibold text-white'
-                    : 'border-white/30 text-white/85 hover:border-white/60',
+                    : 'border-line-strong bg-surface text-ink hover:border-accent-600',
                 )}
               >
                 <input
@@ -99,7 +99,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
             aria-invalid={state === 'error' || undefined}
             aria-describedby={state === 'error' ? 'newsletter-error' : 'newsletter-hint'}
             placeholder="nome@exemplo.pt"
-            className="min-h-11 w-full rounded-md border border-white/30 bg-white/10 px-3 py-2 text-white placeholder:text-white/60"
+            className="min-h-11 w-full rounded-md border border-line-strong bg-surface px-3 py-2 text-ink placeholder:text-ink-muted"
           />
         </div>
         <button
@@ -111,19 +111,19 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
         </button>
       </div>
 
-      {/* Honigtopf statt CAPTCHA */}
+      {/* Campo-armadilha em vez de CAPTCHA */}
       <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
         <label htmlFor="newsletter-company">Não preencher</label>
         <input id="newsletter-company" name="empresa" tabIndex={-1} autoComplete="off" />
       </div>
 
       {state === 'error' ? (
-        <p id="newsletter-error" role="alert" className="flex items-center gap-1.5 text-sm text-accent-100">
+        <p id="newsletter-error" role="alert" className="flex items-center gap-1.5 text-sm text-danger">
           <Icon name="alert" size={16} />
           {dict.forms.fieldEmail}
         </p>
       ) : (
-        <p id="newsletter-hint" className="text-sm text-white/70">
+        <p id="newsletter-hint" className="text-sm text-ink-muted">
           {dict.footer.newsletterDoubleOptIn}
         </p>
       )}

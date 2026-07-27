@@ -134,17 +134,23 @@ export default async function StyleguidePage({
             <h3 className="mb-4 font-serif text-lg">Brasão</h3>
             <div className="flex flex-wrap items-end gap-8">
               <div className="text-center">
-                <Brasao size={72} />
+                <Brasao size={84} withListel />
+                <p className="mt-2 text-sm text-ink-muted">cor, com listel</p>
+              </div>
+              <div className="text-center">
+                <Brasao size={64} />
                 <p className="mt-2 text-sm text-ink-muted">cor</p>
               </div>
               <div className="rounded-md bg-primary-900 p-4 text-center text-white">
-                <Brasao size={72} variant="mono" className="text-white/90" />
+                <Brasao size={64} variant="mono" className="text-white/90" />
                 <p className="mt-2 text-sm text-white/70">mono</p>
               </div>
             </div>
             <p className="mt-5 text-sm text-ink-muted">
-              Representativo, não oficial. Substituir pelo ficheiro da autarquia antes do
-              lançamento, mantendo as duas variantes.
+              Redesenho segundo a ordenação heráldica oficial de 1935: escudo de negro, torre
+              torreada de prata aberta e iluminada de vermelho, sete abelhas de ouro em
+              semicírculo, coroa mural de prata de quatro torres. Se a autarquia tiver o ficheiro
+              oficial em vetor, é aqui que se substitui.
             </p>
           </div>
 
@@ -173,8 +179,8 @@ export default async function StyleguidePage({
           <div className="rounded-lg border border-line bg-surface p-6">
             <h3 className="mb-4 font-serif text-lg">Faixas do cabeçalho</h3>
             <ul className="flex flex-col gap-2">
-              <li className="rounded-md bg-primary-900 px-4 py-3 text-sm text-white">
-                1 — Barra de serviço: Área de Munícipe, contactos, acessibilidade, idioma
+              <li className="rounded-md border border-line bg-surface-alt px-4 py-3 text-sm">
+                1 — Barra de serviço, clara: Área de Munícipe, contactos, acessibilidade, idioma
               </li>
               <li className="rounded-md border border-line bg-surface px-4 py-3 text-sm">
                 2 — Faixa de identidade: brasão, assinatura e pesquisa
