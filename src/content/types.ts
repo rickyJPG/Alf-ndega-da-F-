@@ -121,8 +121,7 @@ export type ServiceArea =
   | 'acao-social'
   | 'educacao'
   | 'saude'
-  | 'apoios'
-  | 'economia';
+  | 'apoios';
 
 export type LifeEvent =
   | 'construir-ou-remodelar'

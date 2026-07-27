@@ -18,7 +18,8 @@
     "test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
     "fonts": "node scripts/fetch-fonts.mjs",
     "placeholders": "node scripts/generate-placeholders.mjs",
-    "check": "npm run typecheck && npm run lint && npm run test"
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "vendor": "node -e \"const{cpSync,mkdirSync}=require('fs');mkdirSync('public/vendor/leaflet/images',{recursive:true});cpSync('node_modules/leaflet/dist/leaflet.css','public/vendor/leaflet/leaflet.css');cpSync('node_modules/leaflet/dist/images','public/vendor/leaflet/images',{recursive:true});console.log('Leaflet-Assets aktualisiert.')\""
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",

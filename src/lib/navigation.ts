@@ -94,7 +94,7 @@ export const mainNavigation: NavSection[] = [
             label: t('Urbanismo e obras', 'Planning and building', 'Urbanismo y obras', 'Urbanisme et travaux'),
           },
           {
-            href: '/servicos/urbanismo/pdm',
+            href: '/servicos/urbanismo/consultar-o-pdm',
             label: t('Consultar o PDM', 'Check the local plan', 'Consultar el PDM', 'Consulter le PLU'),
           },
           {
@@ -120,7 +120,7 @@ export const mainNavigation: NavSection[] = [
             label: t('Calendário de recolha', 'Collection calendar', 'Calendario de recogida', 'Calendrier de collecte'),
           },
           {
-            href: '/servicos/agua-e-residuos/monstros',
+            href: '/servicos/agua-e-residuos/recolha-de-monstros',
             label: t('Recolha de monstros', 'Bulky waste pickup', 'Recogida de voluminosos', 'Collecte des encombrants'),
           },
         ],
@@ -433,16 +433,16 @@ export const utilityLinks: NavLink[] = [
 export const topTasks: NavLink[] = [
   { href: '/servicos/pagamentos', label: t('Pagar a água', 'Pay a water bill', 'Pagar el agua', 'Payer l’eau') },
   {
-    href: '/servicos/certidoes',
+    href: '/servicos/balcao/certidoes',
     label: t('Pedir certidão', 'Request a certificate', 'Pedir un certificado', 'Demander un certificat'),
   },
   {
     href: '/servicos/marcacoes',
     label: t('Marcar atendimento', 'Book an appointment', 'Reservar cita', 'Prendre rendez-vous'),
   },
-  { href: '/servicos/urbanismo/pdm', label: t('Consultar o PDM', 'Check the local plan', 'Consultar el PDM', 'Consulter le PLU') },
+  { href: '/servicos/urbanismo/consultar-o-pdm', label: t('Consultar o PDM', 'Check the local plan', 'Consultar el PDM', 'Consulter le PLU') },
   {
-    href: '/servicos/agua-e-residuos/monstros',
+    href: '/servicos/agua-e-residuos/recolha-de-monstros',
     label: t('Recolha de monstros', 'Bulky waste pickup', 'Recogida de voluminosos', 'Collecte des encombrants'),
   },
   {

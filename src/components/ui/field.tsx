@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
+import { useId, type ComponentPropsWithRef, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { Icon } from './icon';
 
@@ -92,7 +92,7 @@ export function TextField({
   label: string;
   hint?: string;
   error?: string;
-} & InputHTMLAttributes<HTMLInputElement>) {
+} & ComponentPropsWithRef<'input'>) {
   const generatedId = useId();
   const id = providedId ?? generatedId;
 
@@ -125,7 +125,7 @@ export function TextArea({
   label: string;
   hint?: string;
   error?: string;
-} & TextareaHTMLAttributes<HTMLTextAreaElement>) {
+} & ComponentPropsWithRef<'textarea'>) {
   const generatedId = useId();
   const id = providedId ?? generatedId;
 
@@ -160,7 +160,7 @@ export function SelectField({
   hint?: string;
   error?: string;
   options: { value: string; label: string }[];
-} & SelectHTMLAttributes<HTMLSelectElement>) {
+} & ComponentPropsWithRef<'select'>) {
   const generatedId = useId();
   const id = providedId ?? generatedId;
 
@@ -206,7 +206,7 @@ export function CheckboxField({
   hint?: string;
   error?: string;
   children?: ReactNode;
-} & InputHTMLAttributes<HTMLInputElement>) {
+} & ComponentPropsWithRef<'input'>) {
   const generatedId = useId();
   const id = providedId ?? generatedId;
   const hintId = hint ? `${id}-hint` : undefined;

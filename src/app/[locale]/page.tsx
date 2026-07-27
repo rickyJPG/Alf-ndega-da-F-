@@ -6,6 +6,7 @@ import { getDictionary } from '@/i18n';
 import { isLocale, localePath, type Locale } from '@/i18n/config';
 import { buildMetadata } from '@/lib/seo';
 import { navLabel, topTasks } from '@/lib/navigation';
+import { routes } from '@/lib/routes';
 import { site } from '@/lib/site';
 import { tx } from '@/content/types';
 import {
@@ -87,20 +88,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const suggestions: Suggestion[] = [
     ...allServices.map((service) => ({
       label: tx(service.title, locale),
-      href: localePath(locale, `/servicos/${service.slug}`),
+      href: routes.service(locale, service),
       hint: dict.services.title,
     })),
     ...news.map((item) => ({
       label: tx(item.title, locale),
-      href: localePath(
-        locale,
-        `/noticias/${item.date.slice(0, 4)}/${item.date.slice(5, 7)}/${item.slug}`,
-      ),
+      href: routes.newsItem(locale, item),
       hint: dict.news.title,
     })),
     ...consultations.map((item) => ({
       label: tx(item.title, locale),
-      href: localePath(locale, `/transparencia/consultas-publicas/${item.slug}`),
+      href: routes.consultation(locale, item),
       hint: dict.consultations.title,
     })),
   ];
@@ -200,7 +198,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           {featured.map((service) => (
             <ServiceTile
               key={service.id}
-              href={localePath(locale, `/servicos/${service.slug}`)}
+              href={routes.service(locale, service)}
               icon={service.icon as IconName}
               title={tx(service.title, locale)}
               description={tx(service.summary, locale)}

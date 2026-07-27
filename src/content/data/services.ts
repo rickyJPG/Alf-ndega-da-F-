@@ -402,7 +402,7 @@ export const services: ServiceItem[] = [
     },
     lifeEvents: ['mudar-de-casa', 'ambiente'],
     channels: ['online', 'telefone'],
-    onlineUrl: '/servicos/agua-e-residuos/monstros',
+    onlineUrl: '/servicos/agua-e-residuos/recolha',
     processingTime: { pt: 'Recolha no prazo de 10 dias úteis', en: 'Collection within 10 working days' },
     fee: { pt: 'Gratuito, até 3 volumes por pedido', en: 'Free, up to 3 items per request' },
     audience: { pt: 'Residentes no concelho', en: 'Residents of the municipality' },
@@ -543,7 +543,7 @@ export const services: ServiceItem[] = [
   {
     id: 's-apoios-empresas',
     slug: 'apoios-a-empresas',
-    area: 'economia',
+    area: 'apoios',
     icon: 'briefcase',
     title: {
       pt: 'Apoios a quem cria emprego',

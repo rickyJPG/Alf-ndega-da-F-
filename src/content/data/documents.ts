@@ -16,7 +16,7 @@ export const documents: DocumentItem[] = [
     year: 2026,
     publishedAt: '2026-01-15',
     lifeEvents: ['mudar-de-casa'],
-    onlinePath: '/servicos/contrato-de-agua',
+    onlinePath: '/servicos/agua-e-residuos/contrato-de-agua',
     title: {
       pt: 'Contrato de fornecimento de água',
       en: 'Water supply contract',
@@ -44,7 +44,7 @@ export const documents: DocumentItem[] = [
     year: 2026,
     publishedAt: '2026-01-15',
     lifeEvents: ['construir-ou-remodelar', 'mudar-de-casa'],
-    onlinePath: '/servicos/certidoes',
+    onlinePath: '/servicos/balcao/certidoes',
     title: {
       pt: 'Pedido de certidão',
       en: 'Certificate request',
@@ -72,7 +72,7 @@ export const documents: DocumentItem[] = [
     year: 2026,
     publishedAt: '2026-02-03',
     lifeEvents: ['construir-ou-remodelar'],
-    onlinePath: '/servicos/licenca-de-construcao',
+    onlinePath: '/servicos/urbanismo/licenca-de-construcao',
     title: {
       pt: 'Licenciamento de obra particular',
       en: 'Private building permit application',
@@ -123,7 +123,7 @@ export const documents: DocumentItem[] = [
     year: 2026,
     publishedAt: '2026-01-15',
     lifeEvents: ['abrir-negocio'],
-    onlinePath: '/servicos/licenca-especial-de-ruido',
+    onlinePath: '/servicos/taxas-e-licencas/licenca-especial-de-ruido',
     title: {
       pt: 'Licença especial de ruído',
       en: 'Special noise permit',
@@ -170,7 +170,7 @@ export const documents: DocumentItem[] = [
     year: 2026,
     publishedAt: '2026-05-02',
     lifeEvents: ['estudar', 'ter-um-filho'],
-    onlinePath: '/servicos/transporte-escolar',
+    onlinePath: '/servicos/educacao/transporte-escolar',
     title: {
       pt: 'Transporte escolar',
       en: 'School transport',
@@ -261,7 +261,7 @@ export const documents: DocumentItem[] = [
     area: 'urbanismo',
     year: 2023,
     publishedAt: '2023-09-28',
-    onlinePath: '/servicos/urbanismo/pdm',
+    onlinePath: '/servicos/urbanismo/consultar-o-pdm',
     title: {
       pt: 'Plano Diretor Municipal — regulamento',
       en: 'Municipal Master Plan — rules',

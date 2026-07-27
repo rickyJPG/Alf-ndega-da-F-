@@ -53,7 +53,7 @@ export const legacyRedirects: LegacyRedirect[] = [
   // --- Serviços -------------------------------------------------------------
   { source: '/pages/310', destination: '/servicos', note: 'Serviços Online' },
   { source: '/pages/311', destination: '/servicos/urbanismo', note: 'Urbanismo' },
-  { source: '/pages/312', destination: '/servicos/urbanismo/pdm', note: 'PDM' },
+  { source: '/pages/312', destination: '/servicos/urbanismo/consultar-o-pdm', note: 'PDM' },
   { source: '/pages/315', destination: '/servicos/agua-e-residuos', note: 'Água e Saneamento' },
   { source: '/pages/318', destination: '/servicos/taxas-e-licencas', note: 'Taxas e Licenças' },
   { source: '/pages/320', destination: '/documentos', note: 'Formulários' },

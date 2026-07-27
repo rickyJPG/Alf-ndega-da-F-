@@ -12,6 +12,7 @@ import {
 import { tx } from '@/content/types';
 import type { Locale } from '@/i18n/config';
 import { localePath } from '@/i18n/config';
+import { routes } from '@/lib/routes';
 import { formatDate } from '@/lib/format';
 
 /**
@@ -53,7 +54,7 @@ export async function buildSearchDocuments(locale: Locale): Promise<SearchDocume
         ...(service.legislation ? tx(service.legislation, locale) : []),
         service.department,
       ].join(' '),
-      href: localePath(locale, `/servicos/${service.slug}`),
+      href: routes.service(locale, service),
     });
   }
 
