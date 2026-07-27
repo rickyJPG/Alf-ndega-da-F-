@@ -42,3 +42,6 @@ pnpm-debug.log*
 # Lighthouse
 /.lighthouseci/
 /lighthouse-report*
+
+# Pacotes de entrega (git bundle) — não pertencem ao repositório
+*.bundle
