@@ -3,11 +3,11 @@ import { tx } from '@/content/types';
 import { site } from './site';
 
 /**
- * iCalendar-Datei für ein Ereignis.
+ * Ficheiro iCalendar de um evento.
  *
- * Erzeugt nach RFC 5545: CRLF-Zeilenenden, 75-Oktett-Faltung, escapte
- * Sonderzeichen. Ereignisse ohne Uhrzeit werden als Ganztagestermin
- * (VALUE=DATE) ausgegeben, mit exklusivem Enddatum.
+ * Gerado segundo o RFC 5545: fins de linha CRLF, dobragem aos 75 octetos e
+ * caracteres especiais escapados. Os eventos sem hora saem como eventos de
+ * dia inteiro (VALUE=DATE), com data final exclusiva.
  */
 function escapeText(value: string): string {
   return value
@@ -17,7 +17,7 @@ function escapeText(value: string): string {
     .replace(/\r?\n/g, '\\n');
 }
 
-/** Zeilen auf 75 Oktetts falten – längere Zeilen lehnen manche Kalender ab. */
+/** Dobra as linhas aos 75 octetos — há calendários que rejeitam linhas maiores. */
 function fold(line: string): string {
   if (line.length <= 75) return line;
   const parts: string[] = [];
@@ -65,7 +65,7 @@ export function eventToIcs(event: EventItem, origin: string): string {
   ];
 
   if (event.startTime) {
-    // Portugal (WEST/WET) – als UTC-Zeitstempel mit Zeitzonenversatz aus dem Datum.
+    // Portugal (WEST/WET) — marca temporal UTC com o desvio horário da data.
     const start = new Date(`${event.startDate}T${event.startTime}:00.000Z`);
     const end = event.endTime
       ? new Date(`${event.endDate ?? event.startDate}T${event.endTime}:00.000Z`)

@@ -1,18 +1,18 @@
 /* ==========================================================================
-   Design-Tokens – Município de Alfândega da Fé
-   Einzige Quelle der Wahrheit. Tailwind spiegelt diese Werte in globals.css
-   über @theme, damit Utilities und CSS-Variablen nie auseinanderlaufen.
+   Tokens de desenho — Município de Alfândega da Fé
+   Fonte única de verdade. O Tailwind espelha estes valores em globals.css
+   através de @theme, para que utilidades e variáveis CSS nunca divirjam.
    ========================================================================== */
 
 :root {
-  /* --- Marke: institutionelles Blau --------------------------------------- */
+  /* --- Marca: azul institucional ------------------------------------------ */
   --color-primary-900: #08283d;
   --color-primary-800: #0f3d5c;
   --color-primary-700: #16537c;
   --color-primary-600: #1d6fa3;
   --color-primary-100: #e8f0f6;
 
-  /* --- Akzent: Kirsche (sparsam: CTA, aktive Zustände, Warnungen) ---------- */
+  /* --- Acento: cereja (com parcimónia: ação principal, estado ativo, avisos) */
   --color-accent-700: #8e1b26;
   --color-accent-600: #b4232e;
   --color-accent-hover: #8e1b26;
@@ -54,7 +54,7 @@
   --font-legible: 'Atkinson Hyperlegible', 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', 'Liberation Mono', monospace;
 
-  /* Nutzerskalierung aus dem Barrierefreiheits-Panel (100 % = 1) */
+  /* Escala de texto escolhida no painel de acessibilidade (100 % = 1) */
   --a11y-scale: 1;
   --a11y-leading: 1.6;
 
@@ -90,7 +90,7 @@
   --shadow-1: 0 1px 2px rgb(17 22 28 / 0.06);
   --shadow-2: 0 2px 4px rgb(17 22 28 / 0.06), 0 6px 16px rgb(17 22 28 / 0.07);
 
-  /* --- Maße ----------------------------------------------------------------- */
+  /* --- Medidas -------------------------------------------------------------- */
   --container-max: 1280px;
   --measure: 68ch;
   --header-height: 4.5rem;
@@ -100,7 +100,7 @@
   --focus-ring-width: 3px;
   --focus-ring-offset: 2px;
 
-  /* --- Bewegung -------------------------------------------------------------- */
+  /* --- Movimento ------------------------------------------------------------ */
   --motion-fast: 120ms;
   --motion-base: 180ms;
   --motion-ease: cubic-bezier(0.2, 0, 0.2, 1);
@@ -109,23 +109,23 @@
 }
 
 /* ==========================================================================
-   Dark Mode
-   Das Inline-Skript in <head> setzt data-theme immer explizit auf light|dark.
-   Der @media-Block deckt den Moment davor und Browser ohne JS ab.
+   Modo escuro
+   O script em linha no <head> define sempre data-theme como light ou dark.
+   O bloco @media cobre o instante anterior e os navegadores sem JavaScript.
    ========================================================================== */
 
 :root[data-theme='dark'] {
-  /* Blau wird im Dunkeln aufgehellt, damit Links 4.5:1 erreichen */
+  /* No escuro o azul é clareado para que as ligações cheguem a 4,5:1 */
   --color-primary-900: #04121c;
   --color-primary-800: #0b2c42;
-  /* 700 trägt im Dunkeln Text auf primary-100 – deshalb hell, nicht dunkel. */
+  /* No escuro o 700 leva texto sobre primary-100 — por isso é claro, não escuro. */
   --color-primary-700: #a8d5f2;
   --color-primary-600: #78bce8;
   --color-primary-100: #12293a;
 
   --color-accent-700: #ffb3b8;
-  /* Dunkler als im Hellmodus, damit Weiß darauf 4.5:1 erreicht und die
-     Fläche selbst 3:1 gegen den Seitenhintergrund hält. */
+  /* Mais escuro do que no modo claro, para que o branco por cima chegue a 4,5:1 e a
+     própria superfície mantenha 3:1 face ao fundo da página. */
   --color-accent-600: #c62f3a;
   --color-accent-hover: #d8434e;
   --color-accent-100: #37161a;
@@ -203,7 +203,7 @@
 }
 
 /* ==========================================================================
-   Hoher Kontrast (Barrierefreiheits-Panel)
+   Alto contraste (painel de acessibilidade)
    ========================================================================== */
 
 :root[data-contrast='high'] {
@@ -235,7 +235,7 @@
   --font-serif: var(--font-legible);
 }
 
-/* Größerer Zeilenabstand */
+/* Entrelinha maior */
 :root[data-spacing='loose'] {
   --a11y-leading: 1.9;
 }

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img">
+  <rect width="1200" height="675" fill="#FBEAEB"/>
+  <g opacity="0.8">
+      <path d="M543.3 431.8 q72.7 -96.9 126 -29.1" stroke="#3E6647" stroke-width="16.5" fill="none"/>
+      <circle cx="543.3" cy="480.2" r="48.5" fill="#B4232E"/>
+      <circle cx="669.4" cy="456" r="44.6" fill="#8E1B26"/>
+    </g>
+  <g opacity="0.9">
+      <path d="M464.7 258.5 q64.1 -85.4 111.1 -25.6" stroke="#3E6647" stroke-width="14.5" fill="none"/>
+      <circle cx="464.7" cy="301.2" r="42.7" fill="#B4232E"/>
+      <circle cx="575.8" cy="279.9" r="39.3" fill="#8E1B26"/>
+    </g>
+  <g opacity="0.7">
+      <path d="M903.5 364.5 q62.2 -83 107.9 -24.9" stroke="#3E6647" stroke-width="14.1" fill="none"/>
+      <circle cx="903.5" cy="406" r="41.5" fill="#B4232E"/>
+      <circle cx="1011.3" cy="385.3" r="38.2" fill="#8E1B26"/>
+    </g>
+  <g opacity="0.7">
+      <path d="M896 207.8 q68.4 -91.2 118.6 -27.4" stroke="#3E6647" stroke-width="15.5" fill="none"/>
+      <circle cx="896" cy="253.4" r="45.6" fill="#B4232E"/>
+      <circle cx="1014.6" cy="230.6" r="42" fill="#8E1B26"/>
+    </g>
+  <g opacity="1">
+      <path d="M993.3 417.7 q54.2 -72.2 93.9 -21.7" stroke="#3E6647" stroke-width="12.3" fill="none"/>
+      <circle cx="993.3" cy="453.8" r="36.1" fill="#B4232E"/>
+      <circle cx="1087.2" cy="435.8" r="33.2" fill="#8E1B26"/>
+    </g>
+  <g opacity="0.7">
+      <path d="M672.5 382.9 q51.8 -69.1 89.9 -20.7" stroke="#3E6647" stroke-width="11.8" fill="none"/>
+      <circle cx="672.5" cy="417.5" r="34.6" fill="#B4232E"/>
+      <circle cx="762.3" cy="400.2" r="31.8" fill="#8E1B26"/>
+    </g>
+  <g opacity="0.7">
+      <path d="M672.6 485.9 q61.7 -82.2 106.9 -24.7" stroke="#3E6647" stroke-width="14" fill="none"/>
+      <circle cx="672.6" cy="527" r="41.1" fill="#B4232E"/>
+      <circle cx="779.4" cy="506.5" r="37.8" fill="#8E1B26"/>
+    </g>
+  <g opacity="0.6">
+      <path d="M130.5 212.8 q65.5 -87.4 113.6 -26.2" stroke="#3E6647" stroke-width="14.9" fill="none"/>
+      <circle cx="130.5" cy="256.5" r="43.7" fill="#B4232E"/>
+      <circle cx="244.1" cy="234.7" r="40.2" fill="#8E1B26"/>
+    </g>
+  <g opacity="0.8">
+      <path d="M711.6 420.1 q52.1 -69.4 90.3 -20.8" stroke="#3E6647" stroke-width="11.8" fill="none"/>
+      <circle cx="711.6" cy="454.8" r="34.7" fill="#B4232E"/>
+      <circle cx="801.8" cy="437.5" r="31.9" fill="#8E1B26"/>
+    </g>
+</svg>

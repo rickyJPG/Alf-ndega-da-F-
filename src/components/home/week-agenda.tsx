@@ -14,11 +14,11 @@ import { cn } from '@/lib/utils';
 const WEEKDAYS_PT = ['seg', 'ter', 'qua', 'qui', 'sex', 'sáb', 'dom'];
 
 /**
- * Agenda mit Wochen- und Listenansicht.
+ * Agenda com vista semanal e vista em lista.
  *
- * Die Wochenansicht ist eine Tabelle mit sieben Spalten – als echte Liste
- * pro Tag ausgezeichnet, damit sie mit dem Screenreader in sinnvoller
- * Reihenfolge vorgelesen wird und nicht als Raster ohne Bezug.
+ * A vista semanal é uma tabela de sete colunas — marcada como lista real por
+ * cada dia, para que o leitor de ecrã a percorra por ordem compreensível e
+ * não como uma grelha sem relação entre células.
  */
 export function WeekAgenda({
   events,
@@ -30,7 +30,7 @@ export function WeekAgenda({
   events: EventItem[];
   locale: Locale;
   dict: Dictionary;
-  /** Montag der angezeigten Woche, ISO. Kommt vom Server. */
+  /** Segunda-feira da semana mostrada, em ISO. Vem do servidor. */
   weekStart: string;
   categories: string[];
 }) {

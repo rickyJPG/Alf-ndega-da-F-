@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Alert } from '@/components/ui/alert';
 import { Icon } from '@/components/ui/icon';
 
-/** Leaflet nur im Browser – spart rund 45 kB auf allen anderen Seiten. */
+/** Leaflet só no navegador — poupa cerca de 45 kB em todas as outras páginas. */
 const LocationMap = dynamic(
   () => import('./location-map').then((module) => module.LocationMap),
   {
@@ -39,9 +39,9 @@ const CATEGORIES: { value: OccurrenceInput['category']; label: string }[] = [
 /**
  * Meldeportal.
  *
- * Vier Angaben genügen: was, wo, ein Punkt auf der Karte und die Zustimmung
- * zur Datenverarbeitung. Name und Kontakt sind freiwillig – wer sie angibt,
- * bekommt eine Rückmeldung, wer nicht, kann den Stand über die Referenznummer
+ * Bastam quatro indicações: o quê, onde, um ponto no mapa e o consentimento
+ * para o tratamento dos dados. Nome e contacto são facultativos — quem os
+ * deixar recebe resposta, quem não deixar acompanha pelo número de referência
  * verfolgen.
  */
 export function ReportForm({

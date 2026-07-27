@@ -42,7 +42,7 @@ export default async function ParticipatoryBudgetPage({
 
   const projects = await getParticipatoryProjects();
 
-  /** Der Zyklus als Zeitleiste – die Abstimmung ist die aktuelle Phase. */
+  /** O ciclo como linha do tempo — a votação é a fase em curso. */
   const phases = [
     { label: dict.participation.phaseProposals, period: 'abril a junho', done: true },
     { label: dict.participation.phaseAnalysis, period: 'julho a setembro', done: true },

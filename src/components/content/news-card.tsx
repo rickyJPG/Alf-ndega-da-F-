@@ -8,11 +8,11 @@ import { CategoryBadge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
 /**
- * Nachrichten-Karte.
+ * Cartão de notícia.
  *
- * Feste Seitenverhältnisse (16:9) verhindern Layout-Sprünge. Der Anriss steht
- * als vollständiger Satz im Datensatz – es wird nichts mitten im Wort
- * abgeschnitten, wie es die alte Seite tat.
+ * A proporção fixa (16:9) evita saltos do layout. O resumo é uma frase
+ * completa guardada no próprio registo — nada é cortado a meio de uma
+ * palavra, como acontecia no sítio antigo.
  */
 export function NewsCard({
   item,

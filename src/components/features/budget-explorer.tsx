@@ -12,12 +12,12 @@ import { cn } from '@/lib/utils';
 /**
  * Haushalts-Explorer.
  *
- * Statt eines 200-seitigen PDF: die Ausgaben nach Bereich, aufklappbar bis
- * zur Unterrubrik, mit Vergleich zum Vorjahr und CSV-Ausgabe.
+ * Em vez de um PDF de 200 páginas: a despesa por área, aberta até à
+ * subrubrica, com comparação com o ano anterior e exportação em CSV.
  *
- * Die Balken sind bewusst keine Grafikbibliothek – es sind Tabellenzeilen mit
- * einem Balken als Hintergrund. Der Wert steht immer als Zahl daneben, damit
- * die Aussage nicht von der Balkenlänge abhängt.
+ * As barras não vêm de nenhuma biblioteca de gráficos — são linhas de tabela
+ * com uma barra por trás. O valor aparece sempre em número ao lado, para que
+ * a leitura não dependa do comprimento da barra.
  */
 export function BudgetExplorer({
   budget,
@@ -109,7 +109,7 @@ export function BudgetExplorer({
           return (
             <li key={category.id} className="rounded-lg border border-line bg-surface">
               <div className="relative overflow-hidden rounded-lg">
-                {/* Balken als Hintergrund – rein dekorativ, der Wert steht daneben */}
+                {/* Barra de fundo — puramente decorativa, o valor está ao lado */}
                 <div
                   aria-hidden="true"
                   className="absolute inset-y-0 start-0 bg-primary-100"

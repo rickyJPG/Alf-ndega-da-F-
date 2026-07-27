@@ -12,11 +12,11 @@ import { TextField } from '@/components/ui/field';
 import { Icon } from '@/components/ui/icon';
 
 /**
- * Statusverfolgung über die Referenznummer.
+ * Acompanhamento do estado pelo número de referência.
  *
- * Die Suche läuft gegen die bereits geladene Liste – keine Anfrage, keine
- * Anmeldung. Wer die Nummer hat, sieht den Stand; personenbezogene Daten des
- * Meldenden stehen nicht darin.
+ * A pesquisa corre sobre a lista já carregada — sem pedido ao servidor e sem
+ * autenticação. Quem tem o número vê o estado; os dados pessoais de quem
+ * participou a ocorrência não constam daí.
  */
 export function ReportTracker({
   occurrences,

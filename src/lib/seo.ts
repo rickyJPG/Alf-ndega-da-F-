@@ -3,18 +3,18 @@ import { site } from './site';
 import { locales, localeHtmlLang, localePath, defaultLocale, type Locale } from '@/i18n/config';
 
 /**
- * Gemeinsame Metadaten und JSON-LD.
+ * Metadados comuns e JSON-LD.
  *
- * Strukturierte Daten sind für eine Gemeindeseite kein SEO-Spielzeug: sie
- * sorgen dafür, dass Öffnungszeiten, Telefonnummer und Termine in den
- * Suchergebnissen und Assistenten korrekt erscheinen.
+ * Para um portal municipal, os dados estruturados não são um brinquedo de
+ * SEO: são o que faz com que o horário, o telefone e os eventos apareçam
+ * corretos nos resultados de pesquisa e nos assistentes de voz.
  */
 
 export function absoluteUrl(path: string): string {
   return new URL(path, site.url).toString();
 }
 
-/** hreflang-Alternativen für alle Sprachen derselben Seite. */
+/** Alternativas hreflang para todas as línguas da mesma página. */
 export function languageAlternates(path: string): Record<string, string> {
   const alternates: Record<string, string> = {};
   for (const locale of locales) {

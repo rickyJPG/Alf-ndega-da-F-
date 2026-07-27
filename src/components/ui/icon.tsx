@@ -2,11 +2,11 @@ import type { SVGProps } from 'react';
 import { cn } from '@/lib/utils';
 
 /**
- * Alle Symbole der Seite als Vektor. Kein einziges Icon ist ein Rasterbild.
+ * Todos os ícones do portal em vetor. Nenhum é uma imagem rasterizada.
  *
- * 24×24-Raster, 1.75px Strichstärke, `currentColor` – dadurch erben Symbole
- * Farbe und Kontrast vom umgebenden Text und funktionieren im Dark Mode und
- * im Kontrastmodus ohne Sonderbehandlung.
+ * Grelha de 24×24, traço de 1,75 px e `currentColor` — assim os ícones herdam
+ * a cor e o contraste do texto em redor e funcionam no modo escuro e no modo
+ * de alto contraste sem tratamento especial.
  */
 const paths = {
   search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14ZM20 20l-4.2-4.2',
@@ -76,9 +76,9 @@ export type IconName = keyof typeof paths;
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
   name: IconName;
-  /** Kantenlänge in px. Standard 20 – passt zur Zeilenhöhe des Fließtexts. */
+  /** Lado em píxeis. Por omissão 20 — acompanha a entrelinha do texto corrido. */
   size?: number;
-  /** Sichtbarer Name für Screenreader. Ohne Titel gilt das Symbol als dekorativ. */
+  /** Nome anunciado pelo leitor de ecrã. Sem título o ícone é decorativo. */
   title?: string;
 }
 

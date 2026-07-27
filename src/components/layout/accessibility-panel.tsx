@@ -21,9 +21,9 @@ import { cn } from '@/lib/utils';
 /**
  * Barrierefreiheits-Panel.
  *
- * Alle Optionen wirken sofort und werden lokal gespeichert. Die Umsetzung
- * läuft über data-Attribute auf <html> und CSS-Variablen – kein Neuladen,
- * keine zweite Stylesheet-Variante, kein Server-Roundtrip.
+ * Todas as opções fazem efeito de imediato e ficam guardadas localmente. A
+ * implementação assenta em atributos data no <html> e em variáveis CSS — sem
+ * recarregar a página, sem uma segunda folha de estilos, sem ida ao servidor.
  */
 export function AccessibilityPanel({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const [prefs, setPrefs] = useState<Preferences>(defaultPreferences);
@@ -43,7 +43,7 @@ export function AccessibilityPanel({ locale, dict }: { locale: Locale; dict: Dic
     });
   }, []);
 
-  // Folgt der Systemeinstellung, solange der Nutzer „Sistema“ gewählt hat.
+  // Segue a definição do sistema enquanto estiver escolhido «Sistema».
   useEffect(() => {
     if (!ready || prefs.theme !== 'system') return;
     const media = window.matchMedia('(prefers-color-scheme: dark)');
@@ -86,7 +86,7 @@ export function AccessibilityPanel({ locale, dict }: { locale: Locale; dict: Dic
           </div>
 
           <div className="flex flex-1 flex-col gap-6 p-5">
-            {/* Textgröße */}
+            {/* Tamanho do texto */}
             <div>
               <p className="mb-2 font-semibold" id="a11y-textsize">
                 {dict.a11y.textSize}
@@ -207,8 +207,8 @@ export function AccessibilityPanel({ locale, dict }: { locale: Locale; dict: Dic
 }
 
 /**
- * Schalter als natives Kontrollkästchen mit `role="switch"`.
- * Der Zustand steht auch als Text da, nicht nur als Position des Reglers.
+ * Interruptor feito com uma caixa de verificação nativa e `role="switch"`.
+ * O estado aparece também por escrito, não só na posição do cursor.
  */
 function Toggle({
   label,

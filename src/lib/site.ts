@@ -1,6 +1,6 @@
 /**
- * Stammdaten der Institution. Diese Werte erscheinen in Kopf-/Fußzeile,
- * in den JSON-LD-Blöcken und im Offline-Fallback der PWA.
+ * Dados de base da instituição. Estes valores aparecem no cabeçalho e no
+ * rodapé, nos blocos JSON-LD e na página offline da PWA.
  */
 
 export const site = {
@@ -8,7 +8,7 @@ export const site = {
   shortName: 'Alfândega da Fé',
   legalName: 'Câmara Municipal de Alfândega da Fé',
   tagline: 'Portal do Município',
-  /** In Produktion über NEXT_PUBLIC_SITE_URL setzen. */
+  /** Em produção, definir através de NEXT_PUBLIC_SITE_URL. */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.cm-alfandegadafe.pt',
   nif: '506 811 663',
   address: {
@@ -25,14 +25,14 @@ export const site = {
     phoneE164: '+351279468120',
     fax: '279 462 780',
     email: 'municipio@cm-alfandegadafe.pt',
-    /** Ortsnetz – Hinweis nach Vorgabe der ANACOM. */
+    /** Rede fixa — indicação exigida pela ANACOM. */
     callCost: 'Chamada para a rede fixa nacional',
   },
   openingHours: [
     { days: 'Segunda a sexta', hours: '09:00 – 12:30 e 14:00 – 17:30' },
     { days: 'Sábados, domingos e feriados', hours: 'Encerrado' },
   ],
-  /** ISO-8601 für schema.org */
+  /** ISO-8601 para o schema.org */
   openingHoursSpec: ['Mo-Fr 09:00-12:30', 'Mo-Fr 14:00-17:30'],
   emergency: [
     { label: 'Número Europeu de Emergência', number: '112' },
@@ -53,7 +53,7 @@ export const site = {
     { label: 'YouTube', href: 'https://www.youtube.com/@municipioalfandegadafe' },
     { label: 'Instagram', href: 'https://www.instagram.com/municipio_alfandegadafe' },
   ],
-  /** Cookiefreies, self-hosted Analytics. Leer lassen = kein Tracking. */
+  /** Analítica sem cookies, alojada no próprio servidor. Vazio = sem medição. */
   analytics: {
     plausibleDomain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? '',
     plausibleScriptUrl: process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL ?? '',

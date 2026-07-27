@@ -34,6 +34,7 @@ import { ConsultationCard } from '@/components/content/consultation-card';
 import { ButtonLink } from '@/components/ui/button';
 import { Icon, type IconName } from '@/components/ui/icon';
 import { Badge } from '@/components/ui/badge';
+import { RamoDeCerejas } from '@/components/layout/brasao';
 import { formatDate } from '@/lib/format';
 
 export async function generateMetadata({
@@ -84,7 +85,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     getFireRisk(),
   ]);
 
-  // Vorschläge für die Autovervollständigung – serverseitig berechnet.
+  // Sugestões para o preenchimento automático — calculadas no servidor.
   const suggestions: Suggestion[] = [
     ...allServices.map((service) => ({
       label: tx(service.title, locale),
@@ -131,7 +132,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      {/* 3. Hero – funktional statt dekorativ */}
+      {/* 3. Hero — a imagem vê-se; o texto assenta num cartão sólido */}
       <section aria-labelledby="hero-title" className="relative isolate">
         <div className="absolute inset-0 -z-10">
           <Image
@@ -142,16 +143,21 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             sizes="100vw"
             className="object-cover"
           />
-          {/* Deckfläche statt Verlauf: gleichmäßiger Kontrast, kein Farbverlauf. */}
-          <div aria-hidden="true" className="absolute inset-0 bg-primary-900/75" />
+          {/* Véu leve: mantém a paisagem visível e o contraste do que está por cima. */}
+          <div aria-hidden="true" className="absolute inset-0 bg-primary-900/12" />
         </div>
 
-        <div className="container-page py-12 md:py-20">
-          <div className="max-w-3xl">
-            <h1 id="hero-title" className="text-4xl text-white">
+        <div className="container-page py-10 md:py-16">
+          <div className="max-w-3xl rounded-lg border border-line bg-surface/97 p-6 shadow-[var(--shadow-2)] md:p-8">
+            <span aria-hidden="true" className="mb-4 flex items-center gap-3">
+              <span className="h-1 w-16 rounded-pill bg-accent-600" />
+              <RamoDeCerejas size={30} className="text-accent-600" />
+            </span>
+
+            <h1 id="hero-title" className="text-4xl text-ink">
               {dict.home.heroTitle}
             </h1>
-            <p className="mt-3 text-lg text-white/90">{dict.home.heroSubtitle}</p>
+            <p className="mt-3 text-lg text-ink-muted">{dict.home.heroSubtitle}</p>
 
             <div className="mt-6">
               <HeroSearch
@@ -165,13 +171,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </div>
 
             <nav aria-label={dict.home.topTasks} className="mt-6">
-              <p className="mb-2 text-sm font-semibold text-white/80">{dict.home.topTasks}</p>
+              <p className="mb-2 text-sm font-semibold text-ink-muted">{dict.home.topTasks}</p>
               <ul className="flex flex-wrap gap-2">
                 {topTasks.map((task) => (
                   <li key={task.href}>
                     <Link
                       href={localePath(locale, task.href)}
-                      className="inline-flex min-h-11 items-center rounded-pill border border-white/40 bg-white/10 px-4 text-white no-underline hover:border-white hover:bg-white/20"
+                      className="inline-flex min-h-11 items-center rounded-pill border border-line-strong bg-surface px-4 text-ink no-underline hover:border-accent-600 hover:bg-accent-100"
                     >
                       {navLabel(task, locale)}
                     </Link>

@@ -7,13 +7,13 @@ import { site } from '@/lib/site';
 const CONSENT_KEY = 'cmadf:consent';
 
 /**
- * Cookiefreie Reichweitenmessung mit selbst gehostetem Plausible.
+ * Medição de audiência sem cookies, com Plausible alojado no próprio servidor.
  *
- * Kein Google Analytics, keine Cookies, keine IP-Speicherung, keine
- * Profilbildung. Das Skript wird erst geladen, wenn die Zustimmung
- * ausdrücklich erteilt wurde – und sofort, wenn sie im Banner erteilt wird.
+ * Sem Google Analytics, sem cookies, sem guardar endereços IP e sem criar
+ * perfis. O script só é carregado depois de dado o consentimento expresso —
+ * e logo que este seja dado no aviso.
  *
- * Ohne NEXT_PUBLIC_PLAUSIBLE_DOMAIN passiert überhaupt nichts.
+ * Sem NEXT_PUBLIC_PLAUSIBLE_DOMAIN não acontece absolutamente nada.
  */
 export function Analytics() {
   const [allowed, setAllowed] = useState(false);

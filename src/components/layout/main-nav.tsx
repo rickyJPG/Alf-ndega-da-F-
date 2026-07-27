@@ -9,11 +9,12 @@ import { cn } from '@/lib/utils';
 import { Icon } from '@/components/ui/icon';
 
 /**
- * Hauptnavigation mit Mega-Menü.
+ * Navegação principal com mega-menu.
  *
- * Radix' NavigationMenu bringt die Tastaturbedienung mit: Pfeiltasten zwischen
- * den Einträgen, Enter/Leertaste zum Öffnen, Escape zum Schließen, Fokus kehrt
- * zum Auslöser zurück. Maximal zwei Ebenen, wie in der IA festgelegt.
+ * O NavigationMenu do Radix já traz a operação por teclado: setas entre
+ * entradas, Enter ou barra de espaço para abrir, Escape para fechar e o foco
+ * volta ao botão de origem. No máximo dois níveis, como fixado na arquitetura
+ * de informação.
  */
 export function MainNav({ locale, label }: { locale: Locale; label: string }) {
   const pathname = usePathname();
@@ -32,16 +33,15 @@ export function MainNav({ locale, label }: { locale: Locale; label: string }) {
             <NavigationMenu.Item key={section.id}>
               <NavigationMenu.Trigger
                 className={cn(
-                  'group flex min-h-11 items-center gap-1.5 rounded-md px-3 py-2 font-semibold',
-                  'text-white/90 hover:bg-white/10 hover:text-white',
-                  'data-[state=open]:bg-white/10 data-[state=open]:text-white',
-                  isActive && 'text-white',
+                  'group flex min-h-12 items-center gap-1.5 px-4 py-2 font-semibold',
+                  'text-white hover:bg-black/15',
+                  'data-[state=open]:bg-black/20',
                 )}
               >
                 <span
                   className={cn(
                     'border-b-2 pb-0.5',
-                    isActive ? 'border-accent-600' : 'border-transparent',
+                    isActive ? 'border-white' : 'border-transparent',
                   )}
                 >
                   {navLabel(section, locale)}

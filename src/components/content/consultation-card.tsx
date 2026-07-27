@@ -9,11 +9,11 @@ import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 /**
- * Konsultations-Karte mit Restfrist.
+ * Cartão de consulta pública, com o prazo que falta.
  *
- * Die Frist steht als Klartext („termina em 12 dias“), nicht als reines
- * Enddatum – das ist die Information, nach der jemand tatsächlich handelt.
- * Die Farbe verstärkt die Dringlichkeit, trägt sie aber nicht allein.
+ * O prazo aparece por extenso («termina em 12 dias») e não apenas como data
+ * final — é essa a informação que leva alguém a agir. A cor reforça a
+ * urgência, mas não a transmite sozinha.
  */
 export function ConsultationCard({
   consultation,
@@ -26,7 +26,7 @@ export function ConsultationCard({
   consultation: Consultation;
   locale: Locale;
   dict: Dictionary;
-  /** Referenzdatum – wird übergeben, damit Server und Client übereinstimmen. */
+  /** Data de referência — passada para que servidor e cliente coincidam. */
   today: string;
   className?: string;
   headingLevel?: 2 | 3 | 4;

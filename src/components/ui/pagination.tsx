@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Icon } from './icon';
 
-/** Sichtbare Seitenzahlen um die aktuelle Seite herum, mit Auslassungen. */
+/** Números de página à volta da página atual, com reticências. */
 function pageWindow(current: number, total: number): (number | 'gap')[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
   const pages = new Set<number>([1, total, current, current - 1, current + 1]);

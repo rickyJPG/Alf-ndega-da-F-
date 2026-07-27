@@ -1,9 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img">
-  <rect width="1200" height="675" fill="#E8F0F6"/>
-  <path d="M0 202.5 Q300.0 162.0 600.0 202.5 T1200 202.5" stroke="#1D6FA3" stroke-width="2.0" fill="none" opacity="0.70"/>
-  <path d="M0 276.8 Q300.0 236.3 600.0 276.8 T1200 276.8" stroke="#1D6FA3" stroke-width="2.6" fill="none" opacity="0.61"/>
-  <path d="M0 351.0 Q300.0 310.5 600.0 351.0 T1200 351.0" stroke="#1D6FA3" stroke-width="3.2" fill="none" opacity="0.52"/>
-  <path d="M0 425.3 Q300.0 384.8 600.0 425.3 T1200 425.3" stroke="#1D6FA3" stroke-width="3.8" fill="none" opacity="0.43"/>
-  <path d="M0 499.5 Q300.0 459.0 600.0 499.5 T1200 499.5" stroke="#1D6FA3" stroke-width="4.4" fill="none" opacity="0.34"/>
-  <path d="M0 573.8 Q300.0 533.3 600.0 573.8 T1200 573.8" stroke="#1D6FA3" stroke-width="5.0" fill="none" opacity="0.25"/>
+  <defs>
+    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E6F2F6"/>
+      <stop offset="55%" stop-color="#C2E0EA"/>
+      <stop offset="100%" stop-color="#96C8DA"/>
+    </linearGradient>
+    <linearGradient id="agua" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7FC0D8"/>
+      <stop offset="60%" stop-color="#4E9BBA"/>
+      <stop offset="100%" stop-color="#31768F"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="url(#ceu)"/>
+  <path d="M0 675 L0 202.5 Q120 179.1 240 211.5 Q360 161.2 480 193.6 Q600 190.1 720 222.5 Q840 188.5 960 220.9 Q1080 198.7 1200 231.1 L1200 675 Z" fill="#7FA394"/>
+  <path d="M0 675 L0 283.5 Q100 224.2 200 251.2 Q300 250.5 400 277.5 Q500 226.2 600 253.2 Q700 250.6 800 277.6 Q900 241.7 1000 268.7 Q1100 277.4 1200 304.4 L1200 675 Z" fill="#4E7A6C"/>
+  <rect x="0" y="391.5" width="1200" height="283.5" fill="url(#agua)"/>
+
+  <path d="M0 391.5 L360 391.5 L240 202.5 L0 243 Z" fill="#33564E"/>
+  <path d="M1200 391.5 L792 391.5 L936 189 L1200 229.5 Z" fill="#33564E"/>
+  <path d="M336 391.5 L576 391.5 L480 297 Z" fill="#223A36"/>
+
+  <path d="M96 432 Q360 419.9 624 432 T1140 432" stroke="#FFFFFF" stroke-width="1.4" fill="none" opacity="0.3"/>
+  <path d="M96 472.5 Q360 460.4 624 472.5 T1140 472.5" stroke="#FFFFFF" stroke-width="1.7" fill="none" opacity="0.3"/>
+  <path d="M96 513 Q360 500.9 624 513 T1140 513" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.3"/>
+  <path d="M96 553.5 Q360 541.4 624 553.5 T1140 553.5" stroke="#FFFFFF" stroke-width="2.3" fill="none" opacity="0.2"/>
+  <path d="M96 594 Q360 581.9 624 594 T1140 594" stroke="#FFFFFF" stroke-width="2.6" fill="none" opacity="0.2"/>
+  <path d="M96 634.5 Q360 622.4 624 634.5 T1140 634.5" stroke="#FFFFFF" stroke-width="2.9" fill="none" opacity="0.1"/>
+  <g><path d="M67.5 384.8 L69.5 365.1 L74.5 365.1 L76.5 384.8 Z" fill="#2F4A42"/><circle cx="60.2" cy="359.4" r="14.6" fill="#4E7A6C"/><circle cx="72" cy="349.9" r="18.6" fill="#4E7A6C"/><circle cx="83.8" cy="359.4" r="14.6" fill="#4E7A6C"/></g>
+  <g><path d="M139.5 384.8 L141.5 365.1 L146.5 365.1 L148.5 384.8 Z" fill="#2F4A42"/><circle cx="132.2" cy="359.4" r="14.6" fill="#4E7A6C"/><circle cx="144" cy="349.9" r="18.6" fill="#4E7A6C"/><circle cx="155.8" cy="359.4" r="14.6" fill="#4E7A6C"/></g>
+  <g><path d="M211.5 384.8 L213.5 365.1 L218.5 365.1 L220.5 384.8 Z" fill="#2F4A42"/><circle cx="204.2" cy="359.4" r="14.6" fill="#4E7A6C"/><circle cx="216" cy="349.9" r="18.6" fill="#4E7A6C"/><circle cx="227.8" cy="359.4" r="14.6" fill="#4E7A6C"/></g>
+  <g><path d="M283.5 384.8 L285.5 365.1 L290.5 365.1 L292.5 384.8 Z" fill="#2F4A42"/><circle cx="276.2" cy="359.4" r="14.6" fill="#4E7A6C"/><circle cx="288" cy="349.9" r="18.6" fill="#4E7A6C"/><circle cx="299.8" cy="359.4" r="14.6" fill="#4E7A6C"/></g>
 </svg>

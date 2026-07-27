@@ -1,16 +1,16 @@
 /**
- * Zeitachse der Beispieldaten.
+ * Eixo temporal dos dados de exemplo.
  *
  * Fristgebundene Inhalte (Konsultationen, Termine, Waldbrandstufe, freie
- * Sprechzeiten) sind relativ zum Referenzdatum angelegt. Dadurch zeigt die
- * Demo immer laufende Fristen statt abgelaufener – und „termina em 12 dias“
- * bleibt eine echte Aussage.
+ * horas de atendimento) estão definidos em relação à data de referência.
+ * Assim a demonstração mostra sempre prazos em curso e não prazos vencidos —
+ * e «termina em 12 dias» continua a ser uma afirmação verdadeira.
  *
- * Für reproduzierbare Builds und Tests lässt sich das Referenzdatum über die
+ * Para builds e testes reprodutíveis, a data de referência pode ser fixada
  * Umgebungsvariable MOCK_TODAY (`YYYY-MM-DD`) festnageln.
  *
  * Archivinhalte (Nachrichten, Sitzungen, Haushalt) tragen dagegen feste
- * Datumsangaben – sie sollen sich nicht mit jedem Build verschieben.
+ * as datas — não devem deslizar a cada build.
  */
 
 function resolveReference(): Date {
@@ -24,19 +24,19 @@ function resolveReference(): Date {
 
 export const referenceDate = resolveReference();
 
-/** ISO-Datum (`2026-08-06`) mit Versatz in Tagen zum Referenzdatum. */
+/** Data ISO (`2026-08-06`) com desvio em dias face à data de referência. */
 export function offsetDays(days: number): string {
   const date = new Date(referenceDate);
   date.setUTCDate(date.getUTCDate() + days);
   return date.toISOString().slice(0, 10);
 }
 
-/** Vollständiger Zeitstempel, z. B. für Veröffentlichungszeiten. */
+/** Marca temporal completa, por exemplo para horas de publicação. */
 export function offsetDateTime(days: number, time = '09:00'): string {
   return `${offsetDays(days)}T${time}:00.000Z`;
 }
 
-/** Montag der Woche, in der das Referenzdatum liegt. */
+/** Segunda-feira da semana em que cai a data de referência. */
 export function startOfWeek(reference: Date = referenceDate): Date {
   const date = new Date(reference);
   const weekday = date.getUTCDay();

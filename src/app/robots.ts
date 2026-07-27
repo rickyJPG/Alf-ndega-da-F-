@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        // Ergebnisseiten und der Guia de estilo gehören nicht in den Index.
+        // As páginas de resultados e o guia de estilo não pertencem ao índice.
         disallow: ['/pesquisa', '/en/pesquisa', '/es/pesquisa', '/fr/pesquisa', '/styleguide', '/api/'],
       },
     ],

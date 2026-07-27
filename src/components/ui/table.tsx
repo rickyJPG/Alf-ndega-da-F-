@@ -4,9 +4,9 @@ import { cn } from '@/lib/utils';
 /**
  * Datentabelle.
  *
- * Der Scroll-Container ist fokussierbar (`tabIndex={0}`), damit Tastatur-
- * Nutzende breite Tabellen scrollen können, und trägt eine `aria-label`, damit
- * der Bereich benannt ist. Die Beschriftung (`caption`) ist Pflicht.
+ * O contentor de deslocamento é focável (`tabIndex={0}`), para que quem usa
+ * teclado possa percorrer tabelas largas, e leva um `aria-label` para que a
+ * zona tenha nome. A legenda (`caption`) é obrigatória.
  */
 export function DataTable({
   caption,

@@ -18,12 +18,11 @@ import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 /**
- * Terminbuchung in drei Schritten: Dienst, Tag, Uhrzeit.
+ * Marcação de atendimento em três passos: serviço, dia e hora.
  *
- * Der Slot-Kalender ist eine Gruppe von Optionsfeldern, kein Raster aus
- * `div`s: Pfeiltasten wechseln die Uhrzeit, die Auswahl wird angesagt, und
- * die Beschriftung nennt Datum und Uhrzeit vollständig – „14:30 de 4 ago“
- * statt nur „14:30“.
+ * O calendário de horas é um grupo de botões de opção e não uma grelha de
+ * `div`s: as setas mudam a hora, a escolha é anunciada e a etiqueta indica
+ * data e hora por inteiro — «14:30 de 4 ago» em vez de apenas «14:30».
  */
 export function BookingForm({
   services,
@@ -33,7 +32,7 @@ export function BookingForm({
   dict,
 }: {
   services: BookableService[];
-  /** Vorberechnet auf dem Server: { serviceId: { 'YYYY-MM-DD': ['09:00', …] } } */
+  /** Calculado no servidor: { serviceId: { 'YYYY-MM-DD': ['09:00', …] } } */
   slotsByDay: Record<string, Record<string, string[]>>;
   days: string[];
   locale: Locale;
@@ -169,7 +168,7 @@ export function BookingForm({
         </ul>
       </fieldset>
 
-      {/* 3 — Uhrzeit */}
+      {/* 3 — Hora */}
       <fieldset>
         <legend className="mb-3 font-serif text-xl">3. {dict.booking.chooseSlot}</legend>
         <p aria-live="polite" className="mb-3 text-sm text-ink-muted">

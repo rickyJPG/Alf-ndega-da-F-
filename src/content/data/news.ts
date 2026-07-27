@@ -1,8 +1,8 @@
 import type { NewsItem } from '../types';
 
 /**
- * Notícias. Feste Datumsangaben – Archivinhalt verschiebt sich nicht.
- * Die Inhalte greifen reale Vorgänge des Municípios auf (Verschuldungsabbau,
+ * Notícias. Datas fixas — conteúdo de arquivo não se desloca no tempo.
+ * Os conteúdos retomam matérias reais do município (redução da dívida,
  * Festa da Cereja, Prémio Mestre José Rodrigues, Dia dos Avós).
  */
 export const news: NewsItem[] = [

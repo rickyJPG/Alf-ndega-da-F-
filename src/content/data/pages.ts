@@ -3,13 +3,13 @@ import type { Localized } from '../types';
 /**
  * Redaktionelle Seiten.
  *
- * Alles, was keine eigene Collection braucht: Institutionelles, Tourismus,
- * Rechtliches. Aufgebaut aus Blöcken statt aus freiem HTML – dadurch bleiben
- * Überschriftenhierarchie, Textbreite und Abstände überall gleich, egal wer
- * die Seite pflegt.
+ * Tudo o que não precisa de coleção própria: institucional, turismo,
+ * informação legal. Construído com blocos em vez de HTML livre — assim ficam
+ * a hierarquia de títulos, a largura do texto e os espaçamentos iguais em
+ * todo o lado, seja quem for a manter a página.
  *
- * Im CMS entspricht das einem Feld vom Typ „Blocks“ auf der Collection
- * `Paginas`; die Blocktypen unten sind eins zu eins die verfügbaren Bausteine.
+ * No CMS isto corresponde a um campo do tipo «Blocks» na coleção `Paginas`;
+ * os tipos de bloco abaixo são, um a um, as peças disponíveis.
  */
 
 export type PageBlock =
@@ -29,11 +29,11 @@ export type PageBlock =
   | { type: 'callout'; tone: 'info' | 'warning' | 'success'; heading: Localized; body: Localized };
 
 export interface EditorialPage {
-  /** Pfad ohne Sprachpräfix und ohne führenden Schrägstrich. */
+  /** Caminho sem prefixo de idioma e sem barra inicial. */
   path: string;
   title: Localized;
   lead: Localized;
-  /** Pfad des übergeordneten Eintrags für die Brotkrume. */
+  /** Caminho da entrada superior, para o caminho de navegação. */
   parent?: { path: string; label: Localized };
   blocks: PageBlock[];
   updatedAt: string;

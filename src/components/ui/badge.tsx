@@ -12,9 +12,9 @@ export type BadgeTone =
   | 'support';
 
 /**
- * Kurzes Etikett. Farbe trägt hier Bedeutung (Rubrik, Zustand, Frist) –
- * nie Dekoration. Die Bedeutung steht zusätzlich im Text, damit sie nicht
- * allein über die Farbe transportiert wird (WCAG 1.4.1).
+ * Etiqueta curta. Aqui a cor tem significado (rubrica, estado, prazo) e
+ * nunca é decoração. O significado está também no texto, para não ser
+ * transmitido só pela cor (WCAG 1.4.1).
  */
 const tones: Record<BadgeTone, string> = {
   neutral: 'bg-surface-sunken text-ink-muted border-line-strong',
@@ -52,7 +52,7 @@ export function Badge({
   );
 }
 
-/** Rubrik-Etikett über Nachrichten- und Ereignis-Karten. Immer eckig, nie Pill. */
+/** Etiqueta de rubrica nos cartões de notícia e de evento. Sempre reta, nunca oval. */
 export function CategoryBadge({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <span

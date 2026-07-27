@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import { Icon } from '@/components/ui/icon';
 
 /**
- * Sprung zum Seitenanfang. Erscheint erst nach zwei Bildschirmhöhen, damit er
- * auf kurzen Seiten nicht im Weg steht, und setzt den Fokus auf den Anfang –
- * ein reiner Scroll würde die Tastaturposition zurücklassen.
+ * Salto para o início da página. Só aparece depois de dois ecrãs de altura,
+ * para não estorvar em páginas curtas, e coloca o foco no início — um simples
+ * deslocamento deixaria o teclado para trás.
  */
 export function BackToTop({ label }: { label: string }) {
   const [visible, setVisible] = useState(false);

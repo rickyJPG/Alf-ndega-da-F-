@@ -54,22 +54,27 @@ async function analyse(page: Page) {
     .analyze();
 }
 
+/**
+ * Mensagem legível quando falha, em vez de um despejo de JSON: o identificador
+ * da regra, o elemento e a explicação do axe — que no caso do contraste indica
+ * as duas cores e a proporção medida.
+ */
+function summarise(results: Awaited<ReturnType<typeof analyse>>) {
+  return results.violations.map(
+    (violation) =>
+      `${violation.id} (${violation.impact}): ${violation.help}\n  ${violation.nodes
+        .slice(0, 3)
+        .map((node) => `${node.target.join(' ')}\n    ${node.failureSummary ?? ''}`)
+        .join('\n  ')}`,
+  );
+}
+
 for (const template of TEMPLATES) {
   test(`sem violações de acessibilidade: ${template.name}`, async ({ page }) => {
     await page.goto(template.path);
     await page.waitForLoadState('networkidle');
 
-    const results = await analyse(page);
-
-    // Mensagem legível quando falha, em vez de um despejo de JSON.
-    const summary = results.violations.map(
-      (violation) =>
-        `${violation.id} (${violation.impact}): ${violation.help}\n  ${violation.nodes
-          .slice(0, 3)
-          .map((node) => node.target.join(' '))
-          .join('\n  ')}`,
-    );
-
+    const summary = summarise(await analyse(page));
     expect(summary, `${template.path}\n${summary.join('\n')}`).toEqual([]);
   });
 }
@@ -79,8 +84,8 @@ test('o modo escuro mantém-se acessível', async ({ page }) => {
   await page.goto('/');
   await page.waitForLoadState('networkidle');
 
-  const results = await analyse(page);
-  expect(results.violations.map((violation) => violation.id)).toEqual([]);
+  const summary = summarise(await analyse(page));
+  expect(summary, `modo escuro\n${summary.join('\n')}`).toEqual([]);
 });
 
 test('o modo de contraste elevado mantém-se acessível', async ({ page }) => {
@@ -94,6 +99,6 @@ test('o modo de contraste elevado mantém-se acessível', async ({ page }) => {
   await page.reload();
   await page.waitForLoadState('networkidle');
 
-  const results = await analyse(page);
-  expect(results.violations.map((violation) => violation.id)).toEqual([]);
+  const summary = summarise(await analyse(page));
+  expect(summary, `contraste elevado\n${summary.join('\n')}`).toEqual([]);
 });

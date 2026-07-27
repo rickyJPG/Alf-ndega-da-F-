@@ -8,13 +8,13 @@ import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 /**
- * Sprachumschalter. Er behält den Kontext: wer auf /en/servicos/urbanismo ist
- * und auf Français wechselt, landet auf /fr/servicos/urbanismo – nicht auf der
+ * Seletor de idioma. Mantém o contexto: quem está em /en/servicos/urbanismo e
+ * muda para Français vai parar a /fr/servicos/urbanismo — e não à
  * Startseite.
  *
- * Aktive Filter (Suchparameter) werden beim Klick übernommen. Sie fließen
- * bewusst nicht ins `href`: `useSearchParams()` würde die ganze Seite in
- * clientseitiges Rendern zwingen und das Vorrendern der Startseite verhindern.
+ * Os filtros ativos (parâmetros de pesquisa) são mantidos no clique. De
+ * propósito não entram no `href`: `useSearchParams()` obrigaria a página
+ * inteira a desenhar no cliente e impediria a pré-geração da página inicial.
  */
 export function LanguageSwitcher({
   locale,

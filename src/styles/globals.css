@@ -3,9 +3,9 @@
 @import './fonts.css';
 
 /* ==========================================================================
-   Tailwind-Theme = Spiegel der Design-Tokens.
-   Utilities referenzieren die Variablen (var(--color-*)), deshalb wirken die
-   Dark-Mode- und Kontrast-Overrides aus tokens.css automatisch überall.
+   O tema do Tailwind espelha os tokens de desenho.
+   As utilidades referem as variáveis (var(--color-*)), por isso as variantes
+   escura e de alto contraste de tokens.css aplicam-se sozinhas em todo o lado.
    ========================================================================== */
 
 @theme inline {
@@ -72,7 +72,7 @@
   --container-page: var(--container-max);
 }
 
-/* Dark-Variante: das Inline-Skript setzt data-theme immer explizit. */
+/* Variante escura: o script em linha define sempre data-theme de forma explícita. */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 @custom-variant hc (&:where([data-contrast='high'], [data-contrast='high'] *));
 
@@ -115,8 +115,8 @@
     line-height: 1.2;
     letter-spacing: -0.005em;
     text-wrap: balance;
-    /* Bewusst keine feste Farbe: Überschriften erben sie vom Kontext.
-       Sonst blieben sie in Fußzeile und Hero dunkel auf dunklem Grund. */
+    /* De propósito sem cor fixa: os títulos herdam-na do contexto.
+       Caso contrário ficariam escuros sobre fundo escuro no rodapé e no destaque. */
     color: inherit;
   }
 
@@ -125,14 +125,14 @@
     text-wrap: pretty;
   }
 
-  /* Fokus: überall sichtbar, nie entfernt. */
+  /* Foco: visível em todo o lado, nunca removido. */
   :focus-visible {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
     outline-offset: var(--focus-ring-offset);
     border-radius: var(--radius-sm);
   }
 
-  /* Safari/Firefox: Fokus auch ohne :focus-visible-Unterstützung im Dialog */
+  /* Safari e Firefox: foco visível mesmo sem suporte a :focus-visible no diálogo */
   [data-focus-ring='always']:focus {
     outline: var(--focus-ring-width) solid var(--focus-ring-color);
     outline-offset: var(--focus-ring-offset);
@@ -157,7 +157,7 @@
     fill: none;
   }
 
-  /* Bilder nie ohne Seitenverhältnis -> kein CLS */
+  /* Imagens nunca sem proporção definida -> sem CLS */
   img,
   video {
     max-width: 100%;
@@ -212,7 +212,7 @@
   }
 }
 
-/* Nur für Screenreader – bleibt bei Fokus sichtbar (Skip-Link) */
+/* Só para leitores de ecrã — volta a ficar visível com o foco (ligação de salto) */
 @utility sr-only-focusable {
   position: absolute;
   width: 1px;
@@ -245,9 +245,9 @@
 }
 
 /**
- * Label mit optisch verstecktem Eingabefeld (Radio/Checkbox als Chip oder
- * Kachel). Der Fokusring gehört auf das Label – am `sr-only`-Input wäre er
- * nicht zu sehen.
+ * Etiqueta com campo escondido à vista (botão de opção ou caixa de verificação
+ * apresentado como pastilha ou mosaico). O anel de foco pertence à etiqueta —
+ * no campo `sr-only` não se veria.
  */
 @utility focus-ring-within {
   &:has(:focus-visible) {
@@ -256,7 +256,7 @@
   }
 }
 
-/* Fließtext aus dem CMS */
+/* Texto corrido vindo do CMS */
 @utility prose-cm {
   max-width: var(--measure);
 
@@ -323,7 +323,7 @@
 }
 
 /* ==========================================================================
-   Bewegung: prefers-reduced-motion und manueller Schalter
+   Movimento: prefers-reduced-motion e interruptor manual
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
@@ -350,7 +350,7 @@
    Druck
    ========================================================================== */
 
-/* Solange der Cookie-Hinweis steht, bleibt unten Platz frei. */
+/* Enquanto o aviso de cookies estiver visível, fica espaço livre em baixo. */
 body {
   padding-block-end: var(--consent-height, 0px);
 }

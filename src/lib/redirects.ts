@@ -1,26 +1,26 @@
 /**
- * 301-Weiterleitungen von der alten Seite (2015) auf die neue Struktur.
+ * Reencaminhamentos 301 do sítio antigo (2015) para a nova estrutura.
  *
- * Die alte Seite adressierte fast alles über /pages/<id>. Diese Tabelle hält
- * die eingehenden Links aus Suchmaschinen, Merklisten und gedruckten Flyern
- * am Leben. `next.config.ts` liest sie beim Start ein.
+ * O sítio antigo endereçava quase tudo por /pages/<id>. Esta tabela mantém
+ * vivas as ligações que chegam de motores de busca, favoritos e folhetos
+ * impressos. O `next.config.ts` lê-a no arranque.
  *
- * Pflege durch die Verwaltung: neue Zeile anlegen, `source` ist die alte URL,
- * `destination` die neue. Der Kommentar hinter jeder Zeile nennt den alten
- * Seitentitel, damit nachvollziehbar bleibt, worum es ging.
+ * Manutenção pelos serviços: acrescentar uma linha, em que `source` é o
+ * endereço antigo e `destination` o novo. O comentário no fim de cada linha
+ * indica o título antigo da página, para se perceber do que se tratava.
  */
 
 export interface LegacyRedirect {
   source: string;
   destination: string;
-  /** Alter Seitentitel – nur zur Dokumentation. */
+  /** Título antigo da página — apenas para documentação. */
   note?: string;
 }
 
 export const legacyRedirects: LegacyRedirect[] = [
-  // --- Einstiegsseiten der alten Hauptnavigation ---------------------------
-  { source: '/index.php', destination: '/', note: 'Startseite' },
-  { source: '/pages/1', destination: '/', note: 'Toter Link in der alten Fußzeile' },
+  // --- Páginas de entrada da navegação principal antiga --------------------
+  { source: '/index.php', destination: '/', note: 'Página inicial' },
+  { source: '/pages/1', destination: '/', note: 'Ligação morta no rodapé antigo' },
   { source: '/pages/2', destination: '/municipio', note: 'Viver' },
   { source: '/pages/3', destination: '/visitar', note: 'Conhecer' },
   { source: '/pages/4', destination: '/visitar/investir', note: 'Investir' },
@@ -86,13 +86,13 @@ export const legacyRedirects: LegacyRedirect[] = [
   { source: '/pages/1047', destination: '/visitar/onde-dormir-e-comer' },
   { source: '/pages/1049', destination: '/visitar/festas-e-feiras' },
 
-  // --- Veraltet: COVID-19 wandert ins Archiv, raus aus der Navigation --------
+  // --- Desatualizado: a COVID-19 passa ao arquivo e sai da navegação --------
   { source: '/pages/1500', destination: '/noticias?arquivo=covid-19', note: 'COVID-19' },
   { source: '/pages/1501', destination: '/noticias?arquivo=covid-19', note: 'COVID-19 – medidas' },
 
-  // --- Alte Anhänge-URLs ------------------------------------------------------
+  // --- Endereços antigos de anexos --------------------------------------------
   { source: '/cmalfandegadafe/uploads/writer_file/document/:id/:slug', destination: '/documentos' },
 ];
 
-/** Für Tests und den Redaktions-Leitfaden. */
+/** Para os testes e para o guia de redação. */
 export const legacyRedirectCount = legacyRedirects.length;

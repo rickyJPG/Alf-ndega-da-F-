@@ -13,7 +13,7 @@ import { BookingForm } from '@/components/features/booking-form';
 import { Alert } from '@/components/ui/alert';
 import { TextLink } from '@/components/ui/link';
 
-/** Die nächsten 21 Kalendertage; Wochenenden filtert availableSlots() heraus. */
+/** Os próximos 21 dias de calendário; availableSlots() retira os fins de semana. */
 function nextDays(count: number): string[] {
   const days: string[] = [];
   const cursor = new Date();
@@ -53,7 +53,7 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
   const services = await getBookableServices();
   const days = nextDays(10);
 
-  // Freie Zeiten serverseitig berechnen – der Client bekommt fertige Listen.
+  // As horas livres são calculadas no servidor — o cliente recebe listas prontas.
   const slotsByDay: Record<string, Record<string, string[]>> = {};
   for (const service of services) {
     slotsByDay[service.id] = {};

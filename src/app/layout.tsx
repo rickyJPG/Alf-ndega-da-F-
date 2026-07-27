@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 
 /**
- * Wurzel-Layout. <html> und <body> stehen bewusst in app/[locale]/layout.tsx,
- * damit das lang-Attribut die tatsächliche Sprache trägt.
+ * Layout de raiz. O <html> e o <body> ficam de propósito em
+ * app/[locale]/layout.tsx, para que o atributo lang traga a língua real.
  */
 export default function RootLayout({ children }: { children: ReactNode }) {
   return children;

@@ -38,7 +38,7 @@ export async function generateMetadata({
     path: '/pesquisa',
     title: dict.search.title,
     description: dict.common.searchLabel,
-    // Ergebnisseiten gehören nicht in den Index einer Suchmaschine.
+    // Páginas de resultados não pertencem ao índice de um motor de busca.
     noIndex: true,
   });
 }

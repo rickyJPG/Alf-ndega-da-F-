@@ -23,12 +23,11 @@ interface FieldShellProps {
 }
 
 /**
- * Hülle für Formularfelder.
+ * Invólucro dos campos de formulário.
  *
- * Label ist immer sichtbar (kein Placeholder als Beschriftung), Hinweise und
- * Fehler werden über aria-describedby verknüpft, Fehler zusätzlich mit
- * aria-invalid ausgezeichnet und mit Symbol plus Text ausgegeben – nicht nur
- * über Farbe.
+ * A etiqueta está sempre visível (nunca um placeholder a fazer de etiqueta),
+ * as ajudas e os erros ligam-se por aria-describedby, os erros levam ainda
+ * aria-invalid e mostram-se com ícone e texto — nunca apenas com cor.
  */
 export function FieldShell({
   id,
@@ -247,8 +246,8 @@ export function CheckboxField({
 }
 
 /**
- * Gruppe von Optionsfeldern. `fieldset`/`legend` statt eines losen Labels –
- * nur so kennt der Screenreader die gemeinsame Frage.
+ * Grupo de botões de opção. `fieldset` e `legend` em vez de uma etiqueta
+ * solta — só assim o leitor de ecrã conhece a pergunta comum.
  */
 export function RadioGroupField({
   legend,
@@ -319,8 +318,8 @@ export function RadioGroupField({
 }
 
 /**
- * Honigtopf statt CAPTCHA: ein für Menschen unsichtbares, für Bots
- * verlockendes Feld. Kein Rätsel, keine Barriere, kein Google.
+ * Campo-armadilha em vez de CAPTCHA: invisível para as pessoas, apetecível
+ * para os robôs. Sem enigmas, sem barreiras, sem Google.
  */
 export function Honeypot({ name = 'empresa_website' }: { name?: string }) {
   return (

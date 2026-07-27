@@ -7,9 +7,9 @@ import { Icon } from '@/components/ui/icon';
 /**
  * Offline-Ersatzseite.
  *
- * Bewusst außerhalb von /[locale]: sie wird vom Service Worker ausgeliefert,
- * wenn kein Netz da ist, und darf deshalb von nichts abhängen, was nachgeladen
- * werden müsste. Kontakte und Notrufnummern stehen fest im Markup.
+ * De propósito fora de /[locale]: é o service worker que a serve quando não
+ * há rede, por isso não pode depender de nada que tenha de ser transferido.
+ * Os contactos e os números de emergência estão fixos no próprio markup.
  */
 export const metadata: Metadata = {
   title: 'Sem ligação',

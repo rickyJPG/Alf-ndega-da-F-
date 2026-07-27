@@ -116,7 +116,7 @@ export default async function OccurrencesPage({
       >
         <LocationMap points={points} label={dict.reports.publicMap} className="mb-8" />
 
-        {/* Dieselbe Information als Liste – die Karte allein ist nicht bedienbar. */}
+        {/* A mesma informação em lista — o mapa sozinho não é operável. */}
         <h3 className="mb-3 font-serif text-xl">Ocorrências recentes</h3>
         <ul className="divide-y divide-line rounded-lg border border-line bg-surface">
           {occurrences.map((item) => (

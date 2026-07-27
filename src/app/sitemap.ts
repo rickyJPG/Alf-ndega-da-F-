@@ -15,10 +15,10 @@ import {
 import { allNavigationHrefs } from '@/lib/navigation';
 
 /**
- * Sitemap mit hreflang-Alternativen für alle vier Sprachen.
+ * Mapa do sítio com alternativas hreflang para as quatro línguas.
  *
- * Ausgenommen bleiben Seiten, die nicht in den Index gehören: Suchergebnisse,
- * Guia de estilo und die Fehlerseiten.
+ * Ficam de fora as páginas que não pertencem ao índice: resultados de
+ * pesquisa, guia de estilo e páginas de erro.
  */
 const EXCLUDED = new Set(['/pesquisa', '/styleguide']);
 
@@ -105,7 +105,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push(entry(`/municipio/freguesias/${freguesia.slug}`, today, 0.5, 'monthly'));
   }
 
-  // Doppelte Einträge (z. B. Navigationsziele, die auch redaktionelle Seiten sind)
+  // Entradas repetidas (destinos de navegação que também são páginas editoriais)
   const seen = new Set<string>();
   return entries.filter((item) => {
     if (seen.has(item.url)) return false;

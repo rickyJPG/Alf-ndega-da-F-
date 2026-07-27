@@ -4,7 +4,7 @@ import { en } from '@/i18n/dictionaries/en';
 import { es } from '@/i18n/dictionaries/es';
 import { fr } from '@/i18n/dictionaries/fr';
 import { fill } from '@/i18n';
-import { localePath, negotiateLocale, stripLocale } from '@/i18n/config';
+import { defaultLocale, isLocale, localePath, stripLocale } from '@/i18n/config';
 
 type Nested = Record<string, unknown>;
 
@@ -83,10 +83,11 @@ describe('encaminhamento de idioma', () => {
     expect(localePath('fr', path)).toBe('/fr/servicos/urbanismo/licenca-de-construcao');
   });
 
-  it('negoceia a língua a partir do cabeçalho Accept-Language', () => {
-    expect(negotiateLocale('fr-FR,fr;q=0.9,en;q=0.8')).toBe('fr');
-    expect(negotiateLocale('en-GB,en;q=0.9')).toBe('en');
-    expect(negotiateLocale('de-DE,de;q=0.9')).toBe('pt');
-    expect(negotiateLocale(null)).toBe('pt');
+  it('o português é a língua predefinida do portal', () => {
+    // Um caminho sem prefixo é sempre português — o cabeçalho Accept-Language
+    // do navegador não altera a língua de um portal municipal.
+    expect(defaultLocale).toBe('pt');
+    expect(stripLocale('/servicos/certidoes').locale).toBe('pt');
+    expect(isLocale('de')).toBe(false);
   });
 });

@@ -1,29 +1,37 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { defaultLocale, isLocale, locales, negotiateLocale } from '@/i18n/config';
+import { defaultLocale, isLocale, locales } from '@/i18n/config';
 
 const LOCALE_COOKIE = 'cmadf_locale';
 
 /**
- * Sprachrouting ohne Fremdbibliothek.
+ * Encaminhamento de idioma, sem biblioteca externa.
  *
- * Portugiesisch ist Standard und läuft ohne Präfix: /servicos/...
- * Intern liegt alles unter /[locale]/..., deshalb wird der pt-Pfad
- * unsichtbar auf /pt/... umgeschrieben (rewrite, keine Weiterleitung).
- * /en, /es und /fr bleiben in der Adresszeile stehen.
+ * O português é a língua do portal e é sempre a predefinida: quem escreve
+ * cm-alfandegadafe.pt recebe português, venha de onde vier. As outras línguas
+ * existem para quem as escolher — sobretudo os emigrantes do concelho em
+ * França, na Suíça e no Luxemburgo — e escolhem-se no seletor do topo.
+ *
+ * Deliberadamente NÃO se reencaminha com base no cabeçalho Accept-Language.
+ * Um munícipe com o telemóvel configurado em inglês receberia o portal da sua
+ * própria câmara em inglês, sem perceber porquê. Numa entidade pública, a
+ * língua oficial não se adivinha.
+ *
+ * Internamente tudo vive em /[locale]/…, por isso o caminho português é
+ * reescrito (rewrite, sem redirecionamento) para /pt/…; /en, /es e /fr ficam
+ * visíveis na barra de endereço.
  */
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-
   const firstSegment = pathname.split('/')[1] ?? '';
 
-  // /pt/... ist ein Duplikat der kanonischen URL -> dauerhaft auf / umleiten.
+  // /pt/… é um duplicado do endereço canónico — redirecionar para a raiz.
   if (firstSegment === defaultLocale) {
-    const stripped = pathname.slice(defaultLocale.length + 1) || '/';
     const url = request.nextUrl.clone();
-    url.pathname = stripped;
+    url.pathname = pathname.slice(defaultLocale.length + 1) || '/';
     return NextResponse.redirect(url, 308);
   }
 
+  // Outra língua escolhida: servir e recordar a escolha.
   if (isLocale(firstSegment)) {
     const response = NextResponse.next();
     response.cookies.set(LOCALE_COOKIE, firstSegment, {
@@ -35,17 +43,6 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  // Erstbesuch ohne Präfix: gespeicherte Wahl respektieren, sonst Accept-Language.
-  const stored = request.cookies.get(LOCALE_COOKIE)?.value;
-  if (!stored) {
-    const preferred = negotiateLocale(request.headers.get('accept-language'));
-    if (preferred !== defaultLocale) {
-      const url = request.nextUrl.clone();
-      url.pathname = `/${preferred}${pathname === '/' ? '' : pathname}`;
-      return NextResponse.redirect(url, 307);
-    }
-  }
-
   const url = request.nextUrl.clone();
   url.pathname = `/${defaultLocale}${pathname === '/' ? '' : pathname}`;
   url.search = search;
@@ -54,8 +51,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   /**
-   * Alles außer Next-Interna, API-Routen und Dateien mit Endung.
-   * `sw.js`, `manifest.webmanifest` und die Schriften bleiben unberührt.
+   * Tudo exceto os internos do Next, as rotas de API e ficheiros com extensão.
+   * `sw.js`, `manifest.webmanifest` e as fontes ficam de fora.
    */
   matcher: ['/((?!api|_next/static|_next/image|.*\\..*).*)'],
 };

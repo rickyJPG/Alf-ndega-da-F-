@@ -1,12 +1,12 @@
 /* ==========================================================================
-   Selbst gehostete Schriften. Keine Anfrage an Google zur Laufzeit.
-   Aktualisieren mit `npm run fonts` (scripts/fetch-fonts.mjs).
+   Fontes alojadas no próprio servidor. Nenhum pedido à Google em execução.
+   Atualizar com `npm run fonts` (scripts/fetch-fonts.mjs).
 
-   Budget: drei Schnitte im kritischen Pfad
-     – Source Serif 4 600  (Überschriften)
-     – Inter 400 / 600     (Fließtext, UI)
-   Atkinson Hyperlegible wird nur geladen, wenn die Leserlichkeits-Option im
-   Barrierefreiheits-Panel aktiv ist (data-font="legible").
+   Orçamento: três cortes no caminho crítico
+     — Source Serif 4 600  (títulos)
+     — Inter 400 / 600     (texto corrido e interface)
+   A Atkinson Hyperlegible só é carregada quando a opção de legibilidade do
+   painel de acessibilidade está ativa (data-font="legible").
    ========================================================================== */
 
 @font-face {
@@ -75,7 +75,7 @@
     U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-/* Nur auf Anforderung: Barrierefreiheits-Panel → „Leserliche Schrift“ */
+/* Só a pedido: painel de acessibilidade → «Letra mais legível» */
 @font-face {
   font-family: 'Atkinson Hyperlegible';
   font-style: normal;

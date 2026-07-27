@@ -2,9 +2,9 @@ import type { Alert } from '../types';
 import { offsetDays } from './clock';
 
 /**
- * Aktive Warnungen. Leeres Array = keine Leiste auf der Startseite.
+ * Avisos ativos. Um array vazio significa que não há barra na página inicial.
  *
- * Redaktion: Datum in `endsAt` setzen und die Meldung verschwindet von selbst.
+ * Redação: basta pôr uma data em `endsAt` e o aviso desaparece sozinho.
  * Nichts bleibt versehentlich monatelang stehen.
  */
 export const alerts: Alert[] = [
@@ -36,7 +36,7 @@ export const alerts: Alert[] = [
   },
 ];
 
-/** Nur was heute wirklich gilt. */
+/** Apenas o que hoje está realmente em vigor. */
 export function activeAlerts(today = new Date().toISOString().slice(0, 10)): Alert[] {
   return alerts.filter((alert) => alert.startsAt <= today && alert.endsAt >= today);
 }

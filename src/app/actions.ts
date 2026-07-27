@@ -10,13 +10,13 @@ import {
 /**
  * Server-Actions.
  *
- * Jede Action validiert noch einmal serverseitig – die Prüfung im Browser ist
- * Komfort, verbindlich ist diese hier. Der Honigtopf wird still behandelt: ein
- * Bot bekommt „erfolgreich“ zurück und merkt nichts.
+ * Cada ação volta a validar no servidor — a verificação no navegador é
+ * comodidade, a que vale é esta. O campo-armadilha é tratado em silêncio: um
+ * robô recebe «enviado com sucesso» e não dá por nada.
  *
- * Anbindung an das Fachverfahren: an den mit TODO markierten Stellen. Solange
- * dort nichts steht, wird der Vorgang protokolliert und eine Referenznummer
- * vergeben, damit die Abläufe vollständig durchspielbar sind.
+ * A ligação às aplicações de gestão faz-se nos pontos marcados com TODO.
+ * Enquanto não existirem, o pedido é registado e recebe um número de
+ * referência, para que todo o percurso possa ser percorrido de ponta a ponta.
  */
 
 export interface ActionResult {
@@ -46,7 +46,7 @@ export async function submitConsultation(input: unknown): Promise<ActionResult> 
   const parsed = consultationSchema.safeParse(input);
 
   if (!parsed.success) {
-    // Honigtopf gefüllt: nach außen wie ein Erfolg, nichts wird gespeichert.
+    // Armadilha preenchida: para fora parece sucesso, nada é guardado.
     if (parsed.error.issues.some((issue) => issue.path[0] === 'empresa_website')) {
       return { ok: true, reference: makeReference('CP') };
     }
@@ -57,7 +57,7 @@ export async function submitConsultation(input: unknown): Promise<ActionResult> 
     };
   }
 
-  // TODO: an das Verfahren übergeben (E-Mail an consultas@, Eintrag im CMS).
+  // TODO: entregar ao serviço (e-mail para consultas@, registo no CMS).
   return { ok: true, reference: makeReference('CP') };
 }
 
@@ -75,7 +75,7 @@ export async function submitOccurrence(input: unknown): Promise<ActionResult> {
     };
   }
 
-  // TODO: Vorgang im Fachverfahren anlegen und der zuständigen Abteilung zuweisen.
+  // TODO: abrir a ocorrência na aplicação de gestão e atribuí-la ao serviço competente.
   return { ok: true, reference: makeReference('OC') };
 }
 
@@ -93,7 +93,7 @@ export async function submitBooking(input: unknown): Promise<ActionResult> {
     };
   }
 
-  // TODO: Slot im Kalender des Fachbereichs sperren, Bestätigung mit ICS senden.
+  // TODO: bloquear a hora na agenda do serviço e enviar confirmação com ficheiro ICS.
   return { ok: true, reference: makeReference('AT') };
 }
 
@@ -111,7 +111,7 @@ export async function subscribeNewsletter(input: unknown): Promise<ActionResult>
     };
   }
 
-  // TODO: Bestätigungsmail mit Einmal-Link versenden (doppeltes Opt-in).
-  // Erst nach dem Klick auf diesen Link entsteht ein Abonnement.
+  // TODO: enviar e-mail de confirmação com ligação de uso único (dupla adesão).
+  // A subscrição só existe depois de essa ligação ser aberta.
   return { ok: true };
 }

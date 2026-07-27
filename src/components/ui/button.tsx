@@ -7,9 +7,9 @@ export type ButtonVariant = 'primary' | 'secondary' | 'subtle' | 'ghost' | 'dang
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 /**
- * Schaltflächen. Keine Versalien, kein Letterspacing, keine Verläufe.
- * Der Akzent (Kirschrot) bleibt der Haupt-Handlung vorbehalten – pro Ansicht
- * in der Regel genau einmal.
+ * Botões. Sem maiúsculas forçadas, sem espaçamento entre letras, sem
+ * gradientes. O vermelho-cereja fica reservado à ação principal — em regra
+ * uma só vez por ecrã.
  */
 const base =
   'inline-flex items-center justify-center gap-2 rounded-md font-semibold ' +
@@ -28,9 +28,9 @@ const variants: Record<ButtonVariant, string> = {
 };
 
 const sizes: Record<ButtonSize, string> = {
-  /** 36px – nur in dichten Tabellen und Filterleisten. */
+  /** 36 px — apenas em tabelas densas e barras de filtros. */
   sm: 'text-sm px-3 py-1.5 min-h-9',
-  /** 44px – Standard, erfüllt die Zielgröße aus WCAG 2.2 (2.5.8). */
+  /** 44 px — o valor normal, cumpre o tamanho-alvo da WCAG 2.2 (2.5.8). */
   md: 'text-base px-4 py-2.5 min-h-11',
   lg: 'text-lg px-6 py-3 min-h-13',
 };
@@ -109,7 +109,7 @@ export function ButtonLink({
   );
 }
 
-/** Reine Symbol-Schaltfläche. `label` ist Pflicht und wird zum barrierefreien Namen. */
+/** Botão só com ícone. O `label` é obrigatório e passa a ser o nome acessível. */
 export function IconButton({
   icon,
   label,

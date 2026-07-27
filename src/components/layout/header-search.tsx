@@ -3,10 +3,10 @@ import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 /**
- * Suche im Kopfbereich – sichtbares Feld, nicht hinter einem Lupen-Symbol.
+ * Pesquisa no cabeçalho — campo visível, não escondido atrás de uma lupa.
  *
- * Bewusst ein einfaches GET-Formular: funktioniert ohne JavaScript, erzeugt
- * eine teilbare Ergebnis-URL und kostet null Kilobyte im Bundle.
+ * De propósito um simples formulário GET: funciona sem JavaScript, produz um
+ * endereço de resultados partilhável e não custa um único kilobyte no pacote.
  */
 export function HeaderSearch({
   locale,

@@ -110,7 +110,7 @@ export default async function DocumentsPage({
       />
 
       <div className="container-page grid gap-10 py-10 lg:grid-cols-4 lg:py-14">
-        {/* Filter – funktionieren ohne JavaScript, als GET-Formular und Links */}
+        {/* Filtros — funcionam sem JavaScript, como formulário GET e ligações */}
         <aside className="lg:col-span-1">
           <h2 className="font-serif text-xl">{dict.common.filters}</h2>
 

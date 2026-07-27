@@ -11,8 +11,8 @@ import { cn } from '@/lib/utils';
 const PT_MONTHS = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 
 /**
- * Ereignis-Karte mit Datumsblock. Die Zeitangabe ist maschinenlesbar
- * (`<time datetime>`) und im 24-Stunden-Format, wie in Portugal üblich.
+ * Cartão de evento com bloco de data. A hora é legível por máquinas
+ * (`<time datetime>`) e vem no formato de 24 horas, como se usa em Portugal.
  */
 export function EventCard({
   event,

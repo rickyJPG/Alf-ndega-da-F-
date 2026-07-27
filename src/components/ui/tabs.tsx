@@ -18,7 +18,7 @@ export function Tabs({
 }: {
   items: TabItem[];
   defaultTab?: string;
-  /** Benennt die Registerkarten-Gruppe für Screenreader. */
+  /** Dá nome ao grupo de separadores para os leitores de ecrã. */
   label: string;
   className?: string;
 }) {

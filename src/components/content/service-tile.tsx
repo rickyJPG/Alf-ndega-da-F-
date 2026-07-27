@@ -3,8 +3,8 @@ import { Icon, type IconName } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 /**
- * Kachel für einen Dienst. Klar umrandet, weiße Fläche, SVG-Symbol –
- * kein Bildhintergrund, kein Verlauf, kein Schatten im Ruhezustand.
+ * Mosaico de um serviço. Contorno nítido, fundo branco, ícone em SVG —
+ * sem imagem de fundo, sem gradiente e sem sombra em repouso.
  */
 export function ServiceTile({
   href,

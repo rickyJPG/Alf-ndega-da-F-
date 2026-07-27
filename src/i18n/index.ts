@@ -7,19 +7,19 @@ import { fr } from './dictionaries/fr';
 const dictionaries: Record<Locale, Dictionary> = { pt, en, es, fr };
 
 /**
- * Wörterbücher sind reine Datenmodule und werden mit dem Server-Bundle
- * ausgeliefert – kein zusätzlicher Netzwerk-Roundtrip, kein Client-JS.
+ * Os dicionários são módulos de dados puros e seguem no pacote do servidor —
+ * sem ida extra à rede e sem JavaScript no cliente.
  */
 export function getDictionary(locale: Locale): Dictionary {
   return dictionaries[locale] ?? dictionaries[defaultLocale];
 }
 
 /**
- * Platzhalter in einer Übersetzung ersetzen: `fill('Termina em {days} dias',
+ * Substitui os marcadores de uma tradução: `fill('Termina em {days} dias',
  * { days: 12 })`.
  *
- * Wörterbücher enthalten bewusst nur Zeichenketten, keine Funktionen – nur so
- * lassen sie sich an Client-Komponenten übergeben.
+ * Os dicionários contêm de propósito apenas texto e nenhuma função — só
+ * assim podem ser passados a componentes de cliente.
  */
 export function fill(template: string, values: Record<string, string | number>): string {
   return template.replace(/\{(\w+)\}/g, (match, key: string) =>

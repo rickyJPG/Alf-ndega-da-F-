@@ -14,10 +14,10 @@ const TOPICS = [
 ];
 
 /**
- * Newsletter mit Themen-Abo und doppeltem Opt-in.
+ * Boletim informativo com subscrição por temas e dupla confirmação.
  *
- * Ohne Bestätigungsklick im zugesandten Link entsteht kein Abonnement –
- * das ist die DSGVO-konforme Variante und steht auch so im Hinweistext.
+ * Sem o clique de confirmação na ligação enviada não há subscrição — é a
+ * forma conforme ao RGPD e é isso que o texto de aviso diz.
  */
 export function NewsletterForm({ dict }: { dict: Dictionary }) {
   const [email, setEmail] = useState('');
@@ -31,7 +31,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
       return;
     }
     setState('sending');
-    // Anbindung an den Newsletter-Dienst: siehe README, Abschnitt „Newsletter“.
+    // Ligação ao serviço de envio: ver o README, secção «Boletim informativo».
     await new Promise((resolve) => setTimeout(resolve, 400));
     setState('done');
   }

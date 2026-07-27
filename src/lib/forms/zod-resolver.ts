@@ -2,10 +2,11 @@ import type { FieldValues, Resolver } from 'react-hook-form';
 import type { ZodType } from 'zod';
 
 /**
- * Verbindet Zod mit React Hook Form.
+ * Liga o Zod ao React Hook Form.
  *
- * Bewusst zwölf Zeilen statt einer weiteren Abhängigkeit: derselbe Schema-Typ
- * validiert im Browser und – noch einmal, verbindlich – in der Server-Action.
+ * De propósito uma dúzia de linhas em vez de mais uma dependência: o mesmo
+ * esquema valida no navegador e — outra vez, de forma vinculativa — na ação
+ * de servidor.
  */
 export function zodResolver<T extends FieldValues>(schema: ZodType<T>): Resolver<T> {
   return async (values) => {
@@ -18,7 +19,7 @@ export function zodResolver<T extends FieldValues>(schema: ZodType<T>): Resolver
     const errors: Record<string, { type: string; message: string }> = {};
     for (const issue of result.error.issues) {
       const path = issue.path.join('.');
-      // Nur die erste Meldung pro Feld – mehr verwirrt beim Ausfüllen.
+      // Só a primeira mensagem por campo — mais do que isso confunde.
       if (path && !errors[path]) {
         errors[path] = { type: issue.code ?? 'validation', message: issue.message };
       }

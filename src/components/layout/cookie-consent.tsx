@@ -14,12 +14,12 @@ type Consent = { analytics: boolean; decidedAt: string };
 /**
  * Cookie-Hinweis.
  *
- * Standard ist „nur essenziell“. Ablehnen ist genau so leicht wie annehmen:
- * gleiche Größe, gleiche Position, gleiches Gewicht – keine dunkle Ecke für
- * den Ablehnen-Knopf. Ohne Zustimmung wird nichts gemessen.
+ * A predefinição é «apenas o essencial». Recusar é tão fácil como aceitar:
+ * mesmo tamanho, mesma posição, mesmo peso — nada de esconder o botão de
+ * recusa. Sem consentimento não se mede coisa nenhuma.
  *
- * Die Wahl liegt in localStorage, nicht in einem Cookie: für die Einwilligung
- * selbst braucht es dann keine Einwilligung.
+ * A escolha fica em localStorage e não num cookie: assim o próprio registo
+ * do consentimento não precisa de consentimento.
  */
 export function CookieConsent({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const [visible, setVisible] = useState(false);
@@ -32,14 +32,14 @@ export function CookieConsent({ locale, dict }: { locale: Locale; dict: Dictiona
       const stored = window.localStorage.getItem(CONSENT_KEY);
       if (!stored) setVisible(true);
     } catch {
-      /* Kein Speicher verfügbar: nichts messen, nichts fragen. */
+      /* Sem armazenamento disponível: não se mede nada nem se pergunta nada. */
     }
   }, []);
 
   /**
-   * Der Hinweis liegt fix am unteren Rand. Ohne freigehaltenen Platz würde er
-   * auf kleinen Bildschirmen die letzten Bedienelemente einer Seite dauerhaft
-   * verdecken – etwa den Absenden-Knopf eines Formulars.
+   * O aviso fica fixo no fundo do ecrã. Sem espaço reservado por baixo,
+   * em ecrãs pequenos taparia de forma permanente os últimos controlos da
+   * página — por exemplo o botão de submeter um formulário.
    */
   useEffect(() => {
     const root = document.documentElement;

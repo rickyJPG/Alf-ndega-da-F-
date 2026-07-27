@@ -1,11 +1,11 @@
 import type { BudgetYear } from '../types';
 
 /**
- * Haushalt 2026 mit Vorjahresvergleich.
+ * Orçamento de 2026 com comparação com o ano anterior.
  *
- * Die Beträge sind plausible Größenordnungen für ein Município dieser Größe
- * (rund 4 500 Einwohner). Vor der Veröffentlichung durch die Zahlen aus der
- * genehmigten Haushaltssatzung ersetzen – die Struktur bleibt gleich.
+ * Os montantes são ordens de grandeza plausíveis para um município desta
+ * dimensão (cerca de 4 500 habitantes). Antes da publicação, substituir pelos
+ * valores do orçamento aprovado — a estrutura mantém-se.
  */
 export const budget2026: BudgetYear = {
   year: 2026,
@@ -144,7 +144,7 @@ export const budget2026: BudgetYear = {
 
 export const budgetYears = [budget2026];
 
-/** Ausgaben pro Einwohner – die verständlichste Kennzahl im Widget. */
+/** Despesa por habitante — o indicador mais fácil de entender do bloco. */
 export function expensePerInhabitant(year: BudgetYear): number {
   return Math.round(year.expense / year.inhabitants);
 }

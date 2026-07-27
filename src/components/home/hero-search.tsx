@@ -14,13 +14,13 @@ export interface Suggestion {
 }
 
 /**
- * Suchzeile im Hero, mit Autovervollständigung.
+ * Caixa de pesquisa em destaque, com preenchimento automático.
  *
- * Umgesetzt als ARIA-Combobox (`aria-expanded`, `aria-activedescendant`,
- * `role="listbox"`), mit Pfeiltasten, Enter und Escape. Ohne JavaScript bleibt
- * es ein gewöhnliches Suchformular – die Seite funktioniert weiter.
+ * Construída como combobox ARIA (`aria-expanded`, `aria-activedescendant`,
+ * `role="listbox"`), com setas, Enter e Escape. Sem JavaScript continua a ser
+ * um formulário de pesquisa vulgar — a página não deixa de funcionar.
  *
- * Die Vorschlagsliste kommt vorberechnet vom Server; es gibt keinen Aufruf
+ * A lista de sugestões vem já calculada do servidor; não há qualquer chamada
  * pro Tastendruck.
  */
 export function HeroSearch({

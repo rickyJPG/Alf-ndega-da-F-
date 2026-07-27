@@ -30,11 +30,11 @@ const STRANDS: { id: ParticipatoryProject['strand'] | 'todas'; label: string }[]
 ];
 
 /**
- * Orçamento Participativo: Vorschläge ansehen, abstimmen, Umsetzung verfolgen.
+ * Orçamento Participativo: ver as propostas, votar e acompanhar a execução.
  *
- * Die Stimmabgabe ist hier absichtlich nur bis zur Bestätigung geführt: in
- * Produktion wird an dieser Stelle die Authentifizierung mit Chave Móvel
- * Digital vorgeschaltet, weil eine Stimme pro Person zählbar sein muss.
+ * O voto vai aqui, de propósito, apenas até à confirmação: em produção
+ * antecede-o a autenticação com Chave Móvel Digital, porque tem de ser
+ * possível contar um voto por pessoa.
  */
 export function ParticipatoryBudget({
   projects,

@@ -1,9 +1,9 @@
 /**
- * Português (pt-PT) – Referenzsprache. Alle anderen Wörterbücher werden
- * gegen diese Struktur typgeprüft; fehlt ein Schlüssel, schlägt der Build fehl.
+ * Português (pt-PT) — língua de referência. Todos os outros dicionários são
+ * verificados contra esta estrutura; se faltar uma chave, o build falha.
  *
- * Ton: klar, kurz, respektvoll. Aufforderungen in der 3. Person Singular
- * („Peça a sua certidão“), keine Amtssprache, keine Versalien.
+ * Tom: claro, curto e respeitoso. Pedidos na 3.ª pessoa do singular («Peça a
+ * sua certidão»), sem linguagem burocrática e sem maiúsculas forçadas.
  */
 export const pt = {
   common: {
@@ -448,7 +448,7 @@ export const pt = {
 };
 
 /**
- * Bewusst ohne `as const`: die übrigen Wörterbücher sollen dieselbe Struktur
- * erfüllen, nicht dieselben Zeichenketten.
+ * De propósito sem `as const`: os restantes dicionários devem cumprir a mesma
+ * estrutura, não repetir as mesmas cadeias de texto.
  */
 export type Dictionary = typeof pt;

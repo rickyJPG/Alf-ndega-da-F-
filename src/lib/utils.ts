@@ -1,9 +1,9 @@
-/** Klassennamen zusammenführen – bewusst winzig, keine Abhängigkeit. */
+/** Junta nomes de classes — de propósito minúsculo, sem dependências. */
 export function cn(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(' ');
 }
 
-/** Text auf Wortgrenze kürzen – nie mitten im Wort abschneiden. */
+/** Corta o texto na fronteira da palavra — nunca a meio de uma palavra. */
 export function truncateWords(text: string, maxChars: number): string {
   if (text.length <= maxChars) return text;
   const cut = text.slice(0, maxChars);
@@ -11,7 +11,7 @@ export function truncateWords(text: string, maxChars: number): string {
   return `${cut.slice(0, lastSpace > 0 ? lastSpace : maxChars).replace(/[.,;:!?–-]$/, '')}…`;
 }
 
-/** Akzente entfernen – für Suche, Slugs und Sortierung. */
+/** Remove acentos — para a pesquisa, os slugs e a ordenação. */
 export function deburr(value: string): string {
   // U+0300–U+036F: kombinierende diakritische Zeichen
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -24,7 +24,7 @@ export function slugify(value: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-/** Sortierung nach pt-PT-Kollation (Ç zwischen C und D, Akzente ignoriert). */
+/** Ordenação pela colação pt-PT (Ç entre C e D, acentos ignorados). */
 export function comparePt(a: string, b: string): number {
   return a.localeCompare(b, 'pt-PT', { sensitivity: 'base' });
 }

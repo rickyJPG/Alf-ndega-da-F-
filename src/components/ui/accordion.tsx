@@ -6,8 +6,9 @@ import { cn } from '@/lib/utils';
 import { Icon } from './icon';
 
 /**
- * Aufklappbare Abschnitte auf Radix-Primitives – Tastaturbedienung,
- * aria-expanded und die Verknüpfung von Kopf und Inhalt kommen ab Werk.
+ * Secções recolhíveis assentes nos primitivos do Radix — a operação por
+ * teclado, o aria-expanded e a ligação entre cabeçalho e conteúdo já vêm
+ * incluídos.
  */
 export function Accordion({
   items,

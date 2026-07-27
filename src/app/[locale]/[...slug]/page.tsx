@@ -21,11 +21,11 @@ import { Icon } from '@/components/ui/icon';
 import { TextLink } from '@/components/ui/link';
 
 /**
- * Redaktionelle Seiten aus der Collection `Paginas`.
+ * Páginas editoriais vindas da coleção `Paginas`.
  *
- * Diese Catch-all-Route greift erst, wenn keine spezifischere Route passt –
- * Next bevorzugt statische Segmente. Was hier nicht gefunden wird, ist ein
- * echter 404 und landet in der Fehlerseite.
+ * Esta rota apanha-tudo só entra quando nenhuma rota mais específica serve —
+ * o Next dá prioridade aos segmentos estáticos. O que aqui não se encontra é
+ * um 404 verdadeiro e segue para a página de erro.
  */
 export async function generateStaticParams() {
   return locales.flatMap((locale) =>

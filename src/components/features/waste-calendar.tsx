@@ -24,11 +24,11 @@ const STREAM_META: Record<
 };
 
 /**
- * Abfallkalender je Freguesia, mit ICS-Abo für die Erinnerung.
+ * Calendário de recolha de resíduos por freguesia, com subscrição ICS.
  *
- * Der Kalender wird im Browser aus dem Wochenrhythmus erzeugt: eine
- * VEVENT-Serie mit wöchentlicher Wiederholung und Erinnerung am Vorabend.
- * Das ist wenig Code und funktioniert in jeder Kalender-App.
+ * O calendário é gerado no navegador a partir do ritmo semanal: uma série
+ * VEVENT com repetição semanal e aviso na véspera. É pouco código e funciona
+ * em qualquer aplicação de calendário.
  */
 export function WasteCalendar({
   schedules,
@@ -42,12 +42,12 @@ export function WasteCalendar({
   freguesias: Freguesia[];
   locale: Locale;
   dict: Dictionary;
-  /** Auf der Freguesia-Seite ist die Auswahl bereits getroffen. */
+  /** Na página da freguesia a escolha já está feita. */
   fixedFreguesia?: string;
   /**
-   * Ebene der Zwischenüberschriften. Auf der eigenen Seite folgt der Block
-   * direkt auf die H1 (also 2); innerhalb eines Abschnitts mit eigener
-   * Überschrift ist 3 richtig. Übersprungene Ebenen wären ein Fehler.
+   * Nível dos subtítulos. Na página própria o bloco vem logo a seguir ao H1
+   * (portanto 2); dentro de uma secção com título próprio o correto é 3.
+   * Saltar níveis seria um erro de acessibilidade.
    */
   headingLevel?: 2 | 3;
 }) {
@@ -57,7 +57,7 @@ export function WasteCalendar({
   const schedule = schedules.find((entry) => entry.freguesiaSlug === selected);
   const freguesia = freguesias.find((entry) => entry.slug === selected);
 
-  /** Die nächsten sieben Tage mit dem, was jeweils passiert. */
+  /** Os próximos sete dias, com o que acontece em cada um. */
   const upcoming = useMemo(() => {
     if (!schedule) return [];
     const days: { date: string; streams: WasteStream[] }[] = [];

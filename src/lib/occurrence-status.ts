@@ -3,12 +3,11 @@ import type { Dictionary } from '@/i18n';
 import type { BadgeTone } from '@/components/ui/badge';
 
 /**
- * Darstellung des Bearbeitungsstands einer Meldung.
+ * Apresentação do estado de tratamento de uma ocorrência.
  *
- * Bewusst in einem eigenen, neutralen Modul: die Statusangabe wird sowohl auf
- * dem Server (öffentliche Liste) als auch im Client (Statusverfolgung)
- * gebraucht. Läge sie in einer 'use client'-Datei, wäre der Aufruf vom Server
- * aus nicht möglich.
+ * De propósito num módulo próprio e neutro: o estado é preciso tanto no
+ * servidor (lista pública) como no cliente (acompanhamento). Se vivesse num
+ * ficheiro 'use client', o servidor não o poderia chamar.
  */
 export const occurrenceStatusTone: Record<Occurrence['status'], BadgeTone> = {
   recebida: 'info',

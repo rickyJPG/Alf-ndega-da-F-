@@ -7,7 +7,7 @@ const INTL_LOCALE: Record<Locale, string> = {
   fr: 'fr-FR',
 };
 
-/** Kurze Monatsnamen laut pt-PT-Konvention: kleingeschrieben, ohne Punkt. */
+/** Meses abreviados segundo a convenção pt-PT: minúsculas e sem ponto. */
 const PT_MONTHS_SHORT = [
   'jan',
   'fev',
@@ -44,7 +44,7 @@ function toDate(value: string | Date): Date {
   return value instanceof Date ? value : new Date(value);
 }
 
-/** `25 jul 2026` – das Standardformat der Seite. */
+/** `25 jul 2026` — o formato de data normal do portal. */
 export function formatDate(value: string | Date, locale: Locale = 'pt'): string {
   const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
@@ -59,7 +59,7 @@ export function formatDate(value: string | Date, locale: Locale = 'pt'): string 
   }).format(date);
 }
 
-/** `25 de julho de 2026` – für Fließtext und Detailseiten. */
+/** `25 de julho de 2026` — para texto corrido e páginas de detalhe. */
 export function formatDateLong(value: string | Date, locale: Locale = 'pt'): string {
   const date = toDate(value);
   if (Number.isNaN(date.getTime())) return '';
@@ -93,7 +93,7 @@ export function formatMonthLong(value: string | Date, locale: Locale = 'pt'): st
   }).format(date);
 }
 
-/** 24-Stunden-Format, wie in Portugal üblich. */
+/** Formato de 24 horas, como se usa em Portugal. */
 export function formatTime(value: string): string {
   const match = /^(\d{1,2}):(\d{2})/.exec(value);
   if (match) return `${match[1].padStart(2, '0')}:${match[2]}`;
@@ -102,7 +102,7 @@ export function formatTime(value: string): string {
   return `${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}`;
 }
 
-/** Maschinenlesbar für <time datetime="…">. */
+/** Legível por máquinas, para <time datetime="…">. */
 export function isoDate(value: string | Date): string {
   const date = toDate(value);
   return Number.isNaN(date.getTime()) ? '' : date.toISOString().slice(0, 10);
@@ -115,7 +115,7 @@ export function formatNumber(value: number, locale: Locale = 'pt', digits = 0): 
   }).format(value);
 }
 
-/** `1 234 567 €` – pt-PT setzt das Symbol nach der Zahl. */
+/** `1 234 567 €` — em pt-PT o símbolo vem depois do número. */
 export function formatCurrency(value: number, locale: Locale = 'pt', digits = 0): string {
   return new Intl.NumberFormat(INTL_LOCALE[locale], {
     style: 'currency',
@@ -125,7 +125,7 @@ export function formatCurrency(value: number, locale: Locale = 'pt', digits = 0)
   }).format(value);
 }
 
-/** Kompakt für Kennzahlen: `4,2 M€`. */
+/** Forma compacta para indicadores: `4,2 M€`. */
 export function formatCurrencyCompact(value: number, locale: Locale = 'pt'): string {
   return new Intl.NumberFormat(INTL_LOCALE[locale], {
     style: 'currency',
@@ -143,7 +143,7 @@ export function formatPercent(value: number, locale: Locale = 'pt', digits = 1):
   }).format(value);
 }
 
-/** Dateigrößen im Linktext ausweisen: „PDF, 2,3 MB“. */
+/** Indica o tamanho do ficheiro no texto da ligação: «PDF, 2,3 MB». */
 export function formatFileSize(bytes: number, locale: Locale = 'pt'): string {
   const mb = bytes / 1024 / 1024;
   if (mb >= 1) return `${formatNumber(mb, locale, 1)} MB`;
@@ -151,8 +151,8 @@ export function formatFileSize(bytes: number, locale: Locale = 'pt'): string {
 }
 
 /**
- * Volle Tage bis zu einem Stichtag – Grundlage für „termina em 12 dias“.
- * Rechnet in UTC-Tagen, damit Server und Client dasselbe Ergebnis liefern.
+ * Dias inteiros até uma data-limite — a base de «termina em 12 dias».
+ * Conta em dias UTC, para que servidor e cliente cheguem ao mesmo resultado.
  */
 export function daysUntil(deadline: string | Date, from: string | Date = new Date()): number {
   const a = toDate(from);
@@ -162,7 +162,7 @@ export function daysUntil(deadline: string | Date, from: string | Date = new Dat
   return Math.round((startB - startA) / 86_400_000);
 }
 
-/** Frist als Klartext. `null`, wenn kein Hinweis nötig ist. */
+/** O prazo por extenso. `null` quando não é preciso avisar de nada. */
 export function formatDeadline(
   deadline: string | Date,
   labels: { today: string; tomorrow: string; days: (n: number) => string; ended: string },

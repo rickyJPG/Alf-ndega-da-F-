@@ -9,13 +9,13 @@ import { Icon } from '@/components/ui/icon';
 /**
  * 404.
  *
- * Die alte Seite adressierte alles über /pages/<id>; viele dieser Links leben
- * noch in Suchmaschinen und auf Papier. Die bekannten sind umgeleitet
- * (src/lib/redirects.ts) – wer trotzdem hier landet, bekommt eine Suche und
- * die meistgesuchten Wege, keine Sackgasse.
+ * O sítio antigo endereçava quase tudo por /pages/<id>; muitas dessas
+ * ligações continuam nos motores de busca e em papel. As conhecidas estão
+ * reencaminhadas (src/lib/redirects.ts) — quem ainda assim aqui chegar recebe
+ * uma caixa de pesquisa e os caminhos mais procurados, não um beco sem saída.
  *
- * Die Sprache lässt sich hier nicht aus den Parametern lesen (Next rendert
- * not-found ohne sie), deshalb die Standardsprache.
+ * Aqui não se consegue ler a língua a partir dos parâmetros (o Next desenha
+ * o not-found sem eles), por isso usa-se a língua predefinida.
  */
 export default function NotFound() {
   const locale = defaultLocale;

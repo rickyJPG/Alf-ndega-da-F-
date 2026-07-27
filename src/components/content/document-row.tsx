@@ -20,11 +20,11 @@ const typeLabels: Record<DocumentItem['type'], string> = {
 };
 
 /**
- * Zeile im Dokumentenkatalog.
+ * Linha do catálogo de documentos.
  *
- * Wo ein Vorgang auch online geht, steht der Online-Weg zuerst und das PDF
- * daneben als Alternative – nicht umgekehrt. Format und Dateigröße stehen im
- * Linktext, wie es die Barrierefreiheits-Vorgaben verlangen.
+ * Quando o pedido também se faz em linha, o caminho digital vem primeiro e o
+ * PDF fica ao lado como alternativa — nunca ao contrário. O formato e o
+ * tamanho do ficheiro estão no texto da ligação, como exige a acessibilidade.
  */
 export function DocumentRow({
   document,

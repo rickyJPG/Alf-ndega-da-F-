@@ -20,15 +20,15 @@ const TONE_COLORS: Record<NonNullable<MapPoint['tone']>, string> = {
 };
 
 /**
- * Leaflet-Karte mit OpenStreetMap-Kacheln.
+ * Mapa Leaflet com mosaicos do OpenStreetMap.
  *
- * Leaflet wird erst im Browser geladen (dynamischer Import), damit es nicht im
- * Server-Bundle landet und die übrigen Seiten nicht belastet.
+ * O Leaflet só é carregado no navegador (importação dinâmica), para não
+ * entrar no pacote do servidor nem pesar nas restantes páginas.
  *
- * Barrierefreiheit: die Karte ist ein Zusatzangebot, keine Voraussetzung. Der
- * Ort lässt sich immer auch über die Freguesia-Auswahl und die Textbeschreibung
- * angeben, und jeder Punkt steht zusätzlich in einer Liste unter der Karte –
- * eine Karte allein ist mit Screenreader und Tastatur nicht bedienbar.
+ * Acessibilidade: o mapa é um complemento, nunca um requisito. O local pode
+ * sempre ser indicado pela escolha da freguesia e pela descrição escrita, e
+ * cada ponto aparece também numa lista por baixo do mapa — um mapa sozinho
+ * não é operável com leitor de ecrã nem com teclado.
  */
 export function LocationMap({
   center = { lat: 41.3444, lon: -6.9589 },
@@ -61,9 +61,9 @@ export function LocationMap({
     let cancelled = false;
 
     /**
-     * Das Leaflet-Stylesheet liegt selbst gehostet unter /vendor/leaflet und
-     * wird erst hier eingehängt – so belastet es die übrigen Seiten nicht.
-     * `npm run vendor` aktualisiert die Kopie nach einem Leaflet-Update.
+     * A folha de estilos do Leaflet está alojada no próprio servidor, em
+     * /vendor/leaflet, e só é ligada aqui — assim não pesa nas outras páginas.
+     * `npm run vendor` atualiza a cópia depois de uma atualização do Leaflet.
      */
     function ensureStylesheet() {
       const id = 'leaflet-stylesheet';
@@ -130,11 +130,11 @@ export function LocationMap({
       mapRef.current?.remove();
       mapRef.current = null;
     };
-    // Die Karte wird einmal aufgebaut; Punkte ändern sich in dieser Ansicht nicht.
+    // O mapa é construído uma vez; os pontos não mudam nesta vista.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Markierung des gewählten Punkts nachführen.
+  // Acompanhar o marcador do ponto escolhido.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !selectable) return;

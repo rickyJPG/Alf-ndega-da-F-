@@ -5,11 +5,11 @@ import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 /**
- * Teilen und Drucken.
+ * Partilhar e imprimir.
  *
- * Kein Netzwerk zu Facebook oder X: geteilt wird über die Systemfunktion des
- * Geräts (Web Share API) oder durch Kopieren des Links. Damit landen keine
- * Besucherdaten bei Dritten, ohne dass jemand zugestimmt hätte.
+ * Sem ligações ao Facebook ou ao X: a partilha usa a função do próprio
+ * dispositivo (Web Share API) ou a cópia do endereço. Assim nenhum dado de
+ * quem visita chega a terceiros sem consentimento.
  */
 export function ShareRow({
   title,
@@ -29,7 +29,7 @@ export function ShareRow({
         await navigator.share({ title, url });
         return;
       } catch {
-        /* Abgebrochen – dann kopieren wir stattdessen. */
+        /* Cancelado — nesse caso copia-se o endereço. */
       }
     }
     await copy();
@@ -41,7 +41,7 @@ export function ShareRow({
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2500);
     } catch {
-      /* Zwischenablage gesperrt – der Link steht ohnehin in der Adresszeile. */
+      /* Área de transferência bloqueada — o endereço está sempre na barra. */
     }
   }
 

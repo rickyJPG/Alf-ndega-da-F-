@@ -8,6 +8,7 @@ import { getConsultations, getEvents, getDocuments, getNews } from '@/content';
 import { formatCurrency, formatDate, formatDateLong, formatFileSize, formatNumber } from '@/lib/format';
 
 import { PageHeader, Section } from '@/components/layout/page-shell';
+import { Brasao, RamoDeCerejas, Wordmark } from '@/components/layout/brasao';
 import { Button, ButtonLink, IconButton } from '@/components/ui/button';
 import { TextLink, FileLink } from '@/components/ui/link';
 import { Card, CardBody, CardFooter, CardHeader } from '@/components/ui/card';
@@ -121,6 +122,71 @@ export default async function StyleguidePage({
         breadcrumb={[{ label: dict.common.home, href: routes.home(locale) }, { label: 'Guia de estilo' }]}
       />
 
+      {/* Identidade */}
+      <Section id="identidade" tone="alt" title="Identidade">
+        <p className="measure mb-6 text-ink-muted">
+          Alfândega da Fé é a capital nacional da cereja. O sinal está no brasão, na assinatura e
+          no filete que abre cada título — uma vez em cada sítio, nunca como enfeite.
+        </p>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="rounded-lg border border-line bg-surface p-6">
+            <h3 className="mb-4 font-serif text-lg">Brasão</h3>
+            <div className="flex flex-wrap items-end gap-8">
+              <div className="text-center">
+                <Brasao size={72} />
+                <p className="mt-2 text-sm text-ink-muted">cor</p>
+              </div>
+              <div className="rounded-md bg-primary-900 p-4 text-center text-white">
+                <Brasao size={72} variant="mono" className="text-white/90" />
+                <p className="mt-2 text-sm text-white/70">mono</p>
+              </div>
+            </div>
+            <p className="mt-5 text-sm text-ink-muted">
+              Representativo, não oficial. Substituir pelo ficheiro da autarquia antes do
+              lançamento, mantendo as duas variantes.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-line bg-surface p-6">
+            <h3 className="mb-4 font-serif text-lg">Assinatura</h3>
+            <Wordmark />
+            <p className="mt-5 text-sm text-ink-muted">
+              É texto, não imagem: escala com o corpo do texto, lê-se com leitor de ecrã e não
+              perde nitidez em ecrãs de alta densidade.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-line bg-surface p-6">
+            <h3 className="mb-4 font-serif text-lg">Filete e motivo</h3>
+            <span aria-hidden="true" className="mb-3 block h-1 w-16 rounded-pill bg-accent-600" />
+            <p className="font-serif text-2xl">Título de secção</p>
+            <div className="mt-5">
+              <RamoDeCerejas size={40} className="text-accent-600" />
+            </div>
+            <p className="mt-5 text-sm text-ink-muted">
+              O filete abre cada `h1` e cada título de secção. O ramo aparece no máximo uma vez por
+              página.
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-line bg-surface p-6">
+            <h3 className="mb-4 font-serif text-lg">Faixas do cabeçalho</h3>
+            <ul className="flex flex-col gap-2">
+              <li className="rounded-md bg-primary-900 px-4 py-3 text-sm text-white">
+                1 — Barra de serviço: Área de Munícipe, contactos, acessibilidade, idioma
+              </li>
+              <li className="rounded-md border border-line bg-surface px-4 py-3 text-sm">
+                2 — Faixa de identidade: brasão, assinatura e pesquisa
+              </li>
+              <li className="rounded-md bg-accent-600 px-4 py-3 text-sm font-semibold text-white">
+                3 — Barra de navegação, em vermelho-cereja
+              </li>
+            </ul>
+          </div>
+        </div>
+      </Section>
+
       {/* Cores */}
       <Section id="cores" title="Cores">
         <p className="measure mb-6 text-ink-muted">
@@ -157,7 +223,7 @@ export default async function StyleguidePage({
           <h3 className="mt-4 text-2xl">Título de nível 3 — 2xl</h3>
           <h4 className="mt-4 text-xl">Título de nível 4 — xl</h4>
           <p className="mt-5 text-lg">
-            Parágrafo de destaque, usado nos vorspann das páginas — text-lg.
+            Parágrafo de destaque, usado na entrada das páginas — text-lg.
           </p>
           <p className="mt-3">
             Texto corrido, com a base em 17 px e entrelinha de 1,6. Peça a sua certidão, marque

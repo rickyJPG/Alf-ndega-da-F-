@@ -10,10 +10,10 @@ import type {
 } from '@/content/types';
 
 /**
- * Alle sprechenden URLs an einer Stelle.
+ * Todos os endereços legíveis num só lugar.
  *
- * Ändert sich ein Pfadmuster, ändert es sich hier – und in redirects.ts
- * kommt eine Zeile dazu. Kein Pfad wird irgendwo im Code zusammengestückelt.
+ * Se um padrão de caminho mudar, muda aqui — e acrescenta-se uma linha em
+ * redirects.ts. Nenhum caminho é remendado a meio do código.
  */
 
 export const serviceAreas = [

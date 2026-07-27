@@ -3,8 +3,8 @@ import { Breadcrumb, type Crumb } from '@/components/ui/breadcrumb';
 import { cn } from '@/lib/utils';
 
 /**
- * Gemeinsames Gerüst der Unterseiten: Pfadnavigation, H1, Vorspann.
- * Die Überschriftenhierarchie beginnt hier – jede Seite hat genau eine H1.
+ * Estrutura comum das páginas interiores: caminho de navegação, H1 e entrada.
+ * A hierarquia de títulos começa aqui — cada página tem exatamente um H1.
  */
 export function PageHeader({
   title,
@@ -30,6 +30,7 @@ export function PageHeader({
 
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="measure">
+            <span aria-hidden="true" className="mb-3 block h-1 w-16 rounded-pill bg-accent-600" />
             <h1 className="text-3xl">{title}</h1>
             {lead ? <p className="mt-3 text-lg text-ink-muted">{lead}</p> : null}
           </div>
@@ -72,6 +73,7 @@ export function Section({
         {title ? (
           <div className="mb-6 flex flex-col gap-3 md:mb-8 md:flex-row md:items-end md:justify-between">
             <div className="measure">
+              <span aria-hidden="true" className="mb-2.5 block h-1 w-12 rounded-pill bg-accent-600" />
               <Heading id={headingId} className="text-2xl">
                 {title}
               </Heading>
@@ -86,7 +88,7 @@ export function Section({
   );
 }
 
-/** Textspalte für Fließtext – nie breiter als 68 Zeichen. */
+/** Coluna de texto corrido — nunca mais larga do que 68 caracteres. */
 export function Prose({ children, className }: { children: ReactNode; className?: string }) {
   return <div className={cn('prose-cm', className)}>{children}</div>;
 }

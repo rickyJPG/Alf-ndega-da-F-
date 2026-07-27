@@ -1,10 +1,10 @@
 import type { Meeting, Person } from '../types';
 
 /**
- * Executivo, Assembleia und das Sitzungsarchiv.
+ * Executivo, Assembleia Municipal e o arquivo de reuniões.
  *
- * Die Tagesordnungspunkte und Beschlüsse liegen als Klartext vor, nicht nur
- * als PDF-Anhang – nur so lässt sich das Archiv im Volltext durchsuchen.
+ * Os pontos da ordem de trabalhos e as deliberações estão em texto simples e
+ * não apenas em PDF anexo — só assim o arquivo é pesquisável por inteiro.
  */
 export const people: Person[] = [
   {

@@ -4,7 +4,7 @@ import { navLabel, utilityLinks } from '@/lib/navigation';
 import { localePath, type Locale } from '@/i18n/config';
 import type { Dictionary } from '@/i18n';
 import { Icon } from '@/components/ui/icon';
-import { Brasao } from './brasao';
+import { Wordmark } from './brasao';
 import { MainNav } from './main-nav';
 import { MobileNav } from './mobile-nav';
 import { HeaderSearch } from './header-search';
@@ -12,16 +12,22 @@ import { LanguageSwitcher } from './language-switcher';
 import { AccessibilityPanel } from './accessibility-panel';
 
 /**
- * Kopfbereich: Utility-Leiste, Wortmarke, Hauptnavigation, sichtbare Suche.
+ * Cabeçalho, em três faixas — a estrutura habitual de um portal municipal
+ * português, que a maioria das pessoas já reconhece:
  *
- * Der größte Teil ist ein Server-Component. Nur das Mega-Menü, das Mobil-Menü,
- * der Sprachumschalter und das Barrierefreiheits-Panel laufen im Client.
+ *   1. barra de serviço, azul institucional: área de munícipe, contactos,
+ *      acessibilidade e idioma;
+ *   2. faixa de identidade, branca: brasão, designação oficial e pesquisa;
+ *   3. barra de navegação, vermelho cereja — a assinatura visual do concelho.
+ *
+ * Só o mega-menu, o menu móvel, o troca-idiomas e o painel de acessibilidade
+ * correm no cliente. O resto é renderizado no servidor.
  */
 export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   return (
-    <header className="bg-primary-900 text-white" data-print="hide">
-      {/* Utility-Leiste */}
-      <div className="border-b border-white/10">
+    <header data-print="hide">
+      {/* 1 — Barra de serviço */}
+      <div className="bg-primary-900 text-white">
         <div className="container-page flex items-center justify-between gap-4 py-1">
           <ul className="flex items-center gap-1">
             {utilityLinks.map((item) => (
@@ -48,36 +54,34 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
         </div>
       </div>
 
-      {/* Wortmarke + Suche */}
-      <div className="container-page flex flex-wrap items-center justify-between gap-4 py-4">
-        <Link
-          href={localePath(locale, '/')}
-          className="flex items-center gap-3 no-underline"
-          aria-label={`${site.name} — ${dict.common.home}`}
-        >
-          <Brasao size={46} className="text-white" />
-          <span className="flex flex-col leading-tight">
-            <span className="font-serif text-xl font-semibold text-white">{site.shortName}</span>
-            <span className="text-sm text-white/75">{site.tagline}</span>
-          </span>
-        </Link>
+      {/* 2 — Faixa de identidade */}
+      <div className="border-b border-line bg-surface">
+        <div className="container-page flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-4">
+          <Link
+            href={localePath(locale, '/')}
+            className="no-underline"
+            aria-label={`${site.name} — ${dict.common.home}`}
+          >
+            <Wordmark />
+          </Link>
 
-        <div className="order-3 w-full lg:order-2 lg:w-auto lg:max-w-md lg:flex-1">
-          <HeaderSearch
-            locale={locale}
-            label={dict.common.searchLabel}
-            placeholder={dict.common.searchPlaceholder}
-            submitLabel={dict.common.search}
-          />
-        </div>
+          <div className="order-3 w-full lg:order-2 lg:w-auto lg:max-w-sm lg:flex-1">
+            <HeaderSearch
+              locale={locale}
+              label={dict.common.searchLabel}
+              placeholder={dict.common.searchPlaceholder}
+              submitLabel={dict.common.search}
+            />
+          </div>
 
-        <div className="order-2 lg:order-3">
-          <MobileNav locale={locale} dict={dict} />
+          <div className="order-2 lg:order-3">
+            <MobileNav locale={locale} dict={dict} />
+          </div>
         </div>
       </div>
 
-      {/* Hauptnavigation */}
-      <div className="relative border-t border-white/10">
+      {/* 3 — Barra de navegação */}
+      <div className="relative bg-accent-600">
         <div className="container-page">
           <MainNav locale={locale} label={dict.nav.main} />
         </div>

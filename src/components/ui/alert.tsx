@@ -12,10 +12,10 @@ const tones: Record<AlertTone, { box: string; icon: IconName; mark: string }> = 
 };
 
 /**
- * Hinweiskasten im Fließtext.
+ * Caixa de aviso dentro do texto corrido.
  *
- * `role="status"` bei ruhigen Meldungen, `role="alert"` nur bei Fehlern –
- * ein Alert unterbricht den Screenreader, das gehört nicht zur Dekoration.
+ * `role="status"` nos avisos calmos, `role="alert"` apenas nos erros — um
+ * alerta interrompe o leitor de ecrã, e isso não é matéria de decoração.
  */
 export function Alert({
   tone = 'info',

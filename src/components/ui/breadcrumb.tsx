@@ -8,7 +8,7 @@ export interface Crumb {
 }
 
 /**
- * Pfadnavigation. Der letzte Eintrag ist die aktuelle Seite und trägt
+ * Caminho de navegação. A última entrada é a página atual e leva
  * `aria-current="page"` statt eines Links.
  */
 export function Breadcrumb({

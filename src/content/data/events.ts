@@ -2,8 +2,8 @@ import type { EventItem } from '../types';
 import { offsetDays } from './clock';
 
 /**
- * Agenda. Die Termine liegen relativ zum Referenzdatum, damit die
- * Wochenansicht auf der Startseite immer belegt ist.
+ * Agenda. As datas são relativas à data de referência, para que a vista
+ * semanal da página inicial nunca apareça vazia.
  */
 export const events: EventItem[] = [
   {

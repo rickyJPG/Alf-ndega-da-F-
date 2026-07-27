@@ -4,9 +4,9 @@ import { site } from '@/lib/site';
 /**
  * PWA-Manifest.
  *
- * Der Nutzen für eine Gemeinde ist konkret: die Seite lässt sich auf dem
- * Startbildschirm ablegen, und die Kontakte samt Notrufnummern bleiben auch
- * ohne Netz erreichbar – in einem Landkreis mit Funklöchern ist das kein
+ * A vantagem para um concelho é concreta: o portal pode ficar no ecrã
+ * inicial e os contactos, incluindo os números de emergência, continuam
+ * acessíveis sem rede — num território com falhas de cobertura isso não é
  * Detail.
  */
 export default function manifest(): MetadataRoute.Manifest {

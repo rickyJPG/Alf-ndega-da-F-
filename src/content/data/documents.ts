@@ -1,11 +1,11 @@
 import type { DocumentItem } from '../types';
 
 /**
- * Katalog der Formulare und Dokumente.
+ * Catálogo de formulários e documentos.
  *
- * `extractedText` speist die Volltextsuche: gesucht wird auch im Inhalt der
- * PDF-Dateien, nicht nur im Titel. Beim Anschluss an ein CMS füllt ein
- * Extraktionsschritt (pdftotext o. Ä.) dieses Feld beim Upload.
+ * O campo `extractedText` alimenta a pesquisa em texto integral: procura-se
+ * também dentro dos PDF e não só nos títulos. Ao ligar um CMS, um passo de
+ * extração (pdftotext ou equivalente) preenche este campo no carregamento.
  */
 export const documents: DocumentItem[] = [
   {

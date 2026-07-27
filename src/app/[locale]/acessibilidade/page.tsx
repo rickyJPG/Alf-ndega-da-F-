@@ -16,12 +16,12 @@ import { TextLink } from '@/components/ui/link';
 /**
  * Declaração de Acessibilidade.
  *
- * Pflichtseite nach Decreto-Lei n.º 83/2018 (Umsetzung der EU-Richtlinie
- * 2016/2102). Sie muss den Konformitätsgrad, die bekannten Einschränkungen,
- * das Datum der Selbstbewertung und einen Rückmeldeweg nennen.
+ * Página obrigatória nos termos do Decreto-Lei n.º 83/2018 (transposição da
+ * Diretiva (UE) 2016/2102). Tem de indicar o grau de conformidade, as
+ * limitações conhecidas, a data da autoavaliação e um canal de resposta.
  *
- * Die Angaben unten sind für den Relaunch ausgefüllt und müssen vor dem
- * Livegang durch die Ergebnisse einer echten Bewertung ersetzt werden –
+ * Os dados abaixo estão preenchidos para o relançamento e têm de ser
+ * substituídos pelos resultados de uma avaliação real antes de ir para o ar —
  * siehe README, Abschnitt „Declaração de Acessibilidade“.
  */
 

@@ -3,8 +3,8 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 /**
- * Karte. Klar umrandet, weiße Fläche, ein Schatten-Stufe – kein Bildhintergrund,
- * kein Verlauf. Die Umrandung trägt die Struktur, nicht der Schatten.
+ * Cartão. Contorno nítido, fundo branco, um único nível de sombra — sem
+ * imagem de fundo e sem gradiente. É o contorno que estrutura, não a sombra.
  */
 export function Card({
   as: Tag = 'div',
@@ -33,9 +33,10 @@ export function Card({
 }
 
 /**
- * Karte, die als Ganzes anklickbar ist. Der Link liegt auf der Überschrift,
- * die Fläche vergrößert nur das Ziel (::after) – so bleibt der Linktext für
- * Screenreader aussagekräftig und Text lässt sich weiterhin markieren.
+ * Cartão clicável por inteiro. A ligação está no título e a superfície apenas
+ * aumenta a área do alvo (::after) — assim o texto da ligação continua a
+ * dizer alguma coisa a quem usa leitor de ecrã e o texto ainda se pode
+ * selecionar.
  */
 export function LinkCard({
   href,
@@ -64,7 +65,7 @@ export function LinkCard({
   );
 }
 
-/** Streckt den Link über die ganze Karte. Nur einmal pro LinkCard verwenden. */
+/** Estende a ligação a todo o cartão. Usar uma só vez por LinkCard. */
 export function CardLink({
   href,
   className,

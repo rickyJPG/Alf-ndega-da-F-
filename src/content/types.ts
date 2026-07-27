@@ -3,14 +3,14 @@ import type { Locale } from '@/i18n/config';
 /**
  * Inhaltsmodell.
  *
- * Die Typen bilden 1:1 die Collections des Headless-CMS ab (siehe cms/).
- * Solange kein CMS angeschlossen ist, liefern die Module in src/content/data
- * dieselben Strukturen aus TypeScript-Dateien. Der Zugriff läuft immer über
- * src/content/index.ts – wird auf Payload umgestellt, ändert sich nur dort
- * etwas, nicht in den Seiten.
+ * Os tipos espelham uma a uma as coleções do CMS headless (ver cms/).
+ * Enquanto não houver CMS ligado, os módulos em src/content/data devolvem as
+ * mesmas estruturas a partir de ficheiros TypeScript. O acesso passa sempre
+ * por src/content/index.ts — ao mudar para o Payload só esse ficheiro muda,
+ * as páginas ficam como estão.
  */
 
-/** Portugiesisch ist Pflicht, Übersetzungen sind optional. */
+/** O português é obrigatório; as traduções são facultativas. */
 export type Localized<T = string> = { pt: T } & Partial<Record<Exclude<Locale, 'pt'>, T>>;
 
 export function tx<T>(value: Localized<T>, locale: Locale): T {
@@ -22,7 +22,7 @@ export interface MediaImage {
   alt: Localized;
   width: number;
   height: number;
-  /** Sehr kleines Vorschaubild als Data-URL – verhindert Layout-Sprünge. */
+  /** Miniatura muito pequena em data-URL — evita saltos do layout. */
   blurDataURL?: string;
   credit?: string;
 }
@@ -32,7 +32,7 @@ export interface FileAsset {
   label: Localized;
   format: 'pdf' | 'docx' | 'xlsx' | 'csv' | 'json' | 'zip';
   bytes: number;
-  /** Extrahierter Text – speist die Volltextsuche über PDF-Inhalte. */
+  /** Texto extraído — alimenta a pesquisa dentro dos PDF. */
   extractedText?: string;
 }
 
@@ -63,17 +63,17 @@ export type NewsCategory =
 export interface NewsItem {
   id: string;
   slug: string;
-  /** Publikationsdatum, ISO. Bestimmt auch die URL: /noticias/2026/07/<slug> */
+  /** Data de publicação, em ISO. Define também o endereço: /noticias/2026/07/<slug> */
   date: string;
   updatedAt?: string;
   category: NewsCategory;
   title: Localized;
   summary: Localized;
-  /** Absätze als Klartext – im CMS ein Rich-Text-Feld. */
+  /** Parágrafos em texto simples — no CMS, um campo de texto formatado. */
   body: Localized<string[]>;
   image?: MediaImage;
   tags?: string[];
-  /** Aus der Hauptnavigation entfernt, im Archiv weiter auffindbar. */
+  /** Retirado da navegação principal, mas ainda encontrável no arquivo. */
   archive?: 'covid-19';
   featured?: boolean;
 }
@@ -96,7 +96,7 @@ export interface EventItem {
   summary: Localized;
   description?: Localized<string[]>;
   category: EventCategory;
-  /** ISO-Datum. Mehrtägige Ereignisse setzen endDate. */
+  /** Data ISO. Eventos de vários dias preenchem endDate. */
   startDate: string;
   endDate?: string;
   /** 24-Stunden-Format „21:30“. Fehlt es, gilt „Todo o dia“. */
@@ -107,7 +107,7 @@ export interface EventItem {
   organiser?: string;
   price?: Localized;
   image?: MediaImage;
-  /** Geokoordinaten für die Kartenansicht. */
+  /** Coordenadas geográficas para a vista de mapa. */
   geo?: { lat: number; lon: number };
 }
 
@@ -143,14 +143,14 @@ export interface ServiceItem {
   slug: string;
   area: ServiceArea;
   title: Localized;
-  /** Ein Satz, der erklärt, was hier passiert. */
+  /** Uma frase que explica o que aqui se trata. */
   summary: Localized;
   lifeEvents: LifeEvent[];
   channels: ('online' | 'presencial' | 'correio' | 'telefone')[];
   onlineUrl?: string;
-  /** Erwartete Bearbeitungsdauer als Klartext („até 15 dias úteis“). */
+  /** Prazo previsto por extenso («até 15 dias úteis»). */
   processingTime: Localized;
-  /** Gebühr als Klartext. „Gratuito“ ist ein gültiger Wert. */
+  /** Custo por extenso. «Gratuito» é um valor válido. */
   fee: Localized;
   audience: Localized;
   requiredDocuments: Localized<string[]>;
@@ -185,7 +185,7 @@ export interface DocumentItem {
   year: number;
   publishedAt: string;
   file: FileAsset;
-  /** Wenn der Vorgang auch online geht, steht der Weg hier. */
+  /** Se o pedido também se fizer em linha, o caminho está aqui. */
   onlinePath?: string;
   lifeEvents?: LifeEvent[];
 }
@@ -201,7 +201,7 @@ export interface Consultation {
   startsAt: string;
   endsAt: string;
   area: string;
-  /** Wie man teilnimmt – Formular, E-Mail, Papier. */
+  /** Como participar — formulário, e-mail ou papel. */
   howTo: Localized<string[]>;
   documents: FileAsset[];
   contactEmail: string;
@@ -231,7 +231,7 @@ export interface Freguesia {
   president: string;
   phone?: string;
   email?: string;
-  /** Fläche in km². */
+  /** Área em km². */
   area: number;
   population: number;
   villages: string[];
@@ -260,7 +260,7 @@ export interface Meeting {
   kind: 'ordinaria' | 'extraordinaria';
   date: string;
   isPublic: boolean;
-  /** Tagesordnungspunkte als Volltext – Grundlage der Sitzungssuche. */
+  /** Ordem de trabalhos em texto integral — base da pesquisa de reuniões. */
   agenda: string[];
   decisions: { title: string; outcome: 'aprovado' | 'rejeitado' | 'retirado'; votes?: string }[];
   minutes?: FileAsset;
@@ -273,7 +273,7 @@ export interface Meeting {
 export interface BudgetCategory {
   id: string;
   label: Localized;
-  /** Beträge in Euro. */
+  /** Montantes em euros. */
   amount: number;
   previousAmount: number;
   icon: string;
@@ -304,7 +304,7 @@ export interface ParticipatoryProject {
   edition: number;
   strand: 'geral' | 'jovem' | 'senior';
   status: 'em-votacao' | 'vencedor' | 'em-execucao' | 'concluido' | 'nao-selecionado';
-  /** Fortschritt in Prozent, nur bei status = em-execucao. */
+  /** Grau de execução em percentagem, apenas com status = em-execucao. */
   progress?: number;
 }
 
@@ -349,7 +349,7 @@ export interface Occurrence {
   status: OccurrenceStatus;
   reportedAt: string;
   resolvedAt?: string;
-  /** Antwort der Verwaltung, sichtbar in der Statusverfolgung. */
+  /** Resposta dos serviços, visível no acompanhamento do estado. */
   response?: string;
 }
 

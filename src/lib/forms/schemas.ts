@@ -3,12 +3,12 @@ import { z } from 'zod';
 /**
  * Formularschemas.
  *
- * Dieselben Schemas laufen im Browser (React Hook Form) und noch einmal in der
- * Server-Action. Clientseitige Prüfung ist Komfort, serverseitige ist die
- * Wahrheit – auch weil jemand ohne JavaScript absenden kann.
+ * Os mesmos esquemas correm no navegador (React Hook Form) e outra vez na
+ * ação de servidor. A validação no cliente é comodidade, a do servidor é a
+ * que vale — desde logo porque é possível submeter sem JavaScript.
  *
- * Die Meldungen stehen auf Portugiesisch im Schema, weil sie zum Feld gehören
- * und nicht zur Oberfläche.
+ * As mensagens estão em português dentro do esquema porque pertencem ao
+ * campo e não à interface.
  */
 
 const REQUIRED = 'Este campo é obrigatório.';
@@ -29,7 +29,7 @@ export const nifField = z
   .trim()
   .regex(/^\d{9}$/, 'O NIF tem de ter 9 dígitos.');
 
-/** Honigtopf: von Menschen unsichtbar, von Bots gern ausgefüllt. */
+/** Campo-armadilha: invisível para as pessoas, irresistível para os robôs. */
 const honeypot = z.string().max(0, 'Pedido rejeitado.').optional().or(z.literal(''));
 
 export const consultationSchema = z.object({

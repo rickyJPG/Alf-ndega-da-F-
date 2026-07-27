@@ -8,11 +8,11 @@ import type {
 import { offsetDays } from './clock';
 
 /**
- * Betriebsdaten: Abfallkalender, Waldbrandrisiko, gemeldete Vorfälle,
- * Bürgerhaushalt und buchbare Sprechzeiten.
+ * Dados operacionais: calendário de resíduos, risco de incêndio, ocorrências,
+ * Orçamento participativo e horas de atendimento marcáveis.
  *
- * In Produktion kommen Waldbrandstufe und Vorfälle aus einer Schnittstelle
- * (IPMA bzw. Fachverfahren); die Struktur bleibt dieselbe.
+ * Em produção, o nível de risco de incêndio e as ocorrências vêm de uma
+ * interface (IPMA e aplicação de gestão); a estrutura é a mesma.
  */
 
 // --- Abfallkalender ------------------------------------------------------------
@@ -75,7 +75,7 @@ export const wasteSchedules: WasteSchedule[] = [
 
 // --- Waldbrandrisiko ------------------------------------------------------------
 
-/** Fünf Tage Vorschau nach IPMA-Skala. */
+/** Previsão a cinco dias segundo a escala do IPMA. */
 export const fireRisk: FireRiskDay[] = [
   { date: offsetDays(0), level: 4 },
   { date: offsetDays(1), level: 4 },
@@ -360,8 +360,9 @@ export const bookableServices: BookableService[] = [
 ];
 
 /**
- * Freie Termine der nächsten drei Wochen. Werktags 09:00–12:30 und
- * 14:00–17:00; einige Slots sind bewusst belegt, damit die Ansicht
+ * Horas livres das próximas três semanas. Dias úteis das 09:00 às 12:30 e
+ * das 14:00 às 17:00; algumas horas estão ocupadas de propósito, para que a
+ * vista
  * realistisch aussieht.
  */
 export function availableSlots(serviceId: string, dayIso: string): string[] {
@@ -384,7 +385,7 @@ export function availableSlots(serviceId: string, dayIso: string): string[] {
     }
   }
 
-  // Deterministische „Belegung“: hängt an Datum und Dienst, nicht an Zufall.
+  // «Ocupação» determinística: depende da data e do serviço, não do acaso.
   const seed = [...`${dayIso}${serviceId}`].reduce((acc, char) => acc + char.charCodeAt(0), 0);
   return slots.filter((_, index) => (seed + index * 7) % 3 !== 0);
 }

@@ -1,11 +1,11 @@
 import type { ServiceItem } from '../types';
 
 /**
- * Katalog der Dienstleistungen.
+ * Catálogo de serviços.
  *
- * Jeder Eintrag beantwortet dieselben fünf Fragen, in derselben Reihenfolge:
- * Wer? Was mitbringen? Wie lange dauert es? Was kostet es? Wie mache ich es?
- * Das ist der eigentliche Wert gegenüber der alten Seite – dort standen die
+ * Cada entrada responde às mesmas cinco perguntas, pela mesma ordem: a quem
+ * se destina, o que levar, quanto tempo demora, quanto custa e como se faz.
+ * É esta a verdadeira mais-valia face ao sítio antigo — lá estavam as
  * Antworten verstreut in PDF-Dateien.
  */
 export const services: ServiceItem[] = [

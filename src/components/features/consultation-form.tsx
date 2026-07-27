@@ -13,11 +13,11 @@ import { Button } from '@/components/ui/button';
 import { Alert } from '@/components/ui/alert';
 
 /**
- * Beitrag zu einer laufenden Konsultation.
+ * Contributo para uma consulta pública em curso.
  *
- * Fehler werden zusammengefasst am Kopf des Formulars ausgegeben und
- * zusätzlich am Feld – wer mit dem Screenreader arbeitet, erfährt sofort,
- * wie viele Felder betroffen sind, statt sie einzeln suchen zu müssen.
+ * Os erros são resumidos no topo do formulário e repetidos junto de cada
+ * campo — quem usa leitor de ecrã fica logo a saber quantos campos estão em
+ * falta, em vez de ter de os procurar um a um.
  */
 export function ConsultationForm({
   dict,

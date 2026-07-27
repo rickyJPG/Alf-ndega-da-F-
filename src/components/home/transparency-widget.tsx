@@ -7,8 +7,8 @@ import { expensePerInhabitant } from '@/content';
 import { Icon, type IconName } from '@/components/ui/icon';
 
 /**
- * Drei Kennzahlen, live aus den Daten – nicht aus einer gepflegten Textdatei:
- * Haushalt des Jahres, offene Ausschreibungen, letzte Sitzung mit Protokoll.
+ * Três indicadores, lidos dos próprios dados e não de um texto mantido à
+ * mão: orçamento do ano, concursos abertos e última reunião com ata.
  */
 export function TransparencyWidget({
   budget,

@@ -2,9 +2,8 @@ import type { Consultation, Tender } from '../types';
 import { offsetDays } from './clock';
 
 /**
- * Laufende und abgeschlossene öffentliche Konsultationen.
- * Auf der alten Seite waren sie tief vergraben – hier stehen sie mit
- * Restfrist auf der Startseite.
+ * Consultas públicas em curso e já encerradas. No sítio antigo estavam
+ * enterradas fundo — aqui aparecem na página inicial, com o prazo que falta.
  */
 export const consultations: Consultation[] = [
   {
@@ -164,7 +163,7 @@ export const consultations: Consultation[] = [
   },
 ];
 
-/** Laufende Ausschreibungen und Stellenausschreibungen. */
+/** Concursos públicos e procedimentos concursais em curso. */
 export const tenders: Tender[] = [
   {
     id: 't-requalificacao-mercado',

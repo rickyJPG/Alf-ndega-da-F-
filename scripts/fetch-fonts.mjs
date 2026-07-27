@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /**
- * Lädt die drei Schriftfamilien als woff2 nach public/fonts und legt sie
- * selbst gehostet ab – es wird zur Laufzeit nichts von Google geladen.
+ * Descarrega as três famílias tipográficas em woff2 para public/fonts e
+ * guarda-as no próprio servidor — em execução não se carrega nada da Google.
  *
  *   npm run fonts
  *
- * Die Dateien sind im Repository eingecheckt; das Skript wird nur gebraucht,
- * wenn eine Schrift aktualisiert werden soll. Fehlen die Dateien, greift der
- * Fallback-Stack aus src/styles/fonts.css – die Seite bleibt benutzbar.
+ * Os ficheiros estão versionados no repositório; este script só é preciso
+ * para atualizar uma fonte. Se faltarem, entra a pilha de recurso definida em
+ * src/styles/fonts.css — o portal continua legível.
  */
 import { mkdir, writeFile, stat } from 'node:fs/promises';
 import { join, dirname } from 'node:path';
@@ -25,7 +25,7 @@ const FAMILIES = [
   { css: 'Atkinson+Hyperlegible:wght@700', file: 'atkinson-700' },
 ];
 
-/** Nur lateinische Zeichensätze – pt-PT braucht latin + latin-ext. */
+/** Apenas conjuntos latinos — o pt-PT precisa de latin e latin-ext. */
 const WANTED_SUBSETS = ['latin', 'latin-ext'];
 
 const UA =
@@ -44,7 +44,7 @@ async function main() {
     const url = `https://fonts.googleapis.com/css2?family=${family.css}&display=swap`;
     const css = await fetchText(url);
 
-    // Google liefert die Blöcke nach Subset gruppiert, mit /* latin */-Kommentaren.
+    // A Google devolve os blocos agrupados por subconjunto, com comentários /* latin */.
     const blocks = css.split('/*').slice(1);
     for (const block of blocks) {
       const subset = block.slice(0, block.indexOf('*/')).trim();
@@ -55,7 +55,7 @@ async function main() {
 
       const target = join(OUT, `${family.file}-${subset}.woff2`);
       const res = await fetch(match[1], { headers: { 'User-Agent': UA } });
-      if (!res.ok) throw new Error(`${res.status} beim Laden von ${match[1]}`);
+      if (!res.ok) throw new Error(`${res.status} ao carregar ${match[1]}`);
       await writeFile(target, Buffer.from(await res.arrayBuffer()));
       const { size } = await stat(target);
       console.log(`✓ ${family.file}-${subset}.woff2  (${(size / 1024).toFixed(1)} kB)`);
@@ -66,7 +66,7 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error('\nSchriften konnten nicht geladen werden:', error.message);
-  console.error('Die Seite nutzt dann den System-Fallback-Stack aus fonts.css.');
+  console.error('\nNão foi possível carregar as fontes:', error.message);
+  console.error('O portal passa a usar a pilha de recurso do sistema definida em fonts.css.');
   process.exitCode = 1;
 });

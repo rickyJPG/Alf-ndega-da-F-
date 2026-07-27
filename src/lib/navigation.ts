@@ -1,21 +1,21 @@
 import type { Locale } from '@/i18n/config';
 
 /**
- * Informationsarchitektur. Sie folgt dem, was Menschen erledigen wollen –
- * nicht dem Organigramm. Maximal fünf Haupteinträge, maximal zwei Ebenen.
+ * Arquitetura de informação. Segue aquilo que as pessoas querem resolver e
+ * não o organigrama. No máximo cinco entradas principais e dois níveis.
  *
- * Jede Seite ist damit in höchstens drei Klicks von der Startseite erreichbar:
- * Hauptnavigation → Mega-Menü-Eintrag → Detailseite.
+ * Assim qualquer página fica a três cliques da página inicial:
+ * navegação principal → entrada do mega-menu → página de detalhe.
  */
 
 export type Translated = Record<Locale, string>;
 
 export interface NavLink {
-  /** Pfad ohne Sprachpräfix. localePath() setzt es davor. */
+  /** Caminho sem prefixo de idioma. É localePath() que o acrescenta. */
   href: string;
   label: Translated;
   description?: Translated;
-  /** Hebt den Eintrag im Mega-Menü hervor (eine Spalte „Mais procurado“). */
+  /** Destaca a entrada no mega-menu (a coluna «Mais procurado»). */
   featured?: boolean;
 }
 
@@ -31,7 +31,7 @@ export interface NavSection {
   label: Translated;
   description: Translated;
   groups: NavGroup[];
-  /** Eigene visuelle Sprache erlaubt (Tourismus). */
+  /** Permite linguagem visual própria (turismo). */
   tone?: 'institutional' | 'discover';
 }
 
@@ -417,7 +417,7 @@ export const mainNavigation: NavSection[] = [
   },
 ];
 
-/** Kleine Leiste über dem Header. */
+/** Barra pequena por cima do cabeçalho. */
 export const utilityLinks: NavLink[] = [
   {
     href: '/servicos/balcao-digital',
@@ -429,7 +429,7 @@ export const utilityLinks: NavLink[] = [
   },
 ];
 
-/** Text-Chips unter der Suchzeile auf der Startseite. */
+/** Atalhos em texto por baixo da caixa de pesquisa da página inicial. */
 export const topTasks: NavLink[] = [
   { href: '/servicos/pagamentos', label: t('Pagar a água', 'Pay a water bill', 'Pagar el agua', 'Payer l’eau') },
   {
@@ -451,7 +451,7 @@ export const topTasks: NavLink[] = [
   },
 ];
 
-/** Rechtliches – Fußzeile. */
+/** Informação legal — rodapé. */
 export const legalLinks: NavLink[] = [
   { href: '/ficha-tecnica', label: t('Ficha técnica', 'Site credits', 'Ficha técnica', 'Mentions techniques') },
   { href: '/privacidade', label: t('Privacidade', 'Privacy', 'Privacidad', 'Confidentialité') },
@@ -465,7 +465,7 @@ export const complaintsBook = {
   label: t('Livro de Reclamações', 'Complaints book', 'Libro de reclamaciones', 'Livre de réclamations'),
 };
 
-/** Flache Liste aller internen Navigationsziele – für Tests und Sitemap. */
+/** Lista plana de todos os destinos internos — para os testes e o mapa do sítio. */
 export function allNavigationHrefs(): string[] {
   const hrefs = new Set<string>();
   for (const section of mainNavigation) {

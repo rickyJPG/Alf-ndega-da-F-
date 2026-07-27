@@ -16,10 +16,10 @@ import { routes } from '@/lib/routes';
 import { formatDate } from '@/lib/format';
 
 /**
- * Baut den Suchindex aus allen Inhalten.
+ * Constrói o índice de pesquisa a partir de todos os conteúdos.
  *
- * Läuft serverseitig und wird pro Sprache einmal zwischengespeichert. Bei
- * einem CMS mit Webhooks wird `resetSearchIndex()` beim Publizieren gerufen.
+ * Corre no servidor e fica em cache uma vez por língua. Com um CMS que tenha
+ * webhooks, chama-se `resetSearchIndex()` no momento da publicação.
  */
 const cache = new Map<Locale, SearchIndex>();
 
@@ -157,7 +157,7 @@ export async function buildSearchDocuments(locale: Locale): Promise<SearchDocume
   return entries;
 }
 
-/** Redaktionelle Seiten ohne eigene Collection. */
+/** Páginas editoriais sem coleção própria. */
 function staticPages(locale: Locale): SearchDocument[] {
   const pages: Array<[string, string, string, string]> = [
     ['/municipio/contactos', 'Contactos', 'Morada, telefone, horário de atendimento e números de emergência.', 'Município'],
@@ -192,7 +192,7 @@ export async function getSearchIndex(locale: Locale): Promise<SearchIndex> {
   return index;
 }
 
-/** Nach dem Publizieren im CMS aufrufen. */
+/** Chamar depois de publicar no CMS. */
 export function resetSearchIndex(): void {
   cache.clear();
 }

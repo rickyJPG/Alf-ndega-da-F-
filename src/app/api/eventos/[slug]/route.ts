@@ -4,9 +4,8 @@ import { eventToIcs } from '@/lib/ics';
 import { site } from '@/lib/site';
 
 /**
- * `/api/eventos/<slug>.ics` – Kalendereintrag zum Herunterladen.
- * Wird beim Build vorgeneriert; die Dateien ändern sich nur, wenn sich das
- * Ereignis ändert.
+ * `/api/eventos/<slug>.ics` — entrada de calendário para descarregar.
+ * É gerada no build; os ficheiros só mudam quando o evento muda.
  */
 export async function generateStaticParams() {
   const events = await getAllEvents();

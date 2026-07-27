@@ -80,7 +80,7 @@ export default async function LocaleLayout({
   return (
     <html lang={localeHtmlLang[locale]} suppressHydrationWarning>
       <head>
-        {/* Läuft vor dem ersten Paint: kein Aufblitzen, kein Layout-Sprung. */}
+        {/* Corre antes da primeira pintura: sem cintilação nem salto do layout. */}
         <script dangerouslySetInnerHTML={{ __html: preferencesBootstrapScript }} />
         <link
           rel="preload"
@@ -100,7 +100,7 @@ export default async function LocaleLayout({
       <body>
         <JsonLd data={[governmentOrganizationJsonLd(), websiteJsonLd(locale)]} />
 
-        {/* Sprungmarken – erster fokussierbarer Inhalt der Seite. */}
+        {/* Ligações de salto — primeiro conteúdo focável da página. */}
         <a href="#conteudo" className="sr-only-focusable">
           {dict.common.skipToContent}
         </a>

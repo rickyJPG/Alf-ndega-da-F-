@@ -8,9 +8,9 @@ import type { Locale } from '@/i18n/config';
 interface TextLinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> {
   href: string;
   children: ReactNode;
-  /** Öffnet in neuem Tab und weist das im Linktext aus. */
+  /** Abre num separador novo e di-lo no texto da ligação. */
   external?: boolean;
-  /** Unterstreichung erst beim Überfahren – nur in Listen mit vielen Links. */
+  /** Sublinhado só ao passar o rato — apenas em listas com muitas ligações. */
   quiet?: boolean;
 }
 
@@ -49,7 +49,7 @@ export function TextLink({ href, children, external, quiet, className, ...props 
 }
 
 /**
- * Link auf eine Datei. Format und Größe stehen im Linktext, wie es die
+ * Ligação para um ficheiro. O formato e o tamanho estão no texto, como
  * Barrierefreiheits-Vorgaben verlangen: „Regulamento (PDF, 2,3 MB)“.
  */
 export function FileLink({

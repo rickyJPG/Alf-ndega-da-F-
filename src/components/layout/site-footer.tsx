@@ -9,8 +9,8 @@ import { NewsletterForm } from './newsletter-form';
 import { Brasao } from './brasao';
 
 /**
- * Fußzeile. Kontakt mit Karte, Öffnungszeiten, Notfallnummern, Freguesias,
- * Newsletter und Rechtliches. Partnerlogos stehen in einer zugeklappten
+ * Rodapé. Contactos com mapa, horário, números de emergência, freguesias,
+ * boletim informativo e informação legal. Os logótipos dos parceiros ficam
  * Leiste statt vierzehn nebeneinander.
  */
 export async function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary }) {
@@ -22,14 +22,14 @@ export async function SiteFooter({ locale, dict }: { locale: Locale; dict: Dicti
   );
 
   return (
-    <footer className="mt-16 bg-primary-900 text-white" data-print="hide">
+    <footer className="mt-16 border-t-4 border-accent-600 bg-primary-900 text-white" data-print="hide">
       <h2 className="sr-only">{dict.footer.contactTitle}</h2>
 
       <div className="container-page grid gap-10 py-12 lg:grid-cols-12 lg:gap-8">
         {/* Kontakt */}
         <section className="lg:col-span-4" aria-labelledby="footer-contact">
           <div className="flex items-start gap-3">
-            <Brasao size={40} className="text-white/90" />
+            <Brasao size={44} variant="mono" className="text-white/90" />
             <div>
               <p id="footer-contact" className="font-serif text-lg font-semibold">
                 {site.legalName}
@@ -148,7 +148,7 @@ export async function SiteFooter({ locale, dict }: { locale: Locale; dict: Dicti
         </section>
       </div>
 
-      {/* Partner – zugeklappt, nicht vierzehn Logos nebeneinander */}
+      {/* Parceiros — recolhidos, em vez de catorze logótipos lado a lado */}
       <div className="border-t border-white/15">
         <div className="container-page py-4">
           <details className="group">

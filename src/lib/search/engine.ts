@@ -1,14 +1,14 @@
 import { deburr } from '@/lib/utils';
 
 /**
- * Volltextsuche über alle Inhalte, inklusive des extrahierten Textes aus PDF-
- * Dateien. Bewusst eine eigene, sehr kleine Implementierung statt einer
- * Fremdbibliothek: der Korpus eines Municípios ist klein (einige tausend
- * Dokumente), die Suche läuft serverseitig, und das Startseiten-Bundle bleibt
- * dadurch unberührt.
+ * Pesquisa em texto integral sobre todos os conteúdos, incluindo o texto
+ * extraído dos PDF. De propósito uma implementação própria e muito pequena em
+ * vez de uma biblioteca externa: o acervo de um município é reduzido (alguns
+ * milhares de documentos), a pesquisa corre no servidor e o pacote da página
+ * inicial mantém-se intacto.
  *
- * Wächst der Bestand über ein paar tausend Einträge, ist der Wechsel zu
- * Pagefind oder Typesense ein Austausch dieser Datei – die Signatur von
+ * Se o acervo passar de alguns milhares de registos, mudar para o Pagefind
+ * ou o Typesense é trocar este ficheiro — a assinatura de
  * `search()` bleibt.
  */
 
@@ -25,23 +25,23 @@ export type SearchType =
 export interface SearchDocument {
   id: string;
   type: SearchType;
-  /** Rubrik für die Facette („Urbanismo“, „Ambiente“ …). */
+  /** Rubrica usada na faceta («Urbanismo», «Ambiente» …). */
   section: string;
   title: string;
   summary: string;
-  /** Volltext: Fließtext, Tagesordnungen, extrahierter PDF-Text. */
+  /** Texto integral: corpo, ordens de trabalhos e texto extraído dos PDF. */
   body: string;
   href: string;
   year?: number;
   date?: string;
-  /** Trifft die Suche nur im PDF-Text, wird das im Ergebnis ausgewiesen. */
+  /** Se o termo só surgir no texto do PDF, o resultado assinala-o. */
   fileText?: string;
 }
 
 export interface SearchHit {
   document: SearchDocument;
   score: number;
-  /** Textausschnitt mit dem Treffer, für die Ergebnisliste. */
+  /** Excerto de texto com o termo encontrado, para a lista de resultados. */
   excerpt: string;
   matchedInFile: boolean;
 }
@@ -55,11 +55,11 @@ export interface SearchResult {
   hits: SearchHit[];
   total: number;
   facets: { type: Facet[]; section: Facet[]; year: Facet[] };
-  /** Vorschlag bei Tippfehlern – nur, wenn die Originalsuche wenig fand. */
+  /** Sugestão em caso de gralha — só quando a pesquisa original deu pouco. */
   suggestion?: string;
 }
 
-/** Häufige portugiesische Füllwörter tragen nichts zur Relevanz bei. */
+/** As palavras vazias mais comuns do português não pesam na relevância. */
 const STOPWORDS = new Set([
   'a', 'ao', 'aos', 'as', 'da', 'das', 'de', 'do', 'dos', 'e', 'em', 'na', 'nas', 'no', 'nos',
   'o', 'os', 'ou', 'para', 'pelo', 'pela', 'por', 'que', 'se', 'sem', 'sob', 'sobre', 'um', 'uma',
@@ -73,7 +73,7 @@ export function tokenize(text: string): string[] {
     .filter((token) => token.length > 1 && !STOPWORDS.has(token));
 }
 
-/** Levenshtein mit früher Abbruchgrenze – reicht für Tippfehlertoleranz. */
+/** Levenshtein com corte antecipado — chega para tolerar gralhas. */
 function editDistance(a: string, b: string, max: number): number {
   if (Math.abs(a.length - b.length) > max) return max + 1;
   let previous = Array.from({ length: b.length + 1 }, (_, i) => i);
@@ -100,7 +100,7 @@ function allowedTypos(term: string): number {
 
 interface IndexedDocument {
   document: SearchDocument;
-  /** Wortliste je Feld, für die Gewichtung. */
+  /** Lista de palavras por campo, para a ponderação. */
   titleTokens: Set<string>;
   summaryTokens: Set<string>;
   bodyTokens: Map<string, number>;
@@ -151,11 +151,11 @@ export class SearchIndex {
     let scored = this.score(terms);
 
     /**
-     * Wenig Treffer? Dann zusätzlich tolerant suchen.
+     * Poucos resultados? Então procura-se também de forma tolerante.
      *
-     * Die exakten Treffer bleiben dabei immer vorn und werden nie verworfen:
-     * wer „cercea“ tippt und ein Dokument enthält genau dieses Wort, muss es
-     * bekommen – auch wenn „cerca“ mehr Treffer liefern würde.
+     * Os resultados exatos ficam sempre à frente e nunca são descartados:
+     * quem escreve «cercea» e existe um documento com exatamente essa palavra
+     * tem de a receber — mesmo que «cerca» devolvesse mais resultados.
      */
     let suggestion: string | undefined;
     if (scored.length < 3) {
@@ -219,10 +219,10 @@ export class SearchIndex {
 
       if (matchedTerms === 0) continue;
 
-      // Alle Begriffe getroffen wiegt schwerer als viele Treffer eines Begriffs.
+      // Acertar em todos os termos pesa mais do que muitas ocorrências de um só.
       score *= 1 + (matchedTerms - 1) * 0.5;
 
-      // Aktuelleres zuerst, bei sonst gleicher Relevanz.
+      // Em caso de relevância igual, o mais recente vem primeiro.
       if (entry.document.date) {
         const ageYears =
           (Date.now() - new Date(entry.document.date).getTime()) / (365 * 24 * 3600 * 1000);
@@ -240,7 +240,7 @@ export class SearchIndex {
     return hits.sort((a, b) => b.score - a.score);
   }
 
-  /** Nächstliegendes Vokabel-Wort innerhalb der erlaubten Tippfehlerzahl. */
+  /** Palavra mais próxima do vocabulário, dentro das gralhas permitidas. */
   private nearestTerm(term: string): string | undefined {
     const max = allowedTypos(term);
     if (max === 0) return undefined;

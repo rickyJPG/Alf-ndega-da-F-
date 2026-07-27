@@ -11,7 +11,7 @@ export const localeNames: Record<Locale, string> = {
   fr: 'Français',
 };
 
-/** Wird im <html lang>-Attribut und in hreflang verwendet. */
+/** Usado no atributo <html lang> e nas ligações hreflang. */
 export const localeHtmlLang: Record<Locale, string> = {
   pt: 'pt-PT',
   en: 'en',
@@ -24,10 +24,10 @@ export function isLocale(value: string): value is Locale {
 }
 
 /**
- * Baut eine URL für eine Sprache. Portugiesisch ist Standard und bekommt
- * kein Präfix, die übrigen Sprachen laufen unter /en, /es, /fr.
- * Die Pfadsegmente bleiben portugiesisch – der Sprachumschalter behält
- * dadurch immer den Kontext der aktuellen Seite.
+ * Constrói o endereço de uma página numa dada língua. O português é a língua
+ * predefinida e não leva prefixo; as restantes vivem em /en, /es e /fr.
+ * Os segmentos do caminho mantêm-se sempre em português, para que o seletor
+ * de idioma não perca a página onde o munícipe está.
  */
 export function localePath(locale: Locale, path = '/'): string {
   const clean = path === '' ? '/' : path.startsWith('/') ? path : `/${path}`;
@@ -35,7 +35,7 @@ export function localePath(locale: Locale, path = '/'): string {
   return clean === '/' ? `/${locale}` : `/${locale}${clean}`;
 }
 
-/** Entfernt ein vorhandenes Sprachpräfix – Gegenstück zu localePath(). */
+/** Retira o prefixo de idioma, se existir — o inverso de localePath(). */
 export function stripLocale(pathname: string): { locale: Locale; path: string } {
   const segments = pathname.split('/').filter(Boolean);
   const first = segments[0];
@@ -44,23 +44,4 @@ export function stripLocale(pathname: string): { locale: Locale; path: string } 
     return { locale: first, path: rest === '/' ? '/' : rest.replace(/\/$/, '') };
   }
   return { locale: defaultLocale, path: pathname === '' ? '/' : pathname };
-}
-
-/** Beste Sprache aus dem Accept-Language-Header, ohne Fremdbibliothek. */
-export function negotiateLocale(acceptLanguage: string | null): Locale {
-  if (!acceptLanguage) return defaultLocale;
-  const ranked = acceptLanguage
-    .split(',')
-    .map((part) => {
-      const [tag, ...params] = part.trim().split(';');
-      const q = params.find((p) => p.trim().startsWith('q='));
-      return { tag: tag.toLowerCase(), q: q ? Number.parseFloat(q.split('=')[1]) || 0 : 1 };
-    })
-    .sort((a, b) => b.q - a.q);
-
-  for (const { tag } of ranked) {
-    const base = tag.split('-')[0];
-    if (isLocale(base)) return base;
-  }
-  return defaultLocale;
 }

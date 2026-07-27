@@ -1,10 +1,10 @@
 /**
- * Einzige Anlaufstelle für Inhalte.
+ * Ponto único de acesso aos conteúdos.
  *
- * Seiten importieren ausschließlich aus diesem Modul, nie direkt aus
- * src/content/data. Beim Anschluss von Payload CMS werden hier die
- * Lesefunktionen gegen API-Aufrufe getauscht – die Seiten bleiben unberührt.
- * Alle Funktionen sind async, damit dieser Wechsel keine Signaturänderung ist.
+ * As páginas importam exclusivamente deste módulo e nunca diretamente de
+ * src/content/data. Ao ligar o Payload CMS, as funções de leitura passam
+ * aqui a chamadas à API — as páginas ficam intactas. Todas as funções são
+ * assíncronas, para que essa troca não altere nenhuma assinatura.
  */
 import { activeAlerts } from './data/alerts';
 import { budget2026, budgetYears, expensePerInhabitant } from './data/budget';
@@ -82,7 +82,7 @@ export async function getNewsCategories(): Promise<string[]> {
   return newsCategories;
 }
 
-/** Nachrichten mit gemeinsamen Schlagworten, ohne die aktuelle. */
+/** Notícias com etiquetas em comum, excluindo a que está a ser lida. */
 export async function getRelatedNews(item: NewsItem, limit = 3): Promise<NewsItem[]> {
   const tags = new Set(item.tags ?? []);
   return news

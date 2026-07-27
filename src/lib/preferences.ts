@@ -1,9 +1,9 @@
 /**
- * Anzeige-Einstellungen des Nutzers: Thema und Barrierefreiheits-Optionen.
+ * Preferências de apresentação: tema e opções de acessibilidade.
  *
- * Gespeichert wird ausschließlich lokal (localStorage), nicht in einem Cookie
- * und nicht auf dem Server – es entsteht kein personenbezogenes Datum, das
- * eine Einwilligung bräuchte.
+ * Ficam guardadas apenas localmente (localStorage), nunca num cookie nem no
+ * servidor — assim não nasce nenhum dado pessoal que precisasse de
+ * consentimento.
  */
 
 export const PREFS_KEY = 'cmadf:prefs';
@@ -46,11 +46,11 @@ export function writePreferences(prefs: Preferences): void {
   try {
     window.localStorage.setItem(PREFS_KEY, JSON.stringify(prefs));
   } catch {
-    /* Privater Modus o. Ä. – Einstellungen gelten dann nur für diese Sitzung. */
+    /* Navegação privada ou semelhante — as opções valem só para esta sessão. */
   }
 }
 
-/** Schreibt die Einstellungen als data-Attribute auf <html>. Das CSS macht den Rest. */
+/** Escreve as opções como atributos data no <html>. O CSS faz o resto. */
 export function applyPreferences(prefs: Preferences, root: HTMLElement): void {
   const resolvedTheme =
     prefs.theme === 'system'
@@ -75,10 +75,10 @@ function toggleAttr(root: HTMLElement, name: string, value: string | null): void
 }
 
 /**
- * Läuft synchron vor dem ersten Paint – verhindert das Aufblitzen des hellen
- * Themas und Layout-Sprünge durch nachträgliche Textskalierung.
- * Wird als Zeichenkette in ein <script> geschrieben, deshalb ES5-freundlich
- * und ohne Abhängigkeiten.
+ * Corre de forma síncrona antes da primeira pintura — evita o clarão do tema
+ * claro e os saltos de layout provocados por escalar o texto depois.
+ * É escrito como texto dentro de um <script>, por isso mantém-se em ES5 e sem
+ * dependências.
  */
 export const preferencesBootstrapScript = `(function(){try{
 var d=document.documentElement;

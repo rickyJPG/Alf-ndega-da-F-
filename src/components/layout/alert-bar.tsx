@@ -17,12 +17,13 @@ const severityStyles: Record<AlertRecord['severity'], { bar: string; icon: IconN
 };
 
 /**
- * Alert-Leiste ganz oben – nur sichtbar, wenn wirklich etwas anliegt:
- * Zivilschutz, Wassersperrung, Waldbrandstufe 4/5, Straßensperrungen.
+ * Barra de avisos no topo — só aparece quando há mesmo algo a comunicar:
+ * proteção civil, cortes de água, risco de incêndio de nível 4 ou 5, cortes
+ * de estrada.
  *
- * Sie wird serverseitig gerendert (kein Nachladen, kein Layout-Sprung) und
- * lässt sich schließen; die Entscheidung gilt für die laufende Sitzung.
- * Bei Stufe „danger“ ist sie bewusst nicht schließbar.
+ * É desenhada no servidor (sem carregamento posterior nem salto do layout) e
+ * pode ser fechada; a decisão vale para a sessão em curso. No nível «danger»
+ * não é fechável, de propósito.
  */
 export function AlertBar({
   alerts,
@@ -60,8 +61,8 @@ export function AlertBar({
   if (visible.length === 0) return null;
 
   return (
-    /* Ein einziger benannter Bereich für alle Meldungen: mehrere Regionen mit
-       demselben Namen wären für die Landmarken-Navigation nicht unterscheidbar. */
+    /* Uma única região nomeada para todos os avisos: várias regiões com
+       o mesmo nome seriam indistinguíveis na navegação por regiões. */
     <section aria-label={dict.alerts.label} data-print="hide">
       {visible.map((alert) => {
         const style = severityStyles[alert.severity];

@@ -1,9 +1,9 @@
 /**
- * Rendert strukturierte Daten als JSON-LD.
+ * Escreve dados estruturados em JSON-LD.
  *
- * Der Inhalt stammt ausschließlich aus eigenen, typisierten Datenquellen –
- * nie aus Nutzereingaben. `<` wird trotzdem maskiert, damit ein `</script>`
- * in einem Titel den Block nicht aufbrechen kann.
+ * O conteúdo vem exclusivamente de fontes de dados próprias e tipadas —
+ * nunca de dados introduzidos por quem visita. Ainda assim o `<` é
+ * escapado, para que um `</script>` num título não parta o bloco.
  */
 export function JsonLd({ data }: { data: object | object[] }) {
   return (

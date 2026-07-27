@@ -12,15 +12,16 @@ import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 /**
- * Echtes Mobil-Menü: Vollbild-Dialog mit Fokusfalle, Escape schließt,
- * der Hintergrund ist für Screenreader inert. Zweite Ebene als Akkordeon,
- * damit nichts hinter unsichtbaren Hover-Menüs verschwindet.
+ * Menu móvel a sério: diálogo em ecrã inteiro com o foco preso lá dentro,
+ * Escape fecha e o fundo fica inerte para os leitores de ecrã. O segundo
+ * nível é um acordeão, para que nada fique escondido atrás de menus que só
+ * abrem ao passar o rato.
  */
 export function MobileNav({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
-  // Beim Seitenwechsel schließen – sonst bleibt der Dialog über der neuen Seite.
+  // Fechar ao mudar de página — senão o diálogo fica por cima da página nova.
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
@@ -29,8 +30,8 @@ export function MobileNav({ locale, dict }: { locale: Locale; dict: Dictionary }
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger
         className={cn(
-          'inline-flex min-h-11 items-center gap-2 rounded-md px-3 py-2 font-semibold',
-          'text-white hover:bg-white/10 lg:hidden',
+          'inline-flex min-h-12 items-center gap-2 rounded-md border border-accent-600 px-4 py-2',
+          'bg-accent-600 font-semibold text-white hover:bg-accent-hover lg:hidden',
         )}
       >
         <Icon name="menu" size={22} />

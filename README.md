@@ -129,6 +129,27 @@ funções — ver [`cms/README.md`](cms/README.md).
 
 ## Sistema de design
 
+### Identidade: a cereja
+
+Alfândega da Fé é a capital nacional da cereja e é isso que o portal mostra,
+sem o transformar em decoração:
+
+- **Faixa de navegação em vermelho-cereja** (`accent-600`), por baixo da faixa
+  de identidade. É a barra que separa quem entra do que pode fazer.
+- **Brasão** com coroa mural de quatro torres, ramo de cerejas e a barra ondada
+  do Sabor, em `src/components/layout/brasao.tsx`.
+- **Assinatura** «Município de Alfândega da Fé — Terra da cereja ·
+  Trás-os-Montes», escrita como texto e não como imagem: lê-se com leitor de
+  ecrã, escala com o texto e não borra em ecrãs de alta densidade.
+- **Filete de cereja** por cima de cada `h1` e de cada título de secção. Um
+  traço curto, sempre no mesmo sítio, que dá ritmo às páginas sem ruído.
+- **Ramo de cerejas** como motivo, usado uma única vez por página.
+
+O cabeçalho tem três faixas, de cima para baixo: barra de serviço (azul
+institucional, com Área de Munícipe, contactos, acessibilidade e idioma),
+faixa de identidade (brasão, assinatura e pesquisa, sobre branco) e barra de
+navegação (vermelho-cereja).
+
 ### Cores
 
 Definidas uma única vez em `src/styles/tokens.css` e espelhadas no tema do
@@ -302,19 +323,35 @@ O `path` da página é o seu endereço. Se acrescentar uma ligação na navegaç
 
 ### Substituir as imagens de exemplo
 
-As ilustrações em `public/images` são geradas e servem de marcador de posição —
-o repositório não inclui fotografias cujos direitos não estejam esclarecidos.
+O portal tem imagem em todos os sítios onde o portal antigo a tinha: destaque
+da página inicial, cartões de notícia, cartões de evento e páginas de turismo.
+As 16 ilustrações em `public/images` são geradas por
+`scripts/generate-placeholders.mjs` e servem de marcador de posição — o
+repositório não inclui fotografias cujos direitos não estejam esclarecidos.
 
-Ao substituir por fotografias reais, **mantenha as proporções**: notícias em
-16:9, eventos em 3:2, imagem principal em 16:9. As dimensões estão declaradas
-no conteúdo e é isso que impede o texto de saltar enquanto a imagem carrega.
+São cenas reconhecíveis do concelho, na paleta do Município: a vila ao
+entardecer entre socalcos de cerejeiras, o cerejal em junho com um ramo em
+primeiro plano, os lagos do Sabor, as amendoeiras em flor e o castelo.
+`npm run placeholders` volta a gerá-las (o resultado é determinístico: os
+mesmos ficheiros em cada execução).
+
+Ao substituir por fotografias reais, **mantenha as proporções**: destaque e
+notícias em 16:9, eventos e turismo em 3:2. As dimensões estão declaradas no
+conteúdo e é isso que impede o texto de saltar enquanto a imagem carrega.
+Basta pôr o ficheiro em `public/images` com o mesmo nome (`.jpg` em vez de
+`.svg`) e atualizar o caminho em `src/content/data/`.
 
 ### Brasão
 
 `src/components/layout/brasao.tsx` desenha um sinal heráldico simples (escudo,
-coroa mural de quatro torres, ramo de cerejas). **Substitua-o pelo brasão
-oficial em SVG** antes do lançamento. Tem de ser vetorial: o portal não usa um
+coroa mural de quatro torres, ramo de cerejas e a barra ondada do Sabor).
+**Não é o brasão oficial**: substitua-o pelo ficheiro oficial em SVG antes do
+lançamento, mantendo as duas variantes — `cor` para o cabeçalho e `mono` para
+o rodapé, que herda a cor do texto. Tem de ser vetorial: o portal não usa um
 único símbolo em píxeis.
+
+A assinatura ao lado (`Wordmark`) é texto, não imagem. Se o Município tiver
+uma assinatura tipográfica fixada em manual de normas, é aí que se troca.
 
 ---
 

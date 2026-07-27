@@ -8,11 +8,11 @@ import { cn } from '@/lib/utils';
 const LEVEL_KEYS = ['level1', 'level2', 'level3', 'level4', 'level5'] as const;
 
 /**
- * Waldbrandrisiko nach der offiziellen IPMA-Skala – der Ersatz für das
- * animierte Wetter-GIF der alten Seite.
+ * Risco de incêndio rural segundo a escala oficial do IPMA — o substituto do
+ * GIF meteorológico animado do sítio antigo.
  *
- * Die Stufe steht als Zahl und als Wort da; die Farbe verstärkt sie nur.
- * So bleibt die Aussage auch bei Farbfehlsichtigkeit und im Schwarzweißdruck
+ * O nível aparece em número e por extenso; a cor apenas reforça. Assim a
+ * informação mantém-se para quem tem daltonismo e na impressão a preto e
  * erhalten.
  */
 export function FireRiskWidget({
@@ -32,9 +32,9 @@ export function FireRiskWidget({
   if (!today) return null;
 
   /**
-   * Die Farben sind die offiziellen IPMA-Stufen und dürfen nicht verändert
-   * werden. Anpassbar ist nur die Textfarbe darauf: Gelb und Orange tragen
-   * dunklen Text, sonst bleibt die Zahl unter 4.5:1.
+   * As cores são as dos níveis oficiais do IPMA e não podem ser alteradas.
+   * Só a cor do texto por cima é ajustável: sobre amarelo e laranja o texto é
+   * escuro, caso contrário o número ficaria abaixo de 4,5:1.
    */
   const levelClasses: Record<number, string> = {
     1: 'bg-risk-1 text-white',
