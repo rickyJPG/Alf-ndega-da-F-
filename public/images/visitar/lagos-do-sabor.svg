@@ -1,33 +1,48 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img">
   <defs>
     <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#E6F2F6"/>
-      <stop offset="55%" stop-color="#C2E0EA"/>
-      <stop offset="100%" stop-color="#96C8DA"/>
+      <stop offset="0%" stop-color="#EDF5F9"/>
+      <stop offset="55%" stop-color="#D2E7F1"/>
+      <stop offset="100%" stop-color="#AFD3E5"/>
     </linearGradient>
-    <linearGradient id="agua" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7FC0D8"/>
-      <stop offset="60%" stop-color="#4E9BBA"/>
-      <stop offset="100%" stop-color="#31768F"/>
-    </linearGradient>
+    <radialGradient id="vinheta" cx="50%" cy="42%" r="78%">
+      <stop offset="62%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.16"/>
+    </radialGradient>
+    <filter id="desfoque" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="27.2"/>
+    </filter>
+    <filter id="medio" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10.4"/>
+    </filter>
+    <filter id="suave" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9.6"/>
+    </filter>
+    <filter id="grao">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.7 0.7 0.7 0 0"/>
+    </filter>
   </defs>
+
   <rect width="1200" height="800" fill="url(#ceu)"/>
-  <path d="M0 800 L0 240 Q120 220.3 240 258.7 Q360 183.9 480 222.3 Q600 230 720 268.4 Q840 187.6 960 226 Q1080 237.5 1200 275.9 L1200 800 Z" fill="#7FA394"/>
-  <path d="M0 800 L0 336 Q100 324.4 200 356.4 Q300 266.6 400 298.6 Q500 272.8 600 304.8 Q700 328.8 800 360.8 Q900 275.9 1000 307.9 Q1100 301.4 1200 333.4 L1200 800 Z" fill="#4E7A6C"/>
-  <rect x="0" y="464" width="1200" height="336" fill="url(#agua)"/>
-
-  <path d="M0 464 L360 464 L240 240 L0 288 Z" fill="#33564E"/>
-  <path d="M1200 464 L792 464 L936 224 L1200 272 Z" fill="#33564E"/>
-  <path d="M336 464 L576 464 L480 352 Z" fill="#223A36"/>
-
-  <path d="M96 512 Q360 497.6 624 512 T1140 512" stroke="#FFFFFF" stroke-width="1.4" fill="none" opacity="0.3"/>
-  <path d="M96 560 Q360 545.6 624 560 T1140 560" stroke="#FFFFFF" stroke-width="1.7" fill="none" opacity="0.3"/>
-  <path d="M96 608 Q360 593.6 624 608 T1140 608" stroke="#FFFFFF" stroke-width="2" fill="none" opacity="0.3"/>
-  <path d="M96 656 Q360 641.6 624 656 T1140 656" stroke="#FFFFFF" stroke-width="2.3" fill="none" opacity="0.2"/>
-  <path d="M96 704 Q360 689.6 624 704 T1140 704" stroke="#FFFFFF" stroke-width="2.6" fill="none" opacity="0.2"/>
-  <path d="M96 752 Q360 737.6 624 752 T1140 752" stroke="#FFFFFF" stroke-width="2.9" fill="none" opacity="0.1"/>
-  <g><path d="M66.7 456 L69 432.7 L75 432.7 L77.3 456 Z" fill="#2F4A42"/><circle cx="58" cy="426" r="17.3" fill="#4E7A6C"/><circle cx="72" cy="414.7" r="22" fill="#4E7A6C"/><circle cx="86" cy="426" r="17.3" fill="#4E7A6C"/></g>
-  <g><path d="M138.7 456 L141 432.7 L147 432.7 L149.3 456 Z" fill="#2F4A42"/><circle cx="130" cy="426" r="17.3" fill="#4E7A6C"/><circle cx="144" cy="414.7" r="22" fill="#4E7A6C"/><circle cx="158" cy="426" r="17.3" fill="#4E7A6C"/></g>
-  <g><path d="M210.7 456 L213 432.7 L219 432.7 L221.3 456 Z" fill="#2F4A42"/><circle cx="202" cy="426" r="17.3" fill="#4E7A6C"/><circle cx="216" cy="414.7" r="22" fill="#4E7A6C"/><circle cx="230" cy="426" r="17.3" fill="#4E7A6C"/></g>
-  <g><path d="M282.7 456 L285 432.7 L291 432.7 L293.3 456 Z" fill="#2F4A42"/><circle cx="274" cy="426" r="17.3" fill="#4E7A6C"/><circle cx="288" cy="414.7" r="22" fill="#4E7A6C"/><circle cx="302" cy="426" r="17.3" fill="#4E7A6C"/></g>
+  <g filter="url(#desfoque)">
+    <rect x="-120" y="288" width="1440" height="240" fill="#8FAE9E" opacity="1"/>
+    <ellipse cx="240" cy="320" rx="408" ry="104" fill="#7B9C8B" opacity="1"/>
+    <ellipse cx="1020" cy="336" rx="360" ry="128" fill="#68907E" opacity="1"/>
+    <rect x="-120" y="416" width="1440" height="440" fill="#79B4CD" opacity="1"/>
+    <rect x="-120" y="480" width="1440" height="40" fill="#9CCADE" opacity="0.85"/>
+    <rect x="-120" y="576" width="1440" height="32" fill="#8FC2D8" opacity="0.7"/>
+    <ellipse cx="120" cy="760" rx="432" ry="160" fill="#3E5F54" opacity="1"/>
+    <ellipse cx="1104" cy="736" rx="360" ry="144" fill="#466B5E" opacity="1"/>
+  </g>
+  
+  <g filter="url(#suave)">
+    <ellipse cx="740.1" cy="498.5" rx="117.3" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+    <ellipse cx="494.9" cy="587.8" rx="114.3" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+    <ellipse cx="263.5" cy="465.6" rx="118.3" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+    <ellipse cx="346.7" cy="522.9" rx="60.7" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+    <ellipse cx="768.1" cy="471.1" rx="62.4" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+  </g>
+  <rect width="1200" height="800" fill="url(#vinheta)"/>
+  <rect width="1200" height="800" filter="url(#grao)" opacity="0.055"/>
 </svg>

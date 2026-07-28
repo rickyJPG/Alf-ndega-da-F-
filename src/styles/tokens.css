@@ -109,9 +109,10 @@
 }
 
 /* ==========================================================================
-   Modo escuro
-   O script em linha no <head> define sempre data-theme como light ou dark.
-   O bloco @media cobre o instante anterior e os navegadores sem JavaScript.
+   Modo escuro — apenas por escolha explícita no painel de acessibilidade.
+   O tema predefinido é o claro, independentemente do sistema operativo:
+   um portal público apresenta-se sempre com o mesmo aspeto. O script em
+   linha no <head> escreve o data-theme antes da primeira pintura.
    ========================================================================== */
 
 :root[data-theme='dark'] {
@@ -164,43 +165,7 @@
   color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --color-primary-900: #04121c;
-    --color-primary-800: #0b2c42;
-    --color-primary-700: #a8d5f2;
-    --color-primary-600: #78bce8;
-    --color-primary-100: #12293a;
-    --color-accent-700: #ffb3b8;
-    --color-accent-600: #c62f3a;
-    --color-accent-hover: #d8434e;
-    --color-accent-100: #37161a;
-    --color-support-700: #6fc9b1;
-    --color-support-100: #122b26;
-    --color-ink: #eef2f6;
-    --color-ink-muted: #a8b4c0;
-    --color-line: #26323d;
-    --color-line-strong: #3d4c59;
-    --color-surface: #0d1319;
-    --color-surface-alt: #141c24;
-    --color-surface-sunken: #1b242d;
-    --color-info: #78bce8;
-    --color-info-surface: #12293a;
-    --color-success: #63c98d;
-    --color-success-surface: #12291d;
-    --color-warning: #e0a256;
-    --color-warning-surface: #2c1f0e;
-    --color-danger: #f08a92;
-    --color-danger-surface: #2e1418;
-    --risk-1: #66bb6a;
-    --risk-2: #ffd54f;
-    --risk-3: #ffa726;
-    --risk-4: #ef5350;
-    --risk-5: #ba68c8;
-    --focus-ring-color: #ffb3b8;
-    color-scheme: dark;
-  }
-}
+
 
 /* ==========================================================================
    Alto contraste (painel de acessibilidade)

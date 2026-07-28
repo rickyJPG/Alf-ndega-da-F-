@@ -80,9 +80,14 @@ for (const template of TEMPLATES) {
 }
 
 test('o modo escuro mantém-se acessível', async ({ page }) => {
-  await page.emulateMedia({ colorScheme: 'dark' });
+  // O escuro já não segue o sistema — é uma escolha explícita no painel.
   await page.goto('/');
+  await page.evaluate(() => {
+    window.localStorage.setItem('cmadf:prefs', JSON.stringify({ theme: 'dark' }));
+  });
+  await page.reload();
   await page.waitForLoadState('networkidle');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
   const summary = summarise(await analyse(page));
   expect(summary, `modo escuro\n${summary.join('\n')}`).toEqual([]);

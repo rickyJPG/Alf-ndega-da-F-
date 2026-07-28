@@ -47,7 +47,7 @@ Comandos disponíveis:
 | `npm run test:a11y` | Só os testes de acessibilidade |
 | `npm run check` | Tipos + lint + testes unitários |
 | `npm run fonts` | Volta a descarregar as fontes para `public/fonts` |
-| `npm run placeholders` | Regenera as ilustrações de exemplo |
+| `npm run placeholders` | Regenera os substitutos fotográficos das imagens |
 | `npm run vendor` | Atualiza os ficheiros do Leaflet em `public/vendor` |
 
 ### Variáveis de ambiente
@@ -327,25 +327,28 @@ O `path` da página é o seu endereço. Se acrescentar uma ligação na navegaç
 (`src/lib/navigation.ts`) sem criar a página correspondente, o teste
 `tests/unit/content.test.ts` falha — de propósito.
 
-### Substituir as imagens de exemplo
+### Pôr as fotografias reais
 
-O portal tem imagem em todos os sítios onde o portal antigo a tinha: destaque
-da página inicial, cartões de notícia, cartões de evento e páginas de turismo.
-As 16 ilustrações em `public/images` são geradas por
-`scripts/generate-placeholders.mjs` e servem de marcador de posição — o
-repositório não inclui fotografias cujos direitos não estejam esclarecidos.
+O portal foi desenhado para fotografias reais do concelho, como o sítio
+oficial sempre teve. Este repositório não as pode incluir — os direitos têm
+de ser confirmados pela autarquia —, por isso cada posição de imagem traz um
+**substituto fotográfico**: uma cena desfocada, com grão e vinheta, gerada
+por `scripts/generate-placeholders.mjs`. Não são desenhos nem ilustrações;
+leem-se como fotografias fora de foco, para que o aspeto fique próximo do
+definitivo e seja óbvio o que falta substituir.
 
-São cenas reconhecíveis do concelho, na paleta do Município: a vila ao
-entardecer entre socalcos de cerejeiras, o cerejal em junho com um ramo em
-primeiro plano, os lagos do Sabor, as amendoeiras em flor e o castelo.
-`npm run placeholders` volta a gerá-las (o resultado é determinístico: os
-mesmos ficheiros em cada execução).
+A troca é uma operação de pastas, sem tocar em código:
 
-Ao substituir por fotografias reais, **mantenha as proporções**: destaque e
-notícias em 16:9, eventos e turismo em 3:2. As dimensões estão declaradas no
-conteúdo e é isso que impede o texto de saltar enquanto a imagem carrega.
-Basta pôr o ficheiro em `public/images` com o mesmo nome (`.jpg` em vez de
-`.svg`) e atualizar o caminho em `src/content/data/`.
+1. Exporte as fotografias do arquivo do Município (as mesmas do sítio antigo
+   servem) nos tamanhos indicados abaixo.
+2. Guarde cada uma em `public/images` com o **mesmo nome** do ficheiro que
+   substitui, mudando `.svg` para `.jpg`.
+3. Atualize a extensão no caminho correspondente em `src/content/data/` e em
+   `src/app/[locale]/page.tsx`.
+
+Proporções a manter — são elas que impedem o texto de saltar enquanto a
+imagem carrega: destaque da página inicial e notícias em 16:9 (1600×900 e
+1200×675), turismo e eventos em 3:2 (1200×800 e 900×600).
 
 ### Brasão
 
@@ -389,7 +392,10 @@ limitações conhecidas e a forma de pedir ajuda.
 
 Disponível no topo de todas as páginas: tamanho do texto (90 % a 150 %),
 contraste elevado, espaçamento entre linhas, letra Atkinson Hyperlegible,
-redução de animações e escolha de tema. As preferências ficam **apenas no
+redução de animações e escolha de tema. O tema predefinido é o **claro**,
+independentemente do sistema operativo — um portal público apresenta-se
+sempre com o mesmo aspeto; o escuro é uma escolha explícita de quem o
+preferir. As preferências ficam **apenas no
 equipamento do visitante** (`localStorage`) — não vão para o servidor e não
 identificam ninguém, pelo que não carecem de consentimento.
 

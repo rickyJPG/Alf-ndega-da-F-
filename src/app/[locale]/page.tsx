@@ -112,21 +112,21 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       title: 'Lagos do Sabor',
       text: 'Três lagos de águas serenas entre penhascos, onde antes corria o rio bravo.',
       image: '/images/visitar/lagos-do-sabor.svg',
-      alt: 'Ilustração das encostas verdes que descem para os lagos do Sabor.',
+      alt: 'Águas serenas dos lagos do Sabor entre encostas verdes, em fundo desfocado.',
     },
     {
       href: '/visitar/percursos-pedestres',
       title: 'Percursos pedestres',
       text: 'Nove trilhos marcados, do passeio de meia hora à caminhada de um dia.',
       image: '/images/visitar/percursos.svg',
-      alt: 'Ilustração de encostas sobrepostas com socalcos.',
+      alt: 'Encostas verdes do concelho em socalcos, em fundo desfocado.',
     },
     {
       href: '/visitar/produtos-locais',
       title: 'Cereja, azeite e castanha',
       text: 'A cereja é a mais conhecida. O azeite e a castanha merecem a mesma atenção.',
       image: '/images/visitar/cereja.svg',
-      alt: 'Motivo gráfico com cerejas estilizadas.',
+      alt: 'Cerejas maduras fora de foco sobre o verde do cerejal.',
     },
   ];
 

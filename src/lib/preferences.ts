@@ -12,7 +12,7 @@ export type ThemeChoice = 'system' | 'light' | 'dark';
 
 export interface Preferences {
   theme: ThemeChoice;
-  /** Textskalierung, 1 = 100 %. */
+  /** Escala do texto, 1 = 100 %. */
   fontScale: number;
   highContrast: boolean;
   looseSpacing: boolean;
@@ -20,8 +20,14 @@ export interface Preferences {
   reduceMotion: boolean;
 }
 
+/**
+ * O tema predefinido é o CLARO, não o do sistema: o portal público tem um
+ * aspeto único e estável, como o sítio oficial sempre teve. Quem preferir o
+ * escuro (ou seguir o sistema) escolhe-o no painel de acessibilidade — é uma
+ * decisão da pessoa, não do sistema operativo.
+ */
 export const defaultPreferences: Preferences = {
-  theme: 'system',
+  theme: 'light',
   fontScale: 1,
   highContrast: false,
   looseSpacing: false,
@@ -83,7 +89,7 @@ function toggleAttr(root: HTMLElement, name: string, value: string | null): void
 export const preferencesBootstrapScript = `(function(){try{
 var d=document.documentElement;
 var p={};try{p=JSON.parse(localStorage.getItem('${PREFS_KEY}')||'{}')||{}}catch(e){}
-var c=p.theme||'system';
+var c=p.theme||'light';
 var t=c==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):c;
 d.setAttribute('data-theme',t);
 d.setAttribute('data-theme-choice',c);
