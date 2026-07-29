@@ -47,7 +47,7 @@ Comandos disponíveis:
 | `npm run test:a11y` | Só os testes de acessibilidade |
 | `npm run check` | Tipos + lint + testes unitários |
 | `npm run fonts` | Volta a descarregar as fontes para `public/fonts` |
-| `npm run placeholders` | Regenera os substitutos fotográficos das imagens |
+| `npm run placeholders` | Regenera as molduras de espera das fotografias |
 | `npm run fotos` | Descarrega as fotografias reais para as posições certas |
 | `npm run vendor` | Atualiza os ficheiros do Leaflet em `public/vendor` |
 
@@ -339,13 +339,21 @@ O `path` da página é o seu endereço. Se acrescentar uma ligação na navegaç
 
 ### Pôr as fotografias reais
 
-**O caminho rápido:** o Município forneceu a lista de fotografias
-(documento «Links_Imagens_CM_Alfandega_da_Fe»). Ela está vertida em
-`scripts/obter-fotos.mjs` — num computador com internet, basta:
+O Município forneceu a lista de fotografias (documento
+«Links_Imagens_CM_Alfandega_da_Fe»). Há dois caminhos para as pôr no portal,
+ambos com a lista já preenchida:
+
+**Com terminal** — num computador com internet:
 
 ```bash
 npm run fotos
 ```
+
+**Sem terminal** — abra `ferramentas/obter-fotos.html` no navegador (duplo
+clique no ficheiro, não precisa de servidor). Mostra cada fotografia da lista
+com o nome de ficheiro que lhe corresponde e um botão para a guardar. Quando
+o sítio de origem não autoriza a transferência direta, abre a imagem para ser
+guardada à mão.
 
 O script descarrega cada fotografia para a posição certa (destaque, castelo,
 lagos, cerejais, percursos, Sambade, Parada, Valverde…) e as restantes para
@@ -363,10 +371,10 @@ substituição em português corrente. Não é indexada por motores de busca.
 O portal foi desenhado para fotografias reais do concelho, como o sítio
 oficial sempre teve. Este repositório não as pode incluir — os direitos têm
 de ser confirmados pela autarquia —, por isso cada posição de imagem traz um
-**substituto fotográfico**: uma cena desfocada, com grão e vinheta, gerada
-por `scripts/generate-placeholders.mjs`. Não são desenhos nem ilustrações;
-leem-se como fotografias fora de foco, para que o aspeto fique próximo do
-definitivo e seja óbvio o que falta substituir.
+**moldura de espera**: fundo claro com o padrão de flor de cerejeira, o
+símbolo de fotografia e, por baixo, o motivo que ali entra e o nome exato do
+ficheiro. Não são ilustrações a fazer de fotografia — dizem o que são, ficam
+bem numa apresentação e não se confundem com uma imagem estragada.
 
 A troca é uma operação de pastas, sem tocar em código:
 

@@ -1,43 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img">
-  <defs>
-    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FBEEDD"/>
-      <stop offset="55%" stop-color="#F6D9B4"/>
-      <stop offset="100%" stop-color="#EDBE8D"/>
-    </linearGradient>
-    <radialGradient id="vinheta" cx="50%" cy="42%" r="78%">
-      <stop offset="62%" stop-color="#000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000" stop-opacity="0.16"/>
-    </radialGradient>
-    <filter id="desfoque" x="-25%" y="-25%" width="150%" height="150%">
-      <feGaussianBlur stdDeviation="27.2"/>
-    </filter>
-    <filter id="medio" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="10.4"/>
-    </filter>
-    <filter id="suave" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="9.6"/>
-    </filter>
-    <filter id="grao">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.7 0.7 0.7 0 0"/>
-    </filter>
-  </defs>
-
-  <rect width="1200" height="800" fill="url(#ceu)"/>
-  <g filter="url(#desfoque)">
-    <rect x="-120" y="400" width="1440" height="520" fill="#C0996F" opacity="1"/>
-    <ellipse cx="600" cy="416" rx="408" ry="128" fill="#CBA57B" opacity="1"/>
-    <ellipse cx="528" cy="352" rx="60" ry="80" fill="#B08A5C" opacity="1"/>
-    <ellipse cx="636" cy="320" rx="42" ry="112" fill="#A67F52" opacity="1"/>
-    <ellipse cx="732" cy="360" rx="60" ry="72" fill="#B08A5C" opacity="1"/>
-    <rect x="-120" y="560" width="1440" height="360" fill="#8F6B47" opacity="1"/>
-    <ellipse cx="1020" cy="736" rx="408" ry="176" fill="#7A5A3C" opacity="1"/>
+  <rect width="1200" height="800" fill="#FBF7F5"/>
+  <g>
+    <g transform="translate(144 144) scale(4.6)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.14"/><circle r="5" fill="#640404" opacity="0.11199999999999999"/></g>
+    <g transform="translate(1056 192) scale(3.4)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.11"/><circle r="5" fill="#640404" opacity="0.08800000000000001"/></g>
+    <g transform="translate(240 672) scale(2.8)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.1"/><circle r="5" fill="#640404" opacity="0.08"/></g>
+    <g transform="translate(960 640) scale(4)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.12"/><circle r="5" fill="#640404" opacity="0.096"/></g>
+    <path transform="translate(360 240) rotate(-20) scale(3.2)" d="M0 0q12-15 30-12q-10 17-30 12Z" fill="#A9B416" opacity="0.16"/>
+    <path transform="translate(864 528) rotate(145) scale(3.9)" d="M0 0q12-15 30-12q-10 17-30 12Z" fill="#A9B416" opacity="0.16"/>
   </g>
-  
-  <g filter="url(#suave)">
-    <circle cx="884.6" cy="128" r="40" fill="#FFF4DE" opacity="0.9"/><circle cx="872.6" cy="116" r="14" fill="#FFFFFF" opacity="0.25"/>
-  </g>
-  <rect width="1200" height="800" fill="url(#vinheta)"/>
-  <rect width="1200" height="800" filter="url(#grao)" opacity="0.055"/>
+  <rect x="24" y="24" width="1152" height="752" rx="15" fill="none" stroke="#A40C04" stroke-width="4" stroke-dasharray="25 17.5" opacity="0.4"/>
+  <g transform="translate(600 352)" fill="none" stroke="#A40C04" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" opacity="0.85">
+      <path d="M-65 -35h32.5l10 -15h45l10 15h32.5a10 10 0 0 1 10 10v65a10 10 0 0 1 -10 10h-130a10 10 0 0 1 -10 -10v-65a10 10 0 0 1 10 -10Z"/>
+      <circle cx="0" cy="17.5" r="30"/>
+    </g>
+  <text x="600" y="467" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="37.5" font-weight="600" fill="#640404">O castelo de Alfândega da Fé</text>
+  <text x="600" y="521.7" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="28.8" fill="#A40C04" opacity="0.75">visitar/patrimonio.jpg</text>
 </svg>

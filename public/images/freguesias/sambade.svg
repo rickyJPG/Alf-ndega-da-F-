@@ -1,78 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img">
-  <defs>
-    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#F0F7FC"/>
-      <stop offset="55%" stop-color="#D9EBF7"/>
-      <stop offset="100%" stop-color="#BADDF0"/>
-    </linearGradient>
-    <radialGradient id="vinheta" cx="50%" cy="42%" r="78%">
-      <stop offset="62%" stop-color="#000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000" stop-opacity="0.16"/>
-    </radialGradient>
-    <filter id="desfoque" x="-25%" y="-25%" width="150%" height="150%">
-      <feGaussianBlur stdDeviation="27.2"/>
-    </filter>
-    <filter id="medio" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="10.4"/>
-    </filter>
-    <filter id="suave" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="9.6"/>
-    </filter>
-    <filter id="grao">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.7 0.7 0.7 0 0"/>
-    </filter>
-  </defs>
-
-  <rect width="1200" height="800" fill="url(#ceu)"/>
-  <g filter="url(#desfoque)">
-    <rect x="-120" y="336" width="1440" height="560" fill="#A9BF97" opacity="1"/>
-    <ellipse cx="300" cy="368" rx="480" ry="104" fill="#B2C79E" opacity="1"/>
-    <rect x="-120" y="448" width="1440" height="480" fill="#7FA36B" opacity="1"/>
-    <ellipse cx="936" cy="480" rx="432" ry="112" fill="#7FA36B" opacity="1"/>
-    <rect x="-120" y="624" width="1440" height="320" fill="#5C8253" opacity="1"/>
-    <ellipse cx="168" cy="736" rx="360" ry="128" fill="#5C8253" opacity="1"/>
-    <ellipse cx="720" cy="400" rx="240" ry="40" fill="#BCCFa2" opacity="0.6"/>
-    <ellipse cx="420" cy="544" rx="288" ry="40" fill="#6F9460" opacity="0.7"/>
-    <ellipse cx="1020" cy="688" rx="312" ry="56" fill="#527549" opacity="0.7"/>
+  <rect width="1200" height="800" fill="#FBF7F5"/>
+  <g>
+    <g transform="translate(144 144) scale(4.6)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.14"/><circle r="5" fill="#640404" opacity="0.11199999999999999"/></g>
+    <g transform="translate(1056 192) scale(3.4)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.11"/><circle r="5" fill="#640404" opacity="0.08800000000000001"/></g>
+    <g transform="translate(240 672) scale(2.8)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.1"/><circle r="5" fill="#640404" opacity="0.08"/></g>
+    <g transform="translate(960 640) scale(4)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.12"/><circle r="5" fill="#640404" opacity="0.096"/></g>
+    <path transform="translate(360 240) rotate(-20) scale(3.2)" d="M0 0q12-15 30-12q-10 17-30 12Z" fill="#A9B416" opacity="0.16"/>
+    <path transform="translate(864 528) rotate(145) scale(3.9)" d="M0 0q12-15 30-12q-10 17-30 12Z" fill="#A9B416" opacity="0.16"/>
   </g>
-  <g filter="url(#medio)">
-    <ellipse cx="252.2" cy="428.5" rx="27.2" ry="21.5" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="252.2" cy="405.9" rx="24.5" ry="12.9" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="295.2" cy="421.4" rx="38.2" ry="21" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="295.2" cy="399.4" rx="34.3" ry="12.6" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="314.5" cy="419.4" rx="30.1" ry="25.5" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="314.5" cy="392.6" rx="27.1" ry="15.3" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="373.3" cy="436.5" rx="36.2" ry="16.9" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="373.3" cy="418.7" rx="32.6" ry="10.2" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="450.5" cy="421.3" rx="28.9" ry="25" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="450.5" cy="395" rx="26" ry="15" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="443.2" cy="423" rx="23.2" ry="23.8" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="443.2" cy="398" rx="20.9" ry="14.3" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="524.1" cy="427.4" rx="33.5" ry="24.6" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="524.1" cy="401.5" rx="30.1" ry="14.8" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="578.2" cy="429" rx="40.8" ry="17.2" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="578.2" cy="410.9" rx="36.8" ry="10.3" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="591.5" cy="425.9" rx="37.1" ry="26.5" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="591.5" cy="398.1" rx="33.4" ry="15.9" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="679.7" cy="425.6" rx="26" ry="18.9" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="679.7" cy="405.8" rx="23.4" ry="11.3" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="731.7" cy="432.9" rx="35.5" ry="22.8" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="731.7" cy="409" rx="31.9" ry="13.7" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="774.7" cy="434.5" rx="34.6" ry="23.5" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="774.7" cy="409.8" rx="31.1" ry="14.1" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="807" cy="435.7" rx="35.6" ry="17.1" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="807" cy="417.7" rx="32" ry="10.3" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="871.9" cy="417.3" rx="23.4" ry="19.5" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="871.9" cy="396.8" rx="21.1" ry="11.7" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="898.2" cy="433.8" rx="29.7" ry="25.1" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="898.2" cy="407.4" rx="26.8" ry="15" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="971.2" cy="434.5" rx="28.5" ry="26" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="971.2" cy="407.2" rx="25.7" ry="15.6" fill="#9E4B38" opacity="0.95"/>
-    <ellipse cx="659.5" cy="356" rx="13.2" ry="52" fill="#FBF8F1" opacity="0.97"/>
-    <ellipse cx="659.5" cy="308" rx="18" ry="16" fill="#9E4B38" opacity="0.95"/>
-  </g>
-  
-  <rect width="1200" height="800" fill="url(#vinheta)"/>
-  <rect width="1200" height="800" filter="url(#grao)" opacity="0.055"/>
+  <rect x="24" y="24" width="1152" height="752" rx="15" fill="none" stroke="#A40C04" stroke-width="4" stroke-dasharray="25 17.5" opacity="0.4"/>
+  <g transform="translate(600 352)" fill="none" stroke="#A40C04" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" opacity="0.85">
+      <path d="M-65 -35h32.5l10 -15h45l10 15h32.5a10 10 0 0 1 10 10v65a10 10 0 0 1 -10 10h-130a10 10 0 0 1 -10 -10v-65a10 10 0 0 1 10 -10Z"/>
+      <circle cx="0" cy="17.5" r="30"/>
+    </g>
+  <text x="600" y="467" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="37.5" font-weight="600" fill="#640404">Sambade</text>
+  <text x="600" y="521.7" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="28.8" fill="#A40C04" opacity="0.75">freguesias/sambade.jpg</text>
 </svg>

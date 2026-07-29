@@ -120,8 +120,9 @@ export default async function GuiaDeImagensPage({
       <Section title="Como se troca uma fotografia">
         <div className="measure">
           <p className="mb-4">
-            Todas as imagens que vê no portal são <strong>provisórias</strong>: cenas desfocadas
-            que ocupam o lugar da fotografia definitiva. Substituí-las não exige programação.
+            Todas as imagens que vê no portal são <strong>provisórias</strong>: molduras de
+            espera que dizem, no próprio desenho, que fotografia ali entra e com que nome de
+            ficheiro. Substituí-las não exige programação.
           </p>
           <ol className="prose-cm mb-6 list-decimal ps-5">
             <li>
@@ -131,13 +132,19 @@ export default async function GuiaDeImagensPage({
               <code>public/images/visitar/patrimonio.jpg</code>.
             </li>
             <li>Volte a compilar o portal (ou reinicie o servidor).</li>
-            <li>Está feito — o portal passa a mostrar a fotografia em vez do substituto.</li>
+            <li>Está feito — o portal passa a mostrar a fotografia em vez da moldura.</li>
           </ol>
 
-          <Alert tone="info" title="Atalho para a primeira carga" className="mb-6">
-            O comando <code>npm run fotos</code> descarrega de uma vez as fotografias já
-            escolhidas pelo Município e coloca-as nas posições certas. Só precisa de um
-            computador com ligação à internet.
+          <Alert tone="info" title="Atalhos para a primeira carga" className="mb-6">
+            <p className="mb-2">
+              <strong>Com terminal:</strong> <code>npm run fotos</code> descarrega de uma vez as
+              fotografias escolhidas pelo Município e coloca-as nas posições certas.
+            </p>
+            <p>
+              <strong>Sem terminal:</strong> abra <code>ferramentas/obter-fotos.html</code> no
+              navegador. Mostra cada fotografia da lista com o nome de ficheiro que lhe
+              corresponde e um botão para a guardar.
+            </p>
           </Alert>
 
           <p className="mb-4">

@@ -1,48 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img">
-  <defs>
-    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#F3F6F4"/>
-      <stop offset="55%" stop-color="#E2E9E2"/>
-      <stop offset="100%" stop-color="#CBD8CC"/>
-    </linearGradient>
-    <radialGradient id="vinheta" cx="50%" cy="42%" r="78%">
-      <stop offset="62%" stop-color="#000" stop-opacity="0"/>
-      <stop offset="100%" stop-color="#000" stop-opacity="0.13"/>
-    </radialGradient>
-    <filter id="desfoque" x="-25%" y="-25%" width="150%" height="150%">
-      <feGaussianBlur stdDeviation="23"/>
-    </filter>
-    <filter id="medio" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="8.8"/>
-    </filter>
-    <filter id="suave" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="8.2"/>
-    </filter>
-    <filter id="grao">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.7 0.7 0.7 0 0"/>
-    </filter>
-  </defs>
-
-  <rect width="1200" height="675" fill="url(#ceu)"/>
-  <g filter="url(#desfoque)">
-    <rect x="-120" y="297" width="1440" height="472.5" fill="#CDBFA5" opacity="1"/>
-    <ellipse cx="264" cy="337.5" rx="216" ry="60.8" fill="#B8503F" opacity="1"/>
-    <ellipse cx="600" cy="310.5" rx="240" ry="67.5" fill="#E5E0D2" opacity="1"/>
-    <ellipse cx="936" cy="344.3" rx="216" ry="60.8" fill="#5C8253" opacity="1"/>
-    <rect x="-120" y="459" width="1440" height="303.8" fill="#A9997D" opacity="1"/>
-    <ellipse cx="420" cy="573.8" rx="480" ry="135" fill="#8F805F" opacity="1"/>
+  <rect width="1200" height="675" fill="#FBF7F5"/>
+  <g>
+    <g transform="translate(144 121.5) scale(3.9)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.14"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.14"/><circle r="5" fill="#640404" opacity="0.11199999999999999"/></g>
+    <g transform="translate(1056 162) scale(2.9)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.11"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.11"/><circle r="5" fill="#640404" opacity="0.08800000000000001"/></g>
+    <g transform="translate(240 567) scale(2.4)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.1"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.1"/><circle r="5" fill="#640404" opacity="0.08"/></g>
+    <g transform="translate(960 540) scale(3.4)"><circle cx="14.8" cy="0" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="4.6" cy="14.1" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="-12" cy="8.7" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="-12" cy="-8.7" r="11.5" fill="#B43C34" opacity="0.12"/><circle cx="4.6" cy="-14.1" r="11.5" fill="#B43C34" opacity="0.12"/><circle r="5" fill="#640404" opacity="0.096"/></g>
+    <path transform="translate(360 202.5) rotate(-20) scale(2.7)" d="M0 0q12-15 30-12q-10 17-30 12Z" fill="#A9B416" opacity="0.16"/>
+    <path transform="translate(864 445.5) rotate(145) scale(3.2)" d="M0 0q12-15 30-12q-10 17-30 12Z" fill="#A9B416" opacity="0.16"/>
   </g>
-  
-  <g filter="url(#suave)">
-    <circle cx="438.6" cy="433.3" r="16.3" fill="#D6A21E" opacity="0.8"/><circle cx="433.7" cy="428.4" r="5.7" fill="#FFFFFF" opacity="0.22000000000000003"/>
-    <circle cx="855.6" cy="562.5" r="26.4" fill="#A62531" opacity="0.8"/><circle cx="847.7" cy="554.5" r="9.2" fill="#FFFFFF" opacity="0.22000000000000003"/>
-    <circle cx="423.1" cy="405.9" r="19.4" fill="#D6A21E" opacity="0.8"/><circle cx="417.2" cy="400" r="6.8" fill="#FFFFFF" opacity="0.22000000000000003"/>
-    <circle cx="411.5" cy="530.3" r="19" fill="#C4682F" opacity="0.8"/><circle cx="405.8" cy="524.6" r="6.6" fill="#FFFFFF" opacity="0.22000000000000003"/>
-    <circle cx="841.1" cy="568.3" r="31.6" fill="#7E9C43" opacity="0.8"/><circle cx="831.7" cy="558.8" r="11" fill="#FFFFFF" opacity="0.22000000000000003"/>
-    <circle cx="936.2" cy="533.7" r="24.9" fill="#D6A21E" opacity="0.8"/><circle cx="928.7" cy="526.2" r="8.7" fill="#FFFFFF" opacity="0.22000000000000003"/>
-    <circle cx="180" cy="443.4" r="22.9" fill="#D6A21E" opacity="0.8"/><circle cx="173.2" cy="436.5" r="8" fill="#FFFFFF" opacity="0.22000000000000003"/>
-  </g>
-  <rect width="1200" height="675" fill="url(#vinheta)"/>
-  <rect width="1200" height="675" filter="url(#grao)" opacity="0.055"/>
+  <rect x="24" y="20.3" width="1152" height="634.5" rx="12.7" fill="none" stroke="#A40C04" stroke-width="3.4" stroke-dasharray="21.1 14.8" opacity="0.4"/>
+  <g transform="translate(600 297)" fill="none" stroke="#A40C04" stroke-width="5.1" stroke-linejoin="round" stroke-linecap="round" opacity="0.85">
+      <path d="M-54.8 -29.5h27.4l8.4 -12.7h38l8.4 12.7h27.4a8.4 8.4 0 0 1 8.4 8.4v54.8a8.4 8.4 0 0 1 -8.4 8.4h-109.7a8.4 8.4 0 0 1 -8.4 -8.4v-54.8a8.4 8.4 0 0 1 8.4 -8.4Z"/>
+      <circle cx="0" cy="14.8" r="25.3"/>
+    </g>
+  <text x="600" y="394" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="31.6" font-weight="600" fill="#640404">Ação social</text>
+  <text x="600" y="440.2" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="24.3" fill="#A40C04" opacity="0.75">noticias/social.jpg</text>
 </svg>

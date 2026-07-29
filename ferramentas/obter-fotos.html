@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Obter as fotografias do portal — Município de Alfândega da Fé</title>
+<style>
+  :root {
+    --cereja: #a40c04;
+    --cereja-escura: #640404;
+    --verde: #8ca404;
+    --tinta: #11161c;
+    --tinta-suave: #4a5560;
+    --linha: #dfe4e9;
+    --fundo: #f7f9fb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 16px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color: var(--tinta);
+    background: var(--fundo);
+  }
+  header { background: var(--cereja); color: #fff; padding: 1.5rem 1.25rem; }
+  header p { margin: .4rem 0 0; max-width: 62ch; color: #ffffffe6; }
+  h1 { margin: 0; font-size: 1.5rem; }
+  main { max-width: 74rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+  .passos { background: #fff; border: 1px solid var(--linha); border-radius: .5rem; padding: 1.25rem; margin-bottom: 2rem; }
+  .passos ol { margin: 0; padding-left: 1.25rem; max-width: 68ch; }
+  .passos li { margin-bottom: .5rem; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; background: #eef1f4; padding: .1em .35em; border-radius: .25rem; font-size: .92em; }
+  h2 { margin: 2.5rem 0 1rem; font-size: 1.15rem; border-bottom: 3px solid var(--cereja); padding-bottom: .4rem; }
+  .grelha { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); list-style: none; margin: 0; padding: 0; }
+  .cartao { background: #fff; border: 1px solid var(--linha); border-radius: .5rem; overflow: hidden; display: flex; flex-direction: column; }
+  .cartao img { display: block; width: 100%; aspect-ratio: 3/2; object-fit: cover; background: #eef1f4; }
+  .cartao .corpo { padding: .85rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; }
+  .nome { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .82rem; font-weight: 600; color: var(--cereja-escura); word-break: break-all; }
+  .motivo { font-size: .9rem; color: var(--tinta-suave); }
+  .accoes { margin-top: auto; display: flex; gap: .5rem; flex-wrap: wrap; }
+  a.botao, button.botao {
+    font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer;
+    border: 1px solid var(--cereja); background: var(--cereja); color: #fff;
+    border-radius: .3rem; padding: .45rem .7rem; text-decoration: none; display: inline-block;
+  }
+  button.botao.secundario { background: #fff; color: var(--cereja-escura); border-color: var(--linha); }
+  .falhou { outline: 2px solid #b3261e; }
+  .aviso { background: #fff8e1; border-left: 4px solid #8a4d00; padding: .9rem 1rem; border-radius: .25rem; margin: 1.5rem 0; max-width: 68ch; }
+  footer { color: var(--tinta-suave); font-size: .9rem; margin-top: 3rem; max-width: 68ch; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Obter as fotografias do portal</h1>
+  <p>
+    As fotografias da lista do Município, prontas a guardar já com o nome certo.
+    Esta página corre no seu computador — não precisa de servidor nem de instalar nada.
+  </p>
+</header>
+
+<main>
+  <div class="passos">
+    <ol>
+      <li>Clique em <strong>Guardar</strong> num cartão. O navegador descarrega a fotografia.</li>
+      <li>
+        Se o navegador lhe der outro nome, use o que está no cartão — por exemplo
+        <code>visitar/patrimonio.jpg</code> significa o ficheiro <code>patrimonio.jpg</code>
+        dentro da pasta <code>public/images/visitar/</code>.
+      </li>
+      <li>Copie os ficheiros para <code>public/images/</code> do portal, respeitando as pastas.</li>
+      <li>Volte a compilar (<code>npm run build</code>). O portal passa a mostrar as fotografias.</li>
+    </ol>
+    <p style="margin:.9rem 0 0;max-width:68ch">
+      <strong>Tem terminal?</strong> Então é mais rápido: <code>npm run fotos</code> faz tudo isto
+      de uma vez.
+    </p>
+  </div>
+
+  <div class="aviso">
+    <strong>Antes de publicar:</strong> confirme junto do Município os direitos de utilização de
+    cada fotografia. As que vêm do próprio sítio municipal são as mais seguras; as de blogues,
+    sítios de reservas e da Wikimedia precisam de autorização ou de atribuição.
+  </div>
+
+  <div id="lista"></div>
+
+  <footer>
+    <p>
+      Se um cartão aparecer vazio, o sítio de origem deixou de servir a imagem ou bloqueia
+      ligações de fora. Use o botão <strong>Abrir</strong> para a ver no sítio original e
+      guardá-la manualmente.
+    </p>
+  </footer>
+</main>
+
+<script>
+/**
+ * A lista é a mesma de scripts/obter-fotos.mjs. Quem mudar uma deve mudar a
+ * outra — são os dois caminhos para o mesmo resultado.
+ */
+const GRUPOS = [
+  {
+    titulo: 'Posições do portal (guardar com este nome)',
+    itens: [
+      ['hero-alfandega.jpg', 'Destaque da página inicial — vista da vila', 'https://www.tempodeviajar.com/wp-content/uploads/alfandega-da-fe.jpg'],
+      ['visitar/patrimonio.jpg', 'O castelo — do sítio municipal', 'https://www.cm-alfandegadafe.pt/cmalfandegadafe/uploads/poi/image/205/castelo_alfandega_4b747579d9fc5_1_1024_2500.jpg'],
+      ['visitar/lagos-do-sabor.jpg', 'Lagos do Sabor', 'https://ncultura.pt/wp-content/uploads/2022/12/Um-paraiso-chamado-Lagos-do-Sabor-00.jpg'],
+      ['visitar/cereja.jpg', 'Cerejais — do sítio municipal', 'https://www.cm-alfandegadafe.pt/cmalfandegadafe/uploads/poi/image/30/Cerejais_4b7473dcb61aa.jpg'],
+      ['visitar/percursos.jpg', 'Percursos pedestres', 'https://www.dareyouspot.com/Routes/LoadImage/533'],
+      ['visitar/amendoeiras.jpg', 'Paisagem do concelho', 'https://www.vagamundos.pt/wp-content/uploads/2020/11/1-147.jpg'],
+      ['noticias/cereja.jpg', 'Notícias da campanha da cereja', 'https://www.cm-alfandegadafe.pt/cmalfandegadafe/uploads/poi/image/30/Cerejais_4b7473dcb61aa.jpg'],
+      ['noticias/agua.jpg', 'Notícias de água e saneamento', 'https://assets.e-konomista.pt/uploads/2022/02/lagos-sabor1.jpg'],
+      ['noticias/orcamento.jpg', 'Notícias de contas e orçamento', 'https://www.cm-alfandegadafe.pt/imgcrop/cmalfandegadafe/uploads/poi/image/29/castelo_alfandega_4b747579d9fc5_1_736_540.jpg'],
+      ['noticias/ambiente.jpg', 'Notícias de ambiente', 'https://www.acp.pt/ResourcesUser/ACP/img_lista/ACP-Estrada-Fora-Fins-de-Semana-Alfandega-da-Fe-lista.jpg'],
+      ['logotipo-branco.png', 'Logótipo oficial em alta qualidade', 'https://www.cm-alfandegadafe.pt/imgcrop/cmalfandegadafe/uploads/image_link/image/2/logo_alfandaga_de_fe_1_314_132.png'],
+    ],
+  },
+  {
+    titulo: 'Fotografias das freguesias',
+    itens: [
+      ['freguesias/alfandega-da-fe.jpg', 'Alfândega da Fé, sede de concelho', 'https://www.tempodeviajar.com/wp-content/uploads/alfandega-da-fe.jpg'],
+      ['freguesias/sambade.jpg', 'Sambade — Aldeias de Portugal', 'https://www.aldeiasdeportugal.pt/media/2020/12/Sambade-02-cut-1024x1011.jpg'],
+      ['freguesias/parada-sendim-da-ribeira.jpg', 'Parada — do sítio municipal', 'https://www.cm-alfandegadafe.pt/thumbs/cmalfandegadafe/uploads/writer_file/image/852/Parada_1_250_250.jpg'],
+      ['freguesias/eucisia-gouveia-valverde.jpg', 'Valverde — Wikimedia Commons', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Valverde_-_Portugal_%2833040060492%29.jpg/1280px-Valverde_-_Portugal_%2833040060492%29.jpg'],
+      ['freguesias/cerejais.jpg', 'Cerejais — do sítio municipal', 'https://www.cm-alfandegadafe.pt/cmalfandegadafe/uploads/poi/image/30/Cerejais_4b7473dcb61aa.jpg'],
+    ],
+  },
+  {
+    titulo: 'Restantes fotografias da lista (para a redação escolher)',
+    itens: [
+      ['recolha/sambade-calcada.jpg', 'Sambade — calçada', 'https://www.aldeiasdeportugal.pt/media/2020/12/Sambade-calcada.jpg'],
+      ['recolha/sambade-vista.jpg', 'Sambade — vista', 'https://www.aldeiasdeportugal.pt/media/2020/12/sambade-7.jpg'],
+      ['recolha/castelo-alto.jpg', 'Castelo — outro enquadramento', 'https://www.cm-alfandegadafe.pt/thumbs/cmalfandegadafe/uploads/poi/image/205/castelo_alfandega_4b747579d9fc5_1_1024_2500_1_736_2500.jpg'],
+      ['recolha/poi-dsc2541.jpg', 'Ponto de interesse do concelho', 'https://www.cm-alfandegadafe.pt/cmalfandegadafe/uploads/poi/image/202/_dsc2541_copiar.jpg'],
+      ['recolha/hotel-spa-1.jpg', 'Hotel & Spa', 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/379153661.jpg?k=cb3acad058ebd6333933f828cba876775dddbd55c6f1700f896c7e1dea53e49b&o='],
+      ['recolha/hotel-spa-2.jpg', 'Hotel & Spa', 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/652626404.jpg?k=b09de7876c5a52e8a98fbd57834a232ec852e16f54388c5b20965e47072b013a&o='],
+      ['recolha/hotel-spa-3.jpg', 'Hotel & Spa', 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/897520125.jpg?k=665a673a16b7bb58acc673669d2ea59345faedd90f449413315ef3706e852e37&o='],
+      ['recolha/hotel-spa-4.jpg', 'Hotel & Spa', 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/897518810.jpg?k=67184ade7150f632bc92b1395bd3e236b9c5a6513356c8b2786652d7c5ec61df&o='],
+      ['recolha/hotel-spa-5.jpg', 'Hotel & Spa', 'https://cdn.quierohotel.com/hotel-spa-alfandega-da-fe-PF46413_99.jpg'],
+      ['recolha/lagos-2.jpg', 'Lagos do Sabor — outro enquadramento', 'https://assets.e-konomista.pt/uploads/2022/02/lagos-sabor1.jpg'],
+    ],
+  },
+];
+
+/**
+ * Guardar: tenta buscar o ficheiro e entregá-lo já com o nome certo. Se o
+ * sítio de origem não autorizar a leitura por outra origem (CORS), abre a
+ * imagem num separador para ser guardada à mão — que é o que o navegador
+ * permite nesse caso.
+ */
+async function guardar(url, nome, botao) {
+  const original = botao.textContent;
+  botao.textContent = 'A obter…';
+  botao.disabled = true;
+  try {
+    const resposta = await fetch(url, { mode: 'cors' });
+    if (!resposta.ok) throw new Error('HTTP ' + resposta.status);
+    const blob = await resposta.blob();
+    const ligacao = document.createElement('a');
+    ligacao.href = URL.createObjectURL(blob);
+    ligacao.download = nome.split('/').pop();
+    document.body.appendChild(ligacao);
+    ligacao.click();
+    ligacao.remove();
+    setTimeout(() => URL.revokeObjectURL(ligacao.href), 10000);
+    botao.textContent = 'Guardado ✓';
+  } catch {
+    window.open(url, '_blank', 'noopener');
+    botao.textContent = 'Guarde à mão →';
+  } finally {
+    botao.disabled = false;
+    setTimeout(() => { botao.textContent = original; }, 6000);
+  }
+}
+
+const lista = document.getElementById('lista');
+for (const grupo of GRUPOS) {
+  const titulo = document.createElement('h2');
+  titulo.textContent = grupo.titulo;
+  lista.appendChild(titulo);
+
+  const ul = document.createElement('ul');
+  ul.className = 'grelha';
+
+  for (const [nome, motivo, url] of grupo.itens) {
+    const li = document.createElement('li');
+    li.className = 'cartao';
+
+    const img = document.createElement('img');
+    img.src = url;
+    img.alt = motivo;
+    img.loading = 'lazy';
+    img.referrerPolicy = 'no-referrer';
+    img.addEventListener('error', () => li.classList.add('falhou'));
+
+    const corpo = document.createElement('div');
+    corpo.className = 'corpo';
+
+    const pNome = document.createElement('p');
+    pNome.className = 'nome';
+    pNome.style.margin = '0';
+    pNome.textContent = nome;
+
+    const pMotivo = document.createElement('p');
+    pMotivo.className = 'motivo';
+    pMotivo.style.margin = '0';
+    pMotivo.textContent = motivo;
+
+    const accoes = document.createElement('div');
+    accoes.className = 'accoes';
+
+    const guardarBtn = document.createElement('button');
+    guardarBtn.className = 'botao';
+    guardarBtn.type = 'button';
+    guardarBtn.textContent = 'Guardar';
+    guardarBtn.addEventListener('click', () => guardar(url, nome, guardarBtn));
+
+    const abrir = document.createElement('a');
+    abrir.className = 'botao secundario';
+    abrir.href = url;
+    abrir.target = '_blank';
+    abrir.rel = 'noopener';
+    abrir.textContent = 'Abrir';
+
+    accoes.append(guardarBtn, abrir);
+    corpo.append(pNome, pMotivo, accoes);
+    li.append(img, corpo);
+    ul.appendChild(li);
+  }
+
+  lista.appendChild(ul);
+}
+</script>
+</body>
+</html>
