@@ -11,7 +11,7 @@ import { formatNumber } from '@/lib/format';
 
 import { JsonLd } from '@/components/seo/json-ld';
 import Image from 'next/image';
-import { fotoReal } from '@/lib/imagens';
+import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 import { PageHeader, Section } from '@/components/layout/page-shell';
 import { EventCard } from '@/components/content/event-card';
 import { Icon } from '@/components/ui/icon';
@@ -88,6 +88,7 @@ export default async function FreguesiaPage({
             <span className="relative block aspect-[3/2] max-h-[26rem] overflow-hidden rounded-lg border border-line">
               <Image
                 src={fotoReal(freguesia.image.src)}
+                unoptimized={ehFotoExterna(fotoReal(freguesia.image.src))}
                 alt={tx(freguesia.image.alt, locale)}
                 fill
                 priority

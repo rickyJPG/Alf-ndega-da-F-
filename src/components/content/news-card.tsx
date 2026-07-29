@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { fotoReal } from '@/lib/imagens';
+import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 import Link from 'next/link';
 import type { NewsItem } from '@/content/types';
 import { tx } from '@/content/types';
@@ -45,6 +45,7 @@ export function NewsCard({
         <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-line bg-surface-alt">
           <Image
             src={fotoReal(item.image.src)}
+            unoptimized={ehFotoExterna(fotoReal(item.image.src))}
             alt={tx(item.image.alt, locale)}
             fill
             sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"

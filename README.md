@@ -339,9 +339,19 @@ O `path` da página é o seu endereço. Se acrescentar uma ligação na navegaç
 
 ### Pôr as fotografias reais
 
-O Município forneceu a lista de fotografias (documento
-«Links_Imagens_CM_Alfandega_da_Fe»). Há dois caminhos para as pôr no portal,
-ambos com a lista já preenchida:
+**As fotografias já estão no portal.** Os endereços do documento do Município
+(«Links_Imagens_CM_Alfandega_da_Fe») estão ligados às posições em
+`src/lib/fotos-do-municipio.ts`, e o portal carrega-as diretamente da origem
+— não há molduras de espera à vista.
+
+> **Por resolver antes de publicar.** Carregar de servidores de terceiros
+> deixa o portal dependente deles e levanta a questão dos direitos. As
+> fotografias servidas por `cm-alfandegadafe.pt` são do Município; as
+> restantes (blogues, sítios de reservas, Wikimedia) precisam de autorização
+> ou de atribuição. O passo seguinte é passá-las para o próprio domínio.
+
+Passar para ficheiros locais não exige alterar conteúdo nem esta tabela: o
+ficheiro local ganha sempre à origem externa. Dois caminhos:
 
 **Com terminal** — num computador com internet:
 
@@ -354,6 +364,9 @@ clique no ficheiro, não precisa de servidor). Mostra cada fotografia da lista
 com o nome de ficheiro que lhe corresponde e um botão para a guardar. Quando
 o sítio de origem não autoriza a transferência direta, abre a imagem para ser
 guardada à mão.
+
+A ordem de resolução de cada posição está em `src/lib/imagens.ts`:
+ficheiro local → fotografia da origem → moldura de espera.
 
 O script descarrega cada fotografia para a posição certa (destaque, castelo,
 lagos, cerejais, percursos, Sambade, Parada, Valverde…) e as restantes para

@@ -20,7 +20,7 @@ import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { TextLink } from '@/components/ui/link';
 import Image from 'next/image';
-import { fotoReal } from '@/lib/imagens';
+import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 import { VideoFacade } from '@/components/features/video-facade';
 
 /**
@@ -300,6 +300,7 @@ export default async function EditorialPageRoute({
                     <span className="relative block aspect-[3/2] overflow-hidden rounded-md border border-line">
                       <Image
                         src={fotoReal(image.src)}
+                        unoptimized={ehFotoExterna(fotoReal(image.src))}
                         alt={tx(image.alt, locale)}
                         fill
                         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"

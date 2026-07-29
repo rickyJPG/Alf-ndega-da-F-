@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { fotoReal } from '@/lib/imagens';
+import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 import { notFound } from 'next/navigation';
 
 import { getDictionary } from '@/i18n';
@@ -135,6 +135,7 @@ export default async function NewsDetailPage({
               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg border border-line bg-surface-alt">
                 <Image
                   src={fotoReal(item.image.src)}
+                  unoptimized={ehFotoExterna(fotoReal(item.image.src))}
                   alt={tx(item.image.alt, locale)}
                   fill
                   priority

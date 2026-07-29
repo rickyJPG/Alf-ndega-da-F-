@@ -36,7 +36,7 @@ import { Icon, type IconName } from '@/components/ui/icon';
 import { Badge } from '@/components/ui/badge';
 import { RamoDeCerejas } from '@/components/layout/brasao';
 import { formatDate } from '@/lib/format';
-import { fotoReal } from '@/lib/imagens';
+import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 
 export async function generateMetadata({
   params,
@@ -113,21 +113,21 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       title: 'Lagos do Sabor',
       text: 'Três lagos de águas serenas entre penhascos, onde antes corria o rio bravo.',
       image: '/images/visitar/lagos-do-sabor.svg',
-      alt: 'Águas serenas dos lagos do Sabor entre encostas verdes, em fundo desfocado.',
+      alt: 'Águas serenas dos lagos do Sabor, entre encostas cobertas de mato.',
     },
     {
       href: '/visitar/percursos-pedestres',
       title: 'Percursos pedestres',
       text: 'Nove trilhos marcados, do passeio de meia hora à caminhada de um dia.',
       image: '/images/visitar/percursos.svg',
-      alt: 'Encostas verdes do concelho em socalcos, em fundo desfocado.',
+      alt: 'Trilho pedestre entre as encostas do concelho.',
     },
     {
       href: '/visitar/produtos-locais',
       title: 'Cereja, azeite e castanha',
       text: 'A cereja é a mais conhecida. O azeite e a castanha merecem a mesma atenção.',
       image: '/images/visitar/cereja.svg',
-      alt: 'Cerejas maduras fora de foco sobre o verde do cerejal.',
+      alt: 'Cerejeiras em produção num cerejal do concelho.',
     },
   ];
 
@@ -138,6 +138,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <div className="absolute inset-0 -z-10">
           <Image
             src={fotoReal('/images/hero-alfandega.svg')}
+            unoptimized={ehFotoExterna(fotoReal('/images/hero-alfandega.svg'))}
             alt={dict.home.heroImageAlt}
             fill
             priority
@@ -371,6 +372,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <div className="relative aspect-[3/2] w-full border-b border-line bg-surface-sunken">
                   <Image
                     src={fotoReal(card.image)}
+                    unoptimized={ehFotoExterna(fotoReal(card.image))}
                     alt={card.alt}
                     fill
                     sizes="(min-width: 768px) 33vw, 100vw"

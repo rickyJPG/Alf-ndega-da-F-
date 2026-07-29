@@ -73,7 +73,7 @@ export const news: NewsItem[] = [
     image: {
       src: '/images/noticias/cereja.svg',
       alt: {
-        pt: 'Cerejas maduras fora de foco sobre o verde do cerejal.',
+        pt: 'Cerejeiras carregadas de fruta num cerejal do concelho.',
         en: 'Graphic motif with stylised cherries in shades of red.',
       },
       width: 1200,
@@ -209,7 +209,7 @@ export const news: NewsItem[] = [
     image: {
       src: '/images/noticias/cereja.svg',
       alt: {
-        pt: 'Cerejas maduras fora de foco sobre o verde do cerejal.',
+        pt: 'Cerejeiras carregadas de fruta num cerejal do concelho.',
         en: 'Graphic motif with stylised cherries in shades of red.',
       },
       width: 1200,

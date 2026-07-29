@@ -7,7 +7,7 @@ import { buildMetadata } from '@/lib/seo';
 import { routes } from '@/lib/routes';
 import { getFreguesias } from '@/content';
 import { tx } from '@/content/types';
-import { fotoReal } from '@/lib/imagens';
+import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 
 import { PageHeader, Section } from '@/components/layout/page-shell';
 import { Alert } from '@/components/ui/alert';
@@ -120,9 +120,10 @@ export default async function GuiaDeImagensPage({
       <Section title="Como se troca uma fotografia">
         <div className="measure">
           <p className="mb-4">
-            Todas as imagens que vê no portal são <strong>provisórias</strong>: molduras de
-            espera que dizem, no próprio desenho, que fotografia ali entra e com que nome de
-            ficheiro. Substituí-las não exige programação.
+            As fotografias que vê são as indicadas pelo Município, carregadas a partir da
+            origem. Ainda <strong>não estão alojadas no portal</strong> — o passo seguinte é
+            passá-las para o próprio domínio, e isso não exige programação: basta copiar cada
+            ficheiro para a pasta certa. O ficheiro local ganha sempre à origem externa.
           </p>
           <ol className="prose-cm mb-6 list-decimal ps-5">
             <li>
@@ -132,7 +133,7 @@ export default async function GuiaDeImagensPage({
               <code>public/images/visitar/patrimonio.jpg</code>.
             </li>
             <li>Volte a compilar o portal (ou reinicie o servidor).</li>
-            <li>Está feito — o portal passa a mostrar a fotografia em vez da moldura.</li>
+            <li>Está feito — o portal passa a servir a fotografia do próprio domínio.</li>
           </ol>
 
           <Alert tone="info" title="Atalhos para a primeira carga" className="mb-6">
@@ -169,6 +170,7 @@ export default async function GuiaDeImagensPage({
                 <span className="relative block aspect-[3/2] overflow-hidden rounded-md border border-line">
                   <Image
                     src={fotoReal(`/images/${item.ficheiro}.svg`)}
+                    unoptimized={ehFotoExterna(fotoReal(`/images/${item.ficheiro}.svg`))}
                     alt=""
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

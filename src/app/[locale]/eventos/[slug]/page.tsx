@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { fotoReal } from '@/lib/imagens';
+import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 import { notFound } from 'next/navigation';
 
 import { getDictionary } from '@/i18n';
@@ -119,6 +119,7 @@ export default async function EventDetailPage({
               <div className="relative mb-8 aspect-[3/2] w-full overflow-hidden rounded-lg border border-line bg-surface-alt">
                 <Image
                   src={fotoReal(event.image.src)}
+                  unoptimized={ehFotoExterna(fotoReal(event.image.src))}
                   alt={tx(event.image.alt, locale)}
                   fill
                   priority

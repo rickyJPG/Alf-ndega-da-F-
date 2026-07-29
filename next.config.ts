@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next';
 import { legacyRedirects } from './src/lib/redirects';
+import { dominiosDasFotos } from './src/lib/fotos-do-municipio';
 
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -41,15 +42,25 @@ const nextConfig: NextConfig = {
     deviceSizes: [360, 480, 640, 768, 1024, 1280, 1536, 1920],
     imageSizes: [96, 128, 192, 256, 320],
     /**
-     * Die Bildplatzhalter liegen als SVG vor (public/images, erzeugt von
-     * scripts/generate-placeholders.mjs). Next reicht SVG unverändert durch;
-     * die Sandbox-CSP darunter verhindert, dass eine SVG-Datei Skripte
-     * ausführen könnte. Werden die Platzhalter durch echte Fotos ersetzt,
-     * greift wieder die normale AVIF/WebP-Pipeline.
+     * As molduras de espera são SVG (public/images, geradas por
+     * scripts/generate-placeholders.mjs). O Next entrega SVG tal como está;
+     * a CSP em baixo impede que um ficheiro SVG execute scripts. Substituídas
+     * por fotografias, volta a valer a linha normal AVIF/WebP.
      */
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+
+    /**
+     * Fotografias do concelho servidas pelas origens indicadas no documento
+     * do Município (ver src/lib/fotos-do-municipio.ts). Vale enquanto os
+     * ficheiros não estiverem alojados no próprio portal — a partir daí,
+     * esta lista deixa de ser usada.
+     */
+    remotePatterns: dominiosDasFotos.map((hostname) => ({
+      protocol: 'https' as const,
+      hostname,
+    })),
   },
 
   experimental: {
