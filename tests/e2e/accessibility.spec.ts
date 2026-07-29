@@ -43,6 +43,7 @@ const TEMPLATES: { name: string; path: string }[] = [
   { name: 'página editorial', path: '/visitar/lagos-do-sabor' },
   { name: 'declaração de acessibilidade', path: '/acessibilidade' },
   { name: 'guia de estilo', path: '/styleguide' },
+  { name: 'guia de imagens', path: '/guia-de-imagens' },
   { name: 'página não encontrada', path: '/pagina-que-nao-existe' },
 ];
 

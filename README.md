@@ -48,6 +48,7 @@ Comandos disponíveis:
 | `npm run check` | Tipos + lint + testes unitários |
 | `npm run fonts` | Volta a descarregar as fontes para `public/fonts` |
 | `npm run placeholders` | Regenera os substitutos fotográficos das imagens |
+| `npm run fotos` | Descarrega as fotografias reais para as posições certas |
 | `npm run vendor` | Atualiza os ficheiros do Leaflet em `public/vendor` |
 
 ### Variáveis de ambiente
@@ -329,6 +330,8 @@ de quem edita.
 | `datasets` | Conjuntos de dados abertos |
 | `contact` | Bloco de contactos |
 | `sitemap` | Mapa do portal |
+| `galeria` | Grelha de fotografias com legenda |
+| `video` | Vídeo do YouTube, carregado só depois do clique |
 
 O `path` da página é o seu endereço. Se acrescentar uma ligação na navegação
 (`src/lib/navigation.ts`) sem criar a página correspondente, o teste
@@ -344,12 +347,18 @@ O `path` da página é o seu endereço. Se acrescentar uma ligação na navegaç
 npm run fotos
 ```
 
-O script descarrega cada fotografia para a posição certa (`hero`, castelo,
-lagos, cerejais, percursos…) e as restantes para `public/images/recolha/`.
-O portal deteta as fotografias sozinho (ver `src/lib/imagens.ts`): qualquer
-`/images/x.svg` passa a servir `x.jpg` quando o ficheiro existe — **sem
-editar conteúdo nenhum**. Antes de publicar, confirme os direitos de cada
-fotografia junto do Município — várias vêm de sítios de terceiros.
+O script descarrega cada fotografia para a posição certa (destaque, castelo,
+lagos, cerejais, percursos, Sambade, Parada, Valverde…) e as restantes para
+`public/images/recolha/`. O portal deteta as fotografias sozinho (ver
+`src/lib/imagens.ts`): qualquer `/images/x.svg` passa a servir `x.jpg`
+quando o ficheiro existe — **sem editar conteúdo nenhum**. Antes de
+publicar, confirme os direitos de cada fotografia junto do Município —
+várias vêm de sítios de terceiros.
+
+**Para mostrar a alguém sem abrir código:** a página **`/guia-de-imagens`**
+lista as 28 posições de fotografia do portal — pré-visualização, nome de
+ficheiro, onde aparece e em que proporção —, com as instruções de
+substituição em português corrente. Não é indexada por motores de busca.
 
 O portal foi desenhado para fotografias reais do concelho, como o sítio
 oficial sempre teve. Este repositório não as pode incluir — os direitos têm

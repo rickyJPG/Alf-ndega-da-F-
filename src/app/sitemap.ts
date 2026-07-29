@@ -20,7 +20,7 @@ import { allNavigationHrefs } from '@/lib/navigation';
  * Ficam de fora as páginas que não pertencem ao índice: resultados de
  * pesquisa, guia de estilo e páginas de erro.
  */
-const EXCLUDED = new Set(['/pesquisa', '/styleguide']);
+const EXCLUDED = new Set(['/pesquisa', '/styleguide', '/guia-de-imagens']);
 
 function entry(path: string, lastModified: string, priority: number, changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']) {
   const languages: Record<string, string> = {};

@@ -76,6 +76,31 @@ const DESTINOS = [
     nota: 'Paisagem do concelho.',
   },
   {
+    ficheiro: 'freguesias/sambade.jpg',
+    url: 'https://www.aldeiasdeportugal.pt/media/2020/12/Sambade-02-cut-1024x1011.jpg',
+    nota: 'Sambade — Aldeias de Portugal.',
+  },
+  {
+    ficheiro: 'freguesias/parada-sendim-da-ribeira.jpg',
+    url: 'https://www.cm-alfandegadafe.pt/thumbs/cmalfandegadafe/uploads/writer_file/image/852/Parada_1_250_250.jpg',
+    nota: 'Parada — fotografia do próprio sítio municipal (pequena; pedir original).',
+  },
+  {
+    ficheiro: 'freguesias/eucisia-gouveia-valverde.jpg',
+    url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Valverde_-_Portugal_%2833040060492%29.jpg/1280px-Valverde_-_Portugal_%2833040060492%29.jpg',
+    nota: 'Valverde — Wikimedia Commons (verificar a licença e a atribuição).',
+  },
+  {
+    ficheiro: 'freguesias/cerejais.jpg',
+    url: 'https://www.cm-alfandegadafe.pt/cmalfandegadafe/uploads/poi/image/30/Cerejais_4b7473dcb61aa.jpg',
+    nota: 'Cerejais — fotografia do próprio sítio municipal.',
+  },
+  {
+    ficheiro: 'freguesias/alfandega-da-fe.jpg',
+    url: 'https://www.tempodeviajar.com/wp-content/uploads/alfandega-da-fe.jpg',
+    nota: 'A vila, sede de concelho.',
+  },
+  {
     ficheiro: 'logotipo-branco.png',
     url: 'https://www.cm-alfandegadafe.pt/imgcrop/cmalfandegadafe/uploads/image_link/image/2/logo_alfandaga_de_fe_1_314_132.png',
     nota: 'Logótipo oficial em alta qualidade — substitui o extraído da captura.',

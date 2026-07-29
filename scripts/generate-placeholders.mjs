@@ -306,6 +306,25 @@ function cenaExposicao({ width: w, height: h, seed }) {
 
 /* --------------------------------------------------------------- ficheiros -- */
 
+/** As doze freguesias: uma cena por aldeia, com semente própria. */
+const FREGUESIAS = [
+  ['alfandega-da-fe', cenaVila, {}],
+  ['agrobom-saldonha-vale-pereiro', cenaAmendoeira, {}],
+  ['cerejais', cenaCerejal, {}],
+  ['eucisia-gouveia-valverde', cenaVila, {}],
+  ['ferradosa-sendim-da-serra', cenaSabor, {}],
+  ['gebelim-soeima', cenaVila, { quente: true }],
+  ['parada-sendim-da-ribeira', cenaVila, {}],
+  ['pombal-vales', cenaCerejal, {}],
+  ['sambade', cenaVila, {}],
+  ['vilar-chao', cenaVila, { quente: true }],
+  ['vilarelhos', cenaAmendoeira, {}],
+  ['vilares-de-vilarica-vale-frechoso', cenaCerejal, {}],
+].map(([slug, cena, extra], i) => ({
+  name: `freguesias/${slug}.svg`,
+  svg: cena({ width: 1200, height: 800, seed: 200 + i * 7, ...extra }),
+}));
+
 const FILES = [
   // Destaque da página inicial — 16:9
   { name: 'hero-alfandega.svg', svg: cenaVila({ width: 1600, height: 900, seed: 7 }) },
@@ -330,6 +349,9 @@ const FILES = [
   { name: 'eventos/musica.svg', svg: cenaFesta({ width: 900, height: 600, seed: 107 }) },
   { name: 'eventos/feira.svg', svg: cenaMercado({ width: 900, height: 600, seed: 118 }) },
   { name: 'eventos/exposicao.svg', svg: cenaExposicao({ width: 900, height: 600, seed: 129 }) },
+
+  // Freguesias — 3:2
+  ...FREGUESIAS,
 ];
 
 for (const file of FILES) {

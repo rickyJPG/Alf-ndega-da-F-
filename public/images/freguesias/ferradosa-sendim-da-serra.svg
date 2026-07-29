@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img">
+  <defs>
+    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EDF5F9"/>
+      <stop offset="55%" stop-color="#D2E7F1"/>
+      <stop offset="100%" stop-color="#AFD3E5"/>
+    </linearGradient>
+    <radialGradient id="vinheta" cx="50%" cy="42%" r="78%">
+      <stop offset="62%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.16"/>
+    </radialGradient>
+    <filter id="desfoque" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="27.2"/>
+    </filter>
+    <filter id="medio" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10.4"/>
+    </filter>
+    <filter id="suave" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9.6"/>
+    </filter>
+    <filter id="grao">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.7 0.7 0.7 0 0"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#ceu)"/>
+  <g filter="url(#desfoque)">
+    <rect x="-120" y="288" width="1440" height="240" fill="#8FAE9E" opacity="1"/>
+    <ellipse cx="240" cy="320" rx="408" ry="104" fill="#7B9C8B" opacity="1"/>
+    <ellipse cx="1020" cy="336" rx="360" ry="128" fill="#68907E" opacity="1"/>
+    <rect x="-120" y="416" width="1440" height="440" fill="#79B4CD" opacity="1"/>
+    <rect x="-120" y="480" width="1440" height="40" fill="#9CCADE" opacity="0.85"/>
+    <rect x="-120" y="576" width="1440" height="32" fill="#8FC2D8" opacity="0.7"/>
+    <ellipse cx="120" cy="760" rx="432" ry="160" fill="#3E5F54" opacity="1"/>
+    <ellipse cx="1104" cy="736" rx="360" ry="144" fill="#466B5E" opacity="1"/>
+  </g>
+  
+  <g filter="url(#suave)">
+    <ellipse cx="393.7" cy="603.1" rx="110.4" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+    <ellipse cx="942.3" cy="514.7" rx="105.9" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+    <ellipse cx="627.1" cy="589.9" rx="126.7" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+    <ellipse cx="766.3" cy="484.3" rx="120.3" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+    <ellipse cx="691.5" cy="491.7" rx="60.5" ry="6.4" fill="#EAF6FB" opacity="0.7"/>
+  </g>
+  <rect width="1200" height="800" fill="url(#vinheta)"/>
+  <rect width="1200" height="800" filter="url(#grao)" opacity="0.055"/>
+</svg>

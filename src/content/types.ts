@@ -237,6 +237,8 @@ export interface Freguesia {
   villages: string[];
   geo: { lat: number; lon: number };
   description: Localized;
+  /** Fotografia da aldeia. O caminho aponta o substituto; ver src/lib/imagens.ts. */
+  image?: { src: string; alt: Localized };
 }
 
 // --- Pessoas / Órgãos ----------------------------------------------------------------

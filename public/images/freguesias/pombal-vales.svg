@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img">
+  <defs>
+    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EFF6FA"/>
+      <stop offset="55%" stop-color="#D5E8F4"/>
+      <stop offset="100%" stop-color="#B4D6EC"/>
+    </linearGradient>
+    <radialGradient id="vinheta" cx="50%" cy="42%" r="78%">
+      <stop offset="62%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.16"/>
+    </radialGradient>
+    <filter id="desfoque" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="27.2"/>
+    </filter>
+    <filter id="medio" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10.4"/>
+    </filter>
+    <filter id="suave" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9.6"/>
+    </filter>
+    <filter id="grao">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0.7 0.7 0.7 0 0"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#ceu)"/>
+  <g filter="url(#desfoque)">
+    <rect x="-120" y="304" width="1440" height="600" fill="#9DBB84" opacity="1"/>
+    <ellipse cx="360" cy="336" rx="504" ry="96" fill="#AFC996" opacity="1"/>
+    <rect x="-120" y="464" width="1440" height="440" fill="#6E9159" opacity="1"/>
+    <ellipse cx="864" cy="624" rx="600" ry="240" fill="#4F7345" opacity="1"/>
+    <ellipse cx="144" cy="704" rx="408" ry="192" fill="#42663C" opacity="1"/>
+  </g>
+  
+  <g filter="url(#suave)">
+    <circle cx="79.2" cy="632.2" r="49.3" fill="#A62531" opacity="0.85"/><circle cx="64.4" cy="617.4" r="17.2" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="885.8" cy="488.5" r="58.7" fill="#7E1B24" opacity="0.85"/><circle cx="868.2" cy="470.9" r="20.5" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="386" cy="703.3" r="31.5" fill="#7E1B24" opacity="0.85"/><circle cx="376.5" cy="693.9" r="11" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="634.1" cy="426.5" r="52.3" fill="#7E1B24" opacity="0.85"/><circle cx="618.5" cy="410.9" r="18.3" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="595.5" cy="690.4" r="46.5" fill="#A62531" opacity="0.85"/><circle cx="581.6" cy="676.4" r="16.3" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="235.5" cy="629.2" r="32.1" fill="#A62531" opacity="0.85"/><circle cx="225.9" cy="619.5" r="11.3" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="271" cy="448.8" r="36.8" fill="#A62531" opacity="0.85"/><circle cx="259.9" cy="437.7" r="12.9" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="898.9" cy="529.7" r="28.6" fill="#7E1B24" opacity="0.85"/><circle cx="890.3" cy="521.1" r="10" fill="#FFFFFF" opacity="0.24"/>
+    <circle cx="972.2" cy="529.4" r="59.1" fill="#7E1B24" opacity="0.85"/><circle cx="954.5" cy="511.6" r="20.7" fill="#FFFFFF" opacity="0.24"/>
+  </g>
+  <rect width="1200" height="800" fill="url(#vinheta)"/>
+  <rect width="1200" height="800" filter="url(#grao)" opacity="0.055"/>
+</svg>

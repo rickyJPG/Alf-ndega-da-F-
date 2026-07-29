@@ -24,6 +24,10 @@ export const freguesias: Freguesia[] = [
       pt: 'Sede de concelho. Concentra os serviços municipais, o centro de saúde, o agrupamento de escolas e o comércio.',
       en: 'The municipal seat. Home to the council offices, health centre, schools and most shops.',
     },
+    image: {
+      src: '/images/freguesias/alfandega-da-fe.svg',
+      alt: { pt: 'A vila de Alfândega da Fé vista das encostas a poente.' },
+    },
   },
   {
     id: 'f-agrobom-saldonha-vale-pereiro',
@@ -39,6 +43,10 @@ export const freguesias: Freguesia[] = [
     description: {
       pt: 'Território de amendoal e olival, na parte nordeste do concelho.',
       en: 'Almond and olive country, in the north-east of the municipality.',
+    },
+    image: {
+      src: '/images/freguesias/agrobom-saldonha-vale-pereiro.svg',
+      alt: { pt: 'Amendoal e olival na parte nordeste do concelho.' },
     },
   },
   {
@@ -56,6 +64,10 @@ export const freguesias: Freguesia[] = [
       pt: 'O nome diz tudo: cerejais em socalcos, com vista sobre o vale da Vilariça.',
       en: 'The name says it: terraced cherry orchards overlooking the Vilariça valley.',
     },
+    image: {
+      src: '/images/freguesias/cerejais.svg',
+      alt: { pt: 'Cerejais em produção, a freguesia que deu o nome à fruta do concelho.' },
+    },
   },
   {
     id: 'f-eucisia-gouveia-valverde',
@@ -71,6 +83,10 @@ export const freguesias: Freguesia[] = [
     description: {
       pt: 'A sul da vila, com a igreja matriz de Eucísia e o solar dos Sarmentos.',
       en: 'South of the town, with the parish church of Eucísia and the Sarmento manor house.',
+    },
+    image: {
+      src: '/images/freguesias/eucisia-gouveia-valverde.svg',
+      alt: { pt: 'Casario de Valverde entre campos de cultivo.' },
     },
   },
   {
@@ -88,6 +104,10 @@ export const freguesias: Freguesia[] = [
       pt: 'Encostas viradas ao Sabor, com os melhores miradouros sobre os lagos.',
       en: 'Slopes facing the Sabor, with the best viewpoints over the lakes.',
     },
+    image: {
+      src: '/images/freguesias/ferradosa-sendim-da-serra.svg',
+      alt: { pt: 'Encostas de xisto sobre o vale, na Ferradosa.' },
+    },
   },
   {
     id: 'f-gebelim-soeima',
@@ -103,6 +123,10 @@ export const freguesias: Freguesia[] = [
     description: {
       pt: 'Aldeias de granito no extremo norte do concelho, junto à fronteira com Macedo de Cavaleiros.',
       en: 'Granite villages at the northern edge of the municipality, next to Macedo de Cavaleiros.',
+    },
+    image: {
+      src: '/images/freguesias/gebelim-soeima.svg',
+      alt: { pt: 'Terras altas de Gebelim, com vista sobre a serra.' },
     },
   },
   {
@@ -120,6 +144,10 @@ export const freguesias: Freguesia[] = [
       pt: 'Desce até ao Sabor. Cilhades é ponto de partida para as caminhadas nos lagos.',
       en: 'Runs down to the Sabor. Cilhades is the starting point for lakeside walks.',
     },
+    image: {
+      src: '/images/freguesias/parada-sendim-da-ribeira.svg',
+      alt: { pt: 'O casario de Parada, sobre a ribeira.' },
+    },
   },
   {
     id: 'f-pombal-vales',
@@ -135,6 +163,10 @@ export const freguesias: Freguesia[] = [
     description: {
       pt: 'Vinha velha e olival, a poente, junto ao limite com Vila Flor.',
       en: 'Old vineyards and olive groves to the west, next to the Vila Flor boundary.',
+    },
+    image: {
+      src: '/images/freguesias/pombal-vales.svg',
+      alt: { pt: 'Vales de socalcos entre Pombal e Vales.' },
     },
   },
   {
@@ -152,6 +184,10 @@ export const freguesias: Freguesia[] = [
       pt: 'A maior freguesia rural do concelho, conhecida pela feira anual e pela igreja de São Miguel.',
       en: 'The largest rural parish, known for its annual fair and the church of São Miguel.',
     },
+    image: {
+      src: '/images/freguesias/sambade.svg',
+      alt: { pt: 'Sambade, uma das Aldeias de Portugal do concelho.' },
+    },
   },
   {
     id: 'f-vilar-chao',
@@ -167,6 +203,10 @@ export const freguesias: Freguesia[] = [
     description: {
       pt: 'Planalto agrícola no norte do concelho, com forte tradição de centeio e batata.',
       en: 'Farming plateau in the north, with a long tradition of rye and potatoes.',
+    },
+    image: {
+      src: '/images/freguesias/vilar-chao.svg',
+      alt: { pt: 'O planalto de Vilar Chão, a norte do concelho.' },
     },
   },
   {
@@ -184,6 +224,10 @@ export const freguesias: Freguesia[] = [
       pt: 'A poente da vila, com o santuário de Nossa Senhora da Assunção e amplas vistas sobre a Vilariça.',
       en: 'West of the town, with the shrine of Nossa Senhora da Assunção and wide views over the Vilariça.',
     },
+    image: {
+      src: '/images/freguesias/vilarelhos.svg',
+      alt: { pt: 'Vilarelhos, entre olivais e amendoeiras.' },
+    },
   },
   {
     id: 'f-vilares-de-vilarica-vale-frechoso',
@@ -199,6 +243,10 @@ export const freguesias: Freguesia[] = [
     description: {
       pt: 'No fundo do vale da Vilariça, a terra mais fértil do concelho — hortas, pomares e vinha.',
       en: 'On the floor of the Vilariça valley, the most fertile land in the municipality.',
+    },
+    image: {
+      src: '/images/freguesias/vilares-de-vilarica-vale-frechoso.svg',
+      alt: { pt: 'O vale da Vilariça, a terra mais fértil do concelho.' },
     },
   },
 ];

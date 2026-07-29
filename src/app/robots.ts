@@ -8,7 +8,15 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         // As páginas de resultados e o guia de estilo não pertencem ao índice.
-        disallow: ['/pesquisa', '/en/pesquisa', '/es/pesquisa', '/fr/pesquisa', '/styleguide', '/api/'],
+        disallow: [
+          '/pesquisa',
+          '/en/pesquisa',
+          '/es/pesquisa',
+          '/fr/pesquisa',
+          '/styleguide',
+          '/guia-de-imagens',
+          '/api/',
+        ],
       },
     ],
     sitemap: `${site.url}/sitemap.xml`,
