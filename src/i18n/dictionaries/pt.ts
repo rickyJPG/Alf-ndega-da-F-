@@ -400,6 +400,7 @@ export const pt = {
     emergencyTitle: 'Emergências',
     freguesiasTitle: 'Freguesias',
     newsletterTitle: 'Newsletter',
+    followUs: 'Siga-nos',
     newsletterLead: 'Escolha os temas que lhe interessam. Confirmamos por email.',
     newsletterCta: 'Subscrever',
     newsletterTopics: 'Temas',

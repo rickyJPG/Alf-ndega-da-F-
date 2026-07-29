@@ -394,6 +394,7 @@ export const fr: Dictionary = {
     emergencyTitle: 'Urgences',
     freguesiasTitle: 'Paroisses',
     newsletterTitle: 'Lettre d’information',
+    followUs: 'Suivez-nous',
     newsletterLead: 'Choisissez les thèmes qui vous intéressent. Confirmation par courriel.',
     newsletterCta: 'S’abonner',
     newsletterTopics: 'Thèmes',

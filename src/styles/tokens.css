@@ -13,10 +13,21 @@
   --color-primary-100: #e8f0f6;
 
   /* --- Acento: cereja (com parcimónia: ação principal, estado ativo, avisos) */
-  --color-accent-700: #8e1b26;
-  --color-accent-600: #b4232e;
-  --color-accent-hover: #8e1b26;
+  --color-accent-800: #8c0404;
+  --color-accent-700: #640404;
+  --color-accent-600: #a40c04;
+  --color-accent-hover: #8c0404;
   --color-accent-100: #fbeaeb;
+
+  /* --- Cores do sítio oficial: banda do menu, botão de pesquisa ------------ */
+  --color-rosa: #c46c64;
+  --color-verde: #8ca404;
+  --color-verde-ink: #14180a;
+  --color-bloco: #640404;
+  --color-bloco-ink: #ffffff;
+  --color-bloco-hover: #8c0404;
+  --color-bloco-ativo: #ffffff;
+  --color-bloco-ativo-ink: #640404;
 
   /* --- Natur / Umwelt / Sabor ---------------------------------------------- */
   --color-support-700: #1f6f5c;
@@ -124,12 +135,21 @@
   --color-primary-600: #78bce8;
   --color-primary-100: #12293a;
 
+  --color-accent-800: #4a0d0d;
   --color-accent-700: #ffb3b8;
   /* Mais escuro do que no modo claro, para que o branco por cima chegue a 4,5:1 e a
      própria superfície mantenha 3:1 face ao fundo da página. */
   --color-accent-600: #c62f3a;
   --color-accent-hover: #d8434e;
   --color-accent-100: #37161a;
+  --color-rosa: #6e3a35;
+  --color-verde: #8ca404;
+  --color-verde-ink: #14180a;
+  --color-bloco: #4a0d0d;
+  --color-bloco-ink: #f4e4e4;
+  --color-bloco-hover: #641414;
+  --color-bloco-ativo: #10161c;
+  --color-bloco-ativo-ink: #eef2f6;
 
   --color-support-700: #6fc9b1;
   --color-support-100: #122b26;
@@ -173,6 +193,15 @@
 
 :root[data-contrast='high'] {
   --color-ink: #000000;
+  --color-accent-800: #4d0000;
+  --color-rosa: #ffffff;
+  --color-verde: #2c3a00;
+  --color-verde-ink: #ffffff;
+  --color-bloco: #000000;
+  --color-bloco-ink: #ffffff;
+  --color-bloco-hover: #000000;
+  --color-bloco-ativo: #ffffff;
+  --color-bloco-ativo-ink: #000000;
   --color-ink-muted: #1c2530;
   --color-line: #5a6672;
   --color-line-strong: #2b3641;
@@ -185,6 +214,14 @@
 
 :root[data-theme='dark'][data-contrast='high'] {
   --color-ink: #ffffff;
+  --color-rosa: #000000;
+  --color-verde: #d5e88a;
+  --color-verde-ink: #000000;
+  --color-bloco: #ffffff;
+  --color-bloco-ink: #000000;
+  --color-bloco-hover: #ffffff;
+  --color-bloco-ativo: #000000;
+  --color-bloco-ativo-ink: #ffffff;
   --color-ink-muted: #dbe3ea;
   --color-line: #7b8894;
   --color-line-strong: #a9b4bf;
@@ -194,7 +231,7 @@
   --color-primary-600: #9ed0f2;
 }
 
-/* Dyslexiefreundliche / maximal lesbare Schrift */
+/* Letra máxima legibilidade (opção do painel) */
 :root[data-font='legible'] {
   --font-sans: var(--font-legible);
   --font-serif: var(--font-legible);

@@ -129,31 +129,38 @@ funções — ver [`cms/README.md`](cms/README.md).
 
 ## Sistema de design
 
-### Identidade: a cereja
+### Identidade: as cores e o logótipo do sítio oficial
 
-Alfândega da Fé é a capital nacional da cereja e é isso que o portal mostra,
-sem o transformar em decoração:
+O cabeçalho reproduz o do sítio oficial, com as cores **medidas ao píxel** a
+partir da própria página:
 
-- **Faixa de navegação em vermelho-cereja** (`accent-600`), por baixo da faixa
-  de identidade. É a única superfície de cor do cabeçalho — todo o resto é
-  claro, de propósito: o portal não tem grandes áreas escuras.
-- **Brasão oficial** em `src/components/layout/brasao.tsx`, redesenhado em
-  vetor segundo a ordenação heráldica de 1935: escudo de negro, torre torreada
-  de prata aberta e iluminada de vermelho, sete abelhas de ouro em semicírculo
-  voltadas ao centro, coroa mural de prata de quatro torres, listel branco
-  «Vila de Alfândega da Fé».
-- **Assinatura** «Município de Alfândega da Fé — Terra da cereja ·
-  Trás-os-Montes», escrita como texto e não como imagem: lê-se com leitor de
-  ecrã, escala com o texto e não borra em ecrãs de alta densidade.
-- **Filete de cereja** por cima de cada `h1` e de cada título de secção. Um
-  traço curto, sempre no mesmo sítio, que dá ritmo às páginas sem ruído.
-- **Ramo de cerejas** como motivo, usado uma única vez por página.
+| Elemento | Cor | Token |
+| --- | --- | --- |
+| Barra de serviço | `#8C0404` | `accent-800` |
+| Banda de identidade | `#A40C04` | `accent-600` |
+| Flores do padrão | `#B43C34` / `#8C0404` | (padrão) |
+| Blocos do menu | `#640404` | `accent-700` |
+| Banda do menu | `#C46C64` | `rosa` |
+| Botão de pesquisa | `#8CA404` | `verde` |
 
-O cabeçalho tem três faixas, de cima para baixo: barra de serviço (clara, com
-Área de Munícipe, contactos, acessibilidade e idioma), faixa de identidade
-(brasão, assinatura e pesquisa, sobre branco) e barra de navegação
-(vermelho-cereja). O rodapé é igualmente claro, rematado pelo filete de
-cereja.
+- **Logótipo oficial** (`public/images/logotipo-branco.png`): a assinatura
+  caligráfica branca com as cerejas, extraída de uma captura do sítio
+  oficial. `npm run fotos` substitui-a pela versão em alta qualidade servida
+  pelo próprio sítio municipal.
+- **Padrão de flores de cerejeira** na banda vermelha
+  (`src/components/layout/flor-de-cerejeira.tsx`), como no original.
+- **Menu em blocos bordeaux** sobre banda rosé; o item ativo fica branco com
+  texto bordeaux — exatamente o comportamento do sítio oficial.
+- **Pesquisa com botão verde**, como no original. Única diferença assumida: o
+  símbolo é escuro em vez de branco, porque branco sobre este verde não chega
+  ao contraste mínimo de 3:1 exigido pela WCAG.
+- **Brasão heráldico de 1935** em `src/components/layout/brasao.tsx` (escudo
+  de negro, torre de prata, sete abelhas de ouro) — usado no rodapé e nos
+  contextos institucionais.
+- **Filete de cereja** por cima de cada `h1` e título de secção.
+
+O corpo das páginas continua claro — como no original, a cor vive toda no
+cabeçalho.
 
 ### Cores
 
@@ -328,6 +335,21 @@ O `path` da página é o seu endereço. Se acrescentar uma ligação na navegaç
 `tests/unit/content.test.ts` falha — de propósito.
 
 ### Pôr as fotografias reais
+
+**O caminho rápido:** o Município forneceu a lista de fotografias
+(documento «Links_Imagens_CM_Alfandega_da_Fe»). Ela está vertida em
+`scripts/obter-fotos.mjs` — num computador com internet, basta:
+
+```bash
+npm run fotos
+```
+
+O script descarrega cada fotografia para a posição certa (`hero`, castelo,
+lagos, cerejais, percursos…) e as restantes para `public/images/recolha/`.
+O portal deteta as fotografias sozinho (ver `src/lib/imagens.ts`): qualquer
+`/images/x.svg` passa a servir `x.jpg` quando o ficheiro existe — **sem
+editar conteúdo nenhum**. Antes de publicar, confirme os direitos de cada
+fotografia junto do Município — várias vêm de sítios de terceiros.
 
 O portal foi desenhado para fotografias reais do concelho, como o sítio
 oficial sempre teve. Este repositório não as pode incluir — os direitos têm

@@ -393,6 +393,7 @@ export const es: Dictionary = {
     emergencyTitle: 'Emergencias',
     freguesiasTitle: 'Parroquias',
     newsletterTitle: 'Boletín',
+    followUs: 'Síganos',
     newsletterLead: 'Elija los temas que le interesan. Lo confirmamos por correo.',
     newsletterCta: 'Suscribirse',
     newsletterTopics: 'Temas',

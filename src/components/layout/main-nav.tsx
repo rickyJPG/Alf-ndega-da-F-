@@ -24,7 +24,7 @@ export function MainNav({ locale, label }: { locale: Locale; label: string }) {
     <NavigationMenu.Root delayDuration={120} className="relative hidden lg:block">
       <NavigationMenu.List
         aria-label={label}
-        className="flex items-stretch gap-1"
+        className="flex items-stretch gap-px"
       >
         {mainNavigation.map((section) => {
           const isActive = path === section.href || path.startsWith(`${section.href}/`);
@@ -33,19 +33,16 @@ export function MainNav({ locale, label }: { locale: Locale; label: string }) {
             <NavigationMenu.Item key={section.id}>
               <NavigationMenu.Trigger
                 className={cn(
-                  'group flex min-h-12 items-center gap-1.5 px-4 py-2 font-semibold',
-                  'text-white hover:bg-black/15',
-                  'data-[state=open]:bg-black/20',
+                  'group flex min-h-12 items-center gap-1.5 px-5 py-2 font-semibold uppercase tracking-wide',
+                  // Blocos como no sítio oficial: bordeaux com texto branco;
+                  // o item ativo ou aberto inverte para branco com texto bordeaux.
+                  isActive
+                    ? 'bg-bloco-ativo text-bloco-ativo-ink'
+                    : 'bg-bloco text-bloco-ink hover:bg-bloco-hover',
+                  'data-[state=open]:bg-bloco-ativo data-[state=open]:text-bloco-ativo-ink',
                 )}
               >
-                <span
-                  className={cn(
-                    'border-b-2 pb-0.5',
-                    isActive ? 'border-white' : 'border-transparent',
-                  )}
-                >
-                  {navLabel(section, locale)}
-                </span>
+                <span>{navLabel(section, locale)}</span>
                 <Icon
                   name="chevronDown"
                   size={16}

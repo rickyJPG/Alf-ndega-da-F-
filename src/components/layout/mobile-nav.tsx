@@ -30,8 +30,8 @@ export function MobileNav({ locale, dict }: { locale: Locale; dict: Dictionary }
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger
         className={cn(
-          'inline-flex min-h-12 items-center gap-2 rounded-md border border-accent-600 px-4 py-2',
-          'bg-accent-600 font-semibold text-white hover:bg-accent-hover lg:hidden',
+          'inline-flex min-h-12 items-center gap-2 rounded-md border-2 border-white/85 px-4 py-2',
+          'font-semibold text-white hover:bg-white/10 lg:hidden',
         )}
       >
         <Icon name="menu" size={22} />

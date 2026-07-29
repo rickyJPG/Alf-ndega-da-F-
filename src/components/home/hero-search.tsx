@@ -128,7 +128,7 @@ export function HeroSearch({
         </div>
         <button
           type="submit"
-          className="inline-flex min-h-14 items-center gap-2 rounded-e-md border-2 border-accent-600 bg-accent-600 px-5 text-lg font-semibold text-white hover:border-accent-hover hover:bg-accent-hover"
+          className="inline-flex min-h-14 items-center gap-2 rounded-e-md border-2 border-verde bg-verde px-5 text-lg font-semibold text-verde-ink hover:brightness-105"
         >
           {submitLabel}
         </button>

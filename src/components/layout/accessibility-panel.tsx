@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 /**
- * Barrierefreiheits-Panel.
+ * Painel de acessibilidade.
  *
  * Todas as opções fazem efeito de imediato e ficam guardadas localmente. A
  * implementação assenta em atributos data no <html> e em variáveis CSS — sem
@@ -58,7 +58,7 @@ export function AccessibilityPanel({ locale, dict }: { locale: Locale; dict: Dic
   return (
     <Dialog.Root>
       <Dialog.Trigger
-        className="inline-flex min-h-9 items-center gap-1.5 rounded-md px-2 py-1 text-sm font-medium text-primary-700 hover:bg-primary-100"
+        className="inline-flex min-h-9 items-center gap-1.5 rounded-md px-2 py-1 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white"
         aria-label={dict.utility.accessibilityOptions}
       >
         <Icon name="accessibility" size={17} />
@@ -123,7 +123,7 @@ export function AccessibilityPanel({ locale, dict }: { locale: Locale; dict: Dic
               </div>
             </div>
 
-            {/* Thema */}
+            {/* Tema */}
             <fieldset>
               <legend className="mb-2 font-semibold">{dict.utility.theme}</legend>
               <div className="grid grid-cols-3 gap-2">

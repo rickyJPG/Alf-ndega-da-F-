@@ -15,10 +15,19 @@
   --color-primary-600: var(--color-primary-600);
   --color-primary-100: var(--color-primary-100);
 
+  --color-accent-800: var(--color-accent-800);
   --color-accent-700: var(--color-accent-700);
   --color-accent-600: var(--color-accent-600);
   --color-accent-hover: var(--color-accent-hover);
   --color-accent-100: var(--color-accent-100);
+  --color-rosa: var(--color-rosa);
+  --color-verde: var(--color-verde);
+  --color-verde-ink: var(--color-verde-ink);
+  --color-bloco: var(--color-bloco);
+  --color-bloco-ink: var(--color-bloco-ink);
+  --color-bloco-hover: var(--color-bloco-hover);
+  --color-bloco-ativo: var(--color-bloco-ativo);
+  --color-bloco-ativo-ink: var(--color-bloco-ativo-ink);
 
   --color-support-700: var(--color-support-700);
   --color-support-100: var(--color-support-100);

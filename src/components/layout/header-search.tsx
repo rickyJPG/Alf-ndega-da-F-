@@ -46,20 +46,22 @@ export function HeaderSearch({
           placeholder={placeholder}
           autoComplete="off"
           className={cn(
-            'min-h-11 w-full rounded-s-md border border-e-0 border-line-strong bg-surface',
-            'ps-10 pe-3 py-2 text-ink placeholder:text-ink-muted/90',
+            'min-h-11 w-full rounded-s-md border border-e-0 border-white/40 bg-white',
+            'ps-10 pe-3 py-2 text-[#11161c] placeholder:text-[#4a5560]',
           )}
         />
       </div>
       <button
         type="submit"
         className={cn(
-          'inline-flex min-h-11 items-center gap-1.5 rounded-e-md border border-accent-600',
-          'bg-accent-600 px-4 font-semibold text-white hover:bg-accent-hover hover:border-accent-hover',
+          // O botão verde do sítio oficial (#8CA404). O símbolo é escuro em vez
+          // de branco: branco sobre este verde não chega aos 3:1 exigidos.
+          'inline-flex min-h-11 items-center rounded-e-md border border-verde',
+          'bg-verde px-4 font-semibold text-verde-ink hover:brightness-105',
         )}
       >
-        <span className="sr-only sm:not-sr-only">{submitLabel}</span>
-        <Icon name="search" size={18} className="sm:hidden" />
+        <span className="sr-only">{submitLabel}</span>
+        <Icon name="search" size={20} />
       </button>
     </form>
   );

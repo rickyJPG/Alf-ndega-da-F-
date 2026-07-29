@@ -1,7 +1,7 @@
 import type { Localized } from '../types';
 
 /**
- * Redaktionelle Seiten.
+ * Páginas editoriais.
  *
  * Tudo o que não precisa de coleção própria: institucional, turismo,
  * informação legal. Construído com blocos em vez de HTML livre — assim ficam
@@ -26,7 +26,25 @@ export type PageBlock =
   | { type: 'datasets'; heading: Localized }
   | { type: 'contact'; heading: Localized }
   | { type: 'sitemap'; heading: Localized }
-  | { type: 'callout'; tone: 'info' | 'warning' | 'success'; heading: Localized; body: Localized };
+  | { type: 'callout'; tone: 'info' | 'warning' | 'success'; heading: Localized; body: Localized }
+  | {
+      /** Grelha de fotografias, como nos artigos do sítio oficial. */
+      type: 'galeria';
+      heading?: Localized;
+      images: { src: string; alt: Localized; caption?: Localized }[];
+    }
+  | {
+      /**
+       * Vídeo do YouTube, carregado apenas depois de um clique (via
+       * youtube-nocookie.com) — antes do clique não sai um único pedido
+       * do portal, portanto não é preciso consentimento.
+       */
+      type: 'video';
+      heading?: Localized;
+      title: Localized;
+      /** O ID do vídeo (os 11 caracteres do endereço). Vazio = por preencher. */
+      youtubeId: string;
+    };
 
 export interface EditorialPage {
   /** Caminho sem prefixo de idioma e sem barra inicial. */
@@ -616,6 +634,22 @@ export const editorialPages: EditorialPage[] = [
           'De carro, pelo IP2 até Vila Flor e depois pela N215, ou pela A4 saindo em Macedo de Cavaleiros. De Bragança são cerca de 55 minutos; do Porto, duas horas e meia.',
           'De autocarro, há carreiras diárias de e para Bragança e Vila Real. O Posto de Turismo (279 462 739) informa sobre horários.',
         ]),
+      },
+      {
+        type: 'galeria',
+        heading: { pt: 'O concelho em imagens', en: 'The county in pictures', es: 'El municipio en imágenes', fr: 'La commune en images' },
+        images: [
+          { src: '/images/visitar/cereja.svg', alt: { pt: 'Cerejais em produção no concelho.' } },
+          { src: '/images/visitar/lagos-do-sabor.svg', alt: { pt: 'Os lagos do Sabor entre encostas.' } },
+          { src: '/images/visitar/patrimonio.svg', alt: { pt: 'O castelo de Alfândega da Fé.' } },
+          { src: '/images/visitar/amendoeiras.svg', alt: { pt: 'Amendoeiras em flor, em fevereiro.' } },
+        ],
+      },
+      {
+        type: 'video',
+        heading: { pt: 'Em vídeo', en: 'On video', es: 'En vídeo', fr: 'En vidéo' },
+        title: { pt: 'Alfândega da Fé — Terra da Cereja' },
+        youtubeId: '',
       },
     ],
   },

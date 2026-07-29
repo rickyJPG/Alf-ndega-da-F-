@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { fotoReal } from '@/lib/imagens';
 import { notFound } from 'next/navigation';
 
 import { getDictionary } from '@/i18n';
@@ -133,7 +134,7 @@ export default async function NewsDetailPage({
             <figure className="mb-8">
               <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg border border-line bg-surface-alt">
                 <Image
-                  src={item.image.src}
+                  src={fotoReal(item.image.src)}
                   alt={tx(item.image.alt, locale)}
                   fill
                   priority

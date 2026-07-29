@@ -19,6 +19,9 @@ import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { TextLink } from '@/components/ui/link';
+import Image from 'next/image';
+import { fotoReal } from '@/lib/imagens';
+import { VideoFacade } from '@/components/features/video-facade';
 
 /**
  * Páginas editoriais vindas da coleção `Paginas`.
@@ -279,6 +282,51 @@ export default async function EditorialPageRoute({
               <p className="mt-3">
                 <TextLink href={routes.contacts(locale)}>Ver todos os contactos</TextLink>
               </p>
+            </div>
+          </Section>
+        );
+
+      case 'galeria':
+        return (
+          <Section
+            key={index}
+            tone={index % 2 === 1 ? 'alt' : 'default'}
+            title={block.heading ? tx(block.heading, locale) : undefined}
+          >
+            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {block.images.map((image) => (
+                <li key={image.src}>
+                  <figure className="m-0">
+                    <span className="relative block aspect-[3/2] overflow-hidden rounded-md border border-line">
+                      <Image
+                        src={fotoReal(image.src)}
+                        alt={tx(image.alt, locale)}
+                        fill
+                        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover"
+                      />
+                    </span>
+                    {image.caption ? (
+                      <figcaption className="mt-1.5 text-sm text-ink-muted">
+                        {tx(image.caption, locale)}
+                      </figcaption>
+                    ) : null}
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </Section>
+        );
+
+      case 'video':
+        return (
+          <Section
+            key={index}
+            tone={index % 2 === 1 ? 'alt' : 'default'}
+            title={block.heading ? tx(block.heading, locale) : undefined}
+          >
+            <div className="measure-wide max-w-3xl">
+              <VideoFacade title={tx(block.title, locale)} youtubeId={block.youtubeId} />
             </div>
           </Section>
         );

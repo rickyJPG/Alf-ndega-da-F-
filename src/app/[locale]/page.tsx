@@ -36,6 +36,7 @@ import { Icon, type IconName } from '@/components/ui/icon';
 import { Badge } from '@/components/ui/badge';
 import { RamoDeCerejas } from '@/components/layout/brasao';
 import { formatDate } from '@/lib/format';
+import { fotoReal } from '@/lib/imagens';
 
 export async function generateMetadata({
   params,
@@ -136,7 +137,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section aria-labelledby="hero-title" className="relative isolate">
         <div className="absolute inset-0 -z-10">
           <Image
-            src="/images/hero-alfandega.svg"
+            src={fotoReal('/images/hero-alfandega.svg')}
             alt={dict.home.heroImageAlt}
             fill
             priority
@@ -369,7 +370,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <article className="group relative flex w-full flex-col overflow-hidden rounded-lg border border-line bg-surface hover:border-support-700">
                 <div className="relative aspect-[3/2] w-full border-b border-line bg-surface-sunken">
                   <Image
-                    src={card.image}
+                    src={fotoReal(card.image)}
                     alt={card.alt}
                     fill
                     sizes="(min-width: 768px) 33vw, 100vw"
