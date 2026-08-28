@@ -137,6 +137,14 @@ nunca deixa um ficheiro truncado.
 > cópias de segurança do servidor tem de incluir estas duas pastas, ou perde-se
 > tudo o que a redação escreveu.
 
+> **Onde isto pode ser alojado.** O painel escreve no disco, por isso precisa
+> de um servidor com sistema de ficheiros persistente — uma máquina virtual ou
+> um contentor com volume, como descrito em [Instalação em
+> produção](#instalação-em-produção). Em alojamentos sem escrita (Vercel,
+> Netlify e afins) o portal serve-se na mesma, mas o painel falha ao guardar,
+> e falha em silêncio no que toca ao munícipe: quem publicar uma notícia vê
+> uma mensagem de erro, e mais nada acontece.
+
 ### Fotografias
 
 Cada fotografia do portal ocupa uma **posição** fixa — o destaque da página
