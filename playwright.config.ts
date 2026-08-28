@@ -52,6 +52,9 @@ export default defineConfig({
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 300_000,
-    env: { MOCK_TODAY: '2026-07-25' },
+    // A palavra-passe do painel é fixada aqui para os testes de administração
+    // poderem entrar. Sem ela, o servidor gera uma ao arrancar e escreve-a no
+    // registo — bom para quem instala, impossível de adivinhar num teste.
+    env: { MOCK_TODAY: '2026-07-25', ADMIN_PASSWORD: 'palavra-passe-de-teste' },
   },
 });

@@ -13,14 +13,15 @@ serviços.
 ## Índice
 
 1. [Começar](#começar)
-2. [Como está organizado](#como-está-organizado)
-3. [Sistema de design](#sistema-de-design)
-4. [Guia de edição de conteúdos](#guia-de-edição-de-conteúdos)
-5. [Acessibilidade](#acessibilidade)
-6. [Desempenho](#desempenho)
-7. [Testes](#testes)
-8. [Instalação em produção](#instalação-em-produção)
-9. [O que falta fazer antes do lançamento](#o-que-falta-fazer-antes-do-lançamento)
+2. [Painel de administração](#painel-de-administração)
+3. [Como está organizado](#como-está-organizado)
+4. [Sistema de design](#sistema-de-design)
+5. [Guia de edição de conteúdos](#guia-de-edição-de-conteúdos)
+6. [Acessibilidade](#acessibilidade)
+7. [Desempenho](#desempenho)
+8. [Testes](#testes)
+9. [Instalação em produção](#instalação-em-produção)
+10. [O que falta fazer antes do lançamento](#o-que-falta-fazer-antes-do-lançamento)
 
 ---
 
@@ -61,6 +62,108 @@ Nenhuma é obrigatória para desenvolver.
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Domínio registado na instância de Plausible. Sem isto, não há qualquer medição. |
 | `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | Endereço do script de medição, alojado por si. |
 | `MOCK_TODAY` | `AAAA-MM-DD`. Fixa a data dos dados de exemplo, para testes reproduzíveis. |
+| `ADMIN_PASSWORD` | Palavra-passe do painel de administração. **Obrigatória em produção** — ver a secção seguinte. |
+| `ADMIN_SECRET` | Segredo que assina o cookie de sessão do painel. Se faltar, usa `NEWSLETTER_SECRET` e, à falta desse, a própria palavra-passe. |
+
+---
+
+## Painel de administração
+
+Em `/admin`. É onde a equipa do Município trata do portal — sem tocar em
+código, sem instalar nada, com um navegador normal.
+
+### O que se faz por lá
+
+| Secção | O que gere |
+| --- | --- |
+| **Início** | O que está publicado agora e atalhos para as tarefas do dia a dia. |
+| **Notícias** | Escrever, corrigir e apagar notícias, com fotografia e assunto. |
+| **Avisos** | A barra vermelha/amarela do topo do portal. Tem sempre data de fim. |
+| **Agenda** | Eventos, com dia, hora, local e preço. |
+| **Fotografias** | Trocar a imagem de qualquer posição do portal, carregando um ficheiro. |
+| **Ajuda** | Instruções passo a passo, escritas para quem nunca mexeu num sítio na internet. |
+
+O resto do portal — menus, documentos, atas, orçamento, calendário de
+resíduos — continua a editar-se nos ficheiros descritos no [guia de edição de
+conteúdos](#guia-de-edição-de-conteúdos). Foi uma escolha, não um
+esquecimento: são conteúdos que mudam uma ou duas vezes por ano, e um
+formulário para cada um seria mais trabalho a manter do que a usar. A página
+de Ajuda do painel diz isto mesmo a quem estiver lá dentro.
+
+### Pôr a funcionar
+
+```bash
+ADMIN_PASSWORD='uma-palavra-passe-longa' npm start
+```
+
+**Sem `ADMIN_PASSWORD`**, o servidor gera uma palavra-passe aleatória no
+arranque e escreve-a no registo, com um aviso. O painel funciona (é o que
+permite experimentá-lo em desenvolvimento), mas nunca fica com uma palavra-passe
+predefinida — que é como se perdem sítios institucionais. O ecrã de entrada
+mostra um aviso enquanto a variável não estiver definida.
+
+A sessão dura 12 horas e vive num cookie `httpOnly` assinado com HMAC-SHA256.
+Não há base de dados de utilizadores: são três ou quatro pessoas e a
+palavra-passe é partilhada. Autenticação a sério (Chave Móvel Digital, LDAP do
+Município) entra pelo mesmo sítio quando existir — só muda o corpo de
+`credenciaisValidas()` em `src/lib/admin/sessao.ts`.
+
+### Onde fica o que se escreve
+
+Em ficheiros JSON na pasta `conteudo/`, na raiz do projeto:
+
+```
+conteudo/
+├── noticias.json
+├── eventos.json
+└── avisos.json
+```
+
+Uma coleção só passa a ser lida daqui depois de alguém a editar pela primeira
+vez; até lá vale a semente versionada em `src/content/data/`. É por isso que o
+portal funciona tal e qual numa instalação nova.
+
+Ficheiros e não base de dados porque um município desta dimensão não tem
+equipa para manter um servidor de base de dados, e todo o conteúdo cabe
+folgadamente em alguns megabytes de JSON. A gravação é atómica — escreve para
+um ficheiro temporário e só depois o renomeia —, por isso uma falha a meio
+nunca deixa um ficheiro truncado.
+
+> **Cópias de segurança.** `conteudo/` e as fotografias carregadas em
+> `public/images/` **não** estão no repositório: vivem no servidor. Quem faz as
+> cópias de segurança do servidor tem de incluir estas duas pastas, ou perde-se
+> tudo o que a redação escreveu.
+
+### Fotografias
+
+Cada fotografia do portal ocupa uma **posição** fixa — o destaque da página
+inicial, a imagem de cada aldeia. O ecrã de Fotografias mostra as posições
+todas com o que lá está agora; carregar um ficheiro substitui a fotografia em
+todo o portal de uma vez.
+
+O nome do ficheiro guardado é decidido pela posição escolhida, nunca pelo nome
+que vem do computador de quem carrega — não há como escrever fora de
+`public/images/`. Aceita JPG, PNG e WebP até 8 MB, e verifica a assinatura do
+ficheiro, não a extensão.
+
+Para acrescentar uma posição nova, acrescente-a a `src/lib/fotos-do-municipio.ts`
+e o rótulo em português a `src/lib/admin/posicoes.ts`. São duas linhas.
+
+### Como se comporta o portal depois de uma alteração
+
+Cada gravação chama `revalidatePath('/', 'layout')`: o Next reconstrói as
+páginas afetadas e a alteração aparece em segundos, sem recompilar nem
+reiniciar nada.
+
+### Segurança
+
+- Todas as ações de servidor verificam a sessão à cabeça. Uma ação é um ponto
+  de entrada tão exposto como uma rota — se a verificação ficasse só no ecrã,
+  bastaria chamá-la diretamente para escrever no portal.
+- `/admin` está fora do `matcher` do middleware de idioma e serve
+  `robots: noindex, nofollow`.
+- A comparação da palavra-passe usa `timingSafeEqual`.
+- Ficheiros carregados são validados pelos primeiros bytes (JPEG, PNG, RIFF/WEBP).
 
 ---
 
@@ -70,6 +173,7 @@ Nenhuma é obrigatória para desenvolver.
 src/
   app/                    Rotas (App Router)
     [locale]/             Todas as páginas, sob o segmento de idioma
+    admin/                Painel de administração (fora do segmento de idioma)
     api/eventos/[slug]/   Ficheiros .ics por evento
     actions.ts            Server Actions dos formulários
     sitemap.ts robots.ts manifest.ts
@@ -85,8 +189,10 @@ src/
     index.ts              Única porta de entrada para conteúdos
   i18n/                   Configuração e dicionários PT/EN/ES/FR
   lib/                    Tokens de rota, formatos, pesquisa, SEO, redirecionamentos
+    admin/                Sessão, depósito de conteúdo editável, posições de imagem
   styles/                 tokens.css, globals.css, fonts.css
 cms/                      Desenho das coleções para o Payload CMS
+conteudo/                 Conteúdo escrito no painel (criado no servidor, fora do git)
 tests/                    unit/ (Vitest) e e2e/ (Playwright + axe-core)
 ```
 
@@ -209,13 +315,24 @@ os atributos ARIA corretos de origem.
 
 ## Guia de edição de conteúdos
 
-Esta secção é para a equipa de comunicação e para os serviços. **Não é preciso
-saber programar** para nada do que se segue depois de o CMS estar ligado; até
-lá, as instruções aplicam-se aos ficheiros indicados.
+Esta secção é para quem mantém o portal.
+
+> **Notícias, avisos, eventos e fotografias já não se editam aqui.** Fazem-se
+> em `/admin`, com um navegador — ver [Painel de
+> administração](#painel-de-administração). Os ficheiros abaixo continuam a
+> ser a **semente**: o que uma instalação nova mostra antes de alguém editar
+> seja o que for. Vale a pena mantê-los coerentes, mas em produção quem manda
+> é o que está em `conteudo/`.
+
+O resto — serviços, documentos, consultas, páginas institucionais — edita-se
+mesmo nos ficheiros indicados em cada subsecção.
 
 ### Publicar uma notícia
 
-Ficheiro: `src/content/data/news.ts` (ou, com CMS, a coleção *Notícias*).
+> Isto faz-se em `/admin/noticias`. O que se segue descreve o formato dos
+> dados de arranque, para quem precise de mexer na semente.
+
+Ficheiro: `src/content/data/news.ts`.
 
 ```ts
 {
@@ -247,6 +364,9 @@ Três regras que fazem toda a diferença:
    decorativa, use uma cadeia vazia.
 
 ### Pôr um aviso no topo do portal
+
+> Isto faz-se em `/admin/avisos`, e é onde deve ser feito — um aviso escreve-se
+> com pressa. O que se segue é o formato da semente.
 
 Ficheiro: `src/content/data/alerts.ts`.
 
@@ -338,6 +458,10 @@ O `path` da página é o seu endereço. Se acrescentar uma ligação na navegaç
 `tests/unit/content.test.ts` falha — de propósito.
 
 ### Pôr as fotografias reais
+
+> A forma normal de trocar uma fotografia é `/admin/imagens`: escolher o
+> ficheiro e está trocada. O que se segue explica de onde vêm as que já lá
+> estão.
 
 **As fotografias já estão no portal.** Os endereços do documento do Município
 («Links_Imagens_CM_Alfandega_da_Fe») estão ligados às posições em
@@ -500,7 +624,7 @@ Como se lá chega:
 
 ```bash
 npm run test        # 50 testes unitários
-npm run test:e2e    # 106 testes de ponta a ponta (desktop + móvel)
+npm run test:e2e    # 131 testes de ponta a ponta (desktop + móvel)
 npm run test:a11y   # só acessibilidade
 ```
 
@@ -515,6 +639,12 @@ ecrã grande e em telemóvel. Verificam os percursos reais — encontrar um serv
 em três cliques, mudar de idioma sem perder a página, comunicar uma ocorrência,
 marcar atendimento, recusar cookies — e passam o axe-core por 28 modelos de
 página.
+
+O painel de administração tem os seus (`tests/e2e/administracao.spec.ts`):
+palavra-passe errada não entra, sem sessão nenhum ecrã abre, e o circuito
+completo de uma notícia — escrever, ver aparecer no portal, corrigir, apagar,
+confirmar que dá 404 — corre contra a compilação de produção. Os testes que
+escrevem apagam o que criaram; o conteúdo de demonstração fica como estava.
 
 Os dados com prazos são gerados em relação a `MOCK_TODAY`, o que torna os
 testes reproduzíveis sem congelar o conteúdo da demonstração.

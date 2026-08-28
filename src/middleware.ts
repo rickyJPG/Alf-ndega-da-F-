@@ -53,8 +53,12 @@ export const config = {
   /**
    * Tudo exceto os internos do Next, as rotas de API e ficheiros com extensão.
    * `sw.js`, `manifest.webmanifest` e as fontes ficam de fora.
+   *
+   * `/admin` também fica de fora: o painel de administração só existe em
+   * português e não vive dentro de /[locale]. Sem esta exceção, /admin seria
+   * reescrito para /pt/admin — uma rota que não existe.
    */
-  matcher: ['/((?!api|_next/static|_next/image|.*\\..*).*)'],
+  matcher: ['/((?!api|admin|_next/static|_next/image|.*\\..*).*)'],
 };
 
 export { LOCALE_COOKIE, locales };

@@ -2,11 +2,19 @@
  * Ponto único de acesso aos conteúdos.
  *
  * As páginas importam exclusivamente deste módulo e nunca diretamente de
- * src/content/data. Ao ligar o Payload CMS, as funções de leitura passam
- * aqui a chamadas à API — as páginas ficam intactas. Todas as funções são
- * assíncronas, para que essa troca não altere nenhuma assinatura.
+ * src/content/data. Todas as funções são assíncronas, para que a origem dos
+ * dados possa mudar sem alterar uma única assinatura.
+ *
+ * Hoje há duas origens, por esta ordem:
+ *
+ *   1. o que a redação gravou no painel de administração
+ *      (`conteudo/<coleção>.json`);
+ *   2. a semente versionada com o código (`src/content/data`).
+ *
+ * As coleções que ainda não passaram pelo painel continuam a vir da semente,
+ * exatamente como antes — não há um «momento de migração».
  */
-import { activeAlerts } from './data/alerts';
+import { alerts } from './data/alerts';
 import { budget2026, budgetYears, expensePerInhabitant } from './data/budget';
 import {
   consultations,
@@ -43,12 +51,37 @@ import type {
   Tender,
 } from './types';
 
+import { ler } from '@/lib/admin/deposito';
+
 const todayIso = () => new Date().toISOString().slice(0, 10);
+
+/** Notícias: o que a redação gravou, ou a semente. */
+async function todasAsNoticias(): Promise<NewsItem[]> {
+  return ler('noticias', news);
+}
+
+/** Eventos: o que a redação gravou, ou a semente. */
+async function todosOsEventos(): Promise<EventItem[]> {
+  return ler('eventos', events);
+}
+
+/** Avisos: o que a redação gravou, ou a semente. */
+async function todosOsAvisos(): Promise<Alert[]> {
+  return ler('avisos', alerts);
+}
 
 // --- Alerts --------------------------------------------------------------------
 
 export async function getActiveAlerts(): Promise<Alert[]> {
-  return activeAlerts(todayIso());
+  const hoje = todayIso();
+  const lista = await todosOsAvisos();
+  return lista.filter((aviso) => aviso.startsAt <= hoje && aviso.endsAt >= hoje);
+}
+
+/** Todos os avisos, incluindo os que já passaram — para o painel. */
+export async function getAllAlerts(): Promise<Alert[]> {
+  const lista = await todosOsAvisos();
+  return [...lista].sort((a, b) => b.startsAt.localeCompare(a.startsAt));
 }
 
 // --- Notícias ------------------------------------------------------------------
@@ -58,14 +91,15 @@ export async function getNews(options?: {
   category?: string;
   includeArchive?: boolean;
 }): Promise<NewsItem[]> {
-  let list = [...news].sort((a, b) => b.date.localeCompare(a.date));
+  let list = [...(await todasAsNoticias())].sort((a, b) => b.date.localeCompare(a.date));
   if (!options?.includeArchive) list = list.filter((item) => !item.archive);
   if (options?.category) list = list.filter((item) => item.category === options.category);
   return options?.limit ? list.slice(0, options.limit) : list;
 }
 
 export async function getNewsArchive(archive: string): Promise<NewsItem[]> {
-  return news.filter((item) => item.archive === archive).sort((a, b) => b.date.localeCompare(a.date));
+  const lista = await todasAsNoticias();
+  return lista.filter((item) => item.archive === archive).sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export async function getNewsItem(
@@ -73,7 +107,8 @@ export async function getNewsItem(
   month: string,
   slug: string,
 ): Promise<NewsItem | undefined> {
-  return news.find(
+  const lista = await todasAsNoticias();
+  return lista.find(
     (item) => item.slug === slug && item.date.startsWith(`${year}-${month.padStart(2, '0')}`),
   );
 }
@@ -85,7 +120,8 @@ export async function getNewsCategories(): Promise<string[]> {
 /** Notícias com etiquetas em comum, excluindo a que está a ser lida. */
 export async function getRelatedNews(item: NewsItem, limit = 3): Promise<NewsItem[]> {
   const tags = new Set(item.tags ?? []);
-  return news
+  const lista = await todasAsNoticias();
+  return lista
     .filter((candidate) => candidate.id !== item.id && !candidate.archive)
     .map((candidate) => ({
       candidate,
@@ -108,7 +144,7 @@ export async function getEvents(options?: {
   limit?: number;
 }): Promise<EventItem[]> {
   const from = options?.from ?? todayIso();
-  let list = events
+  let list = (await todosOsEventos())
     .filter((event) => (event.endDate ?? event.startDate) >= from)
     .sort((a, b) => a.startDate.localeCompare(b.startDate) || (a.startTime ?? '').localeCompare(b.startTime ?? ''));
 
@@ -118,11 +154,13 @@ export async function getEvents(options?: {
 }
 
 export async function getAllEvents(): Promise<EventItem[]> {
-  return [...events].sort((a, b) => a.startDate.localeCompare(b.startDate));
+  const lista = await todosOsEventos();
+  return [...lista].sort((a, b) => a.startDate.localeCompare(b.startDate));
 }
 
 export async function getEvent(slug: string): Promise<EventItem | undefined> {
-  return events.find((event) => event.slug === slug);
+  const lista = await todosOsEventos();
+  return lista.find((event) => event.slug === slug);
 }
 
 export async function getEventCategories(): Promise<string[]> {

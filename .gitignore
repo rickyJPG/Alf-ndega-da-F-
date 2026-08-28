@@ -45,3 +45,18 @@ pnpm-debug.log*
 
 # Pacotes de entrega (git bundle) — não pertencem ao repositório
 *.bundle
+
+# Conteúdo escrito no painel de administração.
+# Vive no servidor, não no repositório: é a redação que o escreve, e cada
+# instalação (produção, pré-produção, o portátil de quem desenvolve) tem o
+# seu. A semente versionada está em src/content/data. Quem faz cópias de
+# segurança do servidor tem de incluir esta pasta.
+/conteudo/
+
+# Fotografias carregadas pelo painel. Mesmo raciocínio: entram pelo servidor,
+# não por um commit. As que acompanham o portal (logótipos, molduras de
+# espera) estão versionadas e não são apanhadas por estes padrões.
+/public/images/**/*.jpg
+/public/images/**/*.jpeg
+/public/images/**/*.webp
+!/public/images/logotipo*.png
