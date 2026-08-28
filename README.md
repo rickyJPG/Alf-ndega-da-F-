@@ -64,6 +64,9 @@ Nenhuma é obrigatória para desenvolver.
 | `MOCK_TODAY` | `AAAA-MM-DD`. Fixa a data dos dados de exemplo, para testes reproduzíveis. |
 | `ADMIN_PASSWORD` | Palavra-passe do painel de administração. **Obrigatória em produção** — ver a secção seguinte. |
 | `ADMIN_SECRET` | Segredo que assina o cookie de sessão do painel. Se faltar, usa `NEWSLETTER_SECRET` e, à falta desse, a própria palavra-passe. |
+| `NEWSLETTER_SECRET` | Segredo que assina as ligações de confirmação do boletim. **Defina-o em produção.** |
+| `RESEND_API_KEY` | Serviço de envio do boletim. Sem ela, o portal fica em modo de demonstração — ver [Boletim informativo](#boletim-informativo). |
+| `NEWSLETTER_FROM` | Remetente das mensagens do boletim. |
 
 ---
 
@@ -623,7 +626,7 @@ Como se lá chega:
 ## Testes
 
 ```bash
-npm run test        # 50 testes unitários
+npm run test        # 56 testes unitários
 npm run test:e2e    # 131 testes de ponta a ponta (desktop + móvel)
 npm run test:a11y   # só acessibilidade
 ```
@@ -718,12 +721,36 @@ acontece antes de o visitante autorizar.
 Não use Google Analytics: transfere dados pessoais para fora da UE sem base
 legal sólida para uma entidade pública.
 
-### Newsletter
+### Boletim informativo
 
-`subscribeNewsletter` em `src/app/actions.ts` valida os dados e tem o ponto de
-ligação assinalado. Ligue a um serviço com **duplo opt-in**: só há subscrição
-depois de a pessoa clicar na ligação de confirmação enviada por correio
-eletrónico.
+A dupla adesão está implementada, de ponta a ponta: o formulário do rodapé não
+inscreve ninguém. Emite um testemunho assinado com HMAC-SHA256 — endereço,
+temas e instante de emissão — e envia-o numa ligação. **A subscrição só passa a
+existir quando essa ligação for aberta**, em `/boletim/confirmar`, e vale 48
+horas.
+
+Não há registo de pendentes em lado nenhum: o que confirma a subscrição é a
+assinatura, não uma linha numa tabela. Uma ligação alterada não valida, e uma
+ligação com o endereço de outra pessoa lá dentro não inscreve essa pessoa —
+está verificado em `tests/unit/newsletter.test.ts`.
+
+As subscrições confirmadas ficam em `conteudo/subscricoes.json`, ao lado do
+resto do conteúdo (e, tal como ele, fora do git — incluir nas cópias de
+segurança).
+
+| Variável | Para quê |
+| --- | --- |
+| `RESEND_API_KEY` | Chave da [Resend](https://resend.com). **Sem ela não sai correio nenhum** e o portal fica em modo de demonstração. |
+| `NEWSLETTER_FROM` | Remetente. Predefinição: `Município de Alfândega da Fé <geral@cm-alfandegadafe.pt>`. |
+| `NEWSLETTER_SECRET` | Segredo que assina os testemunhos. **Defina-o em produção** — sem ele usa-se um valor de desenvolvimento, e quem o conhecer pode forjar confirmações. |
+
+**Modo de demonstração** (sem `RESEND_API_KEY`): o circuito funciona todo, mas
+a ligação de confirmação é escrita no registo do servidor em vez de seguir por
+correio. O formulário diz isso mesmo a quem o usa, em vez de fingir que enviou
+uma mensagem — que é o que acontecia antes.
+
+Para trocar de serviço de envio, só muda `enviarConfirmacao()` em
+`src/lib/newsletter.ts`. O resto não sabe por onde a mensagem saiu.
 
 ---
 
@@ -735,27 +762,35 @@ inventadas por quem desenvolve:
 1. **Confirmar o brasão.** O desenho em `src/components/layout/brasao.tsx`
    segue a ordenação heráldica oficial de 1935, mas é um redesenho; se a
    autarquia tiver o ficheiro oficial em vetor, deve substituí-lo.
-2. **Fotografias reais**, a substituir as ilustrações em `public/images`,
-   mantendo as proporções.
+2. **Passar as fotografias para o domínio do Município.** As que se veem vêm
+   das origens indicadas no documento entregue; carregá-las em `/admin/imagens`
+   resolve os direitos e a dependência de servidores de terceiros de uma vez.
 3. **Dados verdadeiros.** Os conteúdos em `src/content/data/` são exemplos
    realistas e verosímeis, construídos a partir de informação pública, mas
    **não são dados oficiais**. Números do orçamento, população, contactos
    diretos das divisões e nomes dos presidentes de junta têm de ser
    confirmados pelos serviços antes de irem para o ar.
-4. **Ligar o CMS** — ver [`cms/README.md`](cms/README.md).
-5. **Área de Munícipe**: integrar a autenticação com Chave Móvel Digital.
-6. **Ligar os formulários ao processo interno.** As Server Actions validam e
+4. **Definir `ADMIN_PASSWORD` e `NEWSLETTER_SECRET`** e incluir `conteudo/` e
+   `public/images/` nas cópias de segurança do servidor. Sem isto, perde-se
+   tudo o que a redação escrever no painel.
+5. **Ligar o serviço de correio do boletim** (`RESEND_API_KEY`). Sem ele o
+   circuito funciona, mas a ligação de confirmação não sai do servidor.
+6. **Ligar o CMS**, se o Município quiser ir além do painel — ver
+   [`cms/README.md`](cms/README.md). O painel em `/admin` cobre notícias,
+   avisos, agenda e fotografias, que é o que muda todas as semanas.
+7. **Área de Munícipe**: integrar a autenticação com Chave Móvel Digital.
+8. **Ligar os formulários ao processo interno.** As Server Actions validam e
    devolvem número de referência, mas os pontos de entrega estão marcados com
    `TODO` em `src/app/actions.ts`.
-7. **Risco de incêndio a partir da API do IPMA**, em vez dos valores de
+9. **Risco de incêndio a partir da API do IPMA**, em vez dos valores de
    exemplo em `src/content/data/services-operational.ts`.
-8. **Avaliação de acessibilidade por terceiros**, com pessoas com deficiência,
+10. **Avaliação de acessibilidade por terceiros**, com pessoas com deficiência,
    e atualização da declaração em `src/app/[locale]/acessibilidade/page.tsx`.
    A verificação automática apanha talvez metade dos problemas reais.
-9. **Completar as traduções.** A interface está integralmente em quatro
+11. **Completar as traduções.** A interface está integralmente em quatro
    línguas; os conteúdos longos (notícias, páginas institucionais) estão em
    português, com tradução parcial. O modelo de conteúdo já suporta as quatro.
-10. **Rever a tabela de redirecionamentos** com os registos de acesso do portal
+12. **Rever a tabela de redirecionamentos** com os registos de acesso do portal
     antigo, para apanhar os endereços realmente usados.
 
 ---

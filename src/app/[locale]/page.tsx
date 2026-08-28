@@ -25,6 +25,7 @@ import { startOfWeek } from '@/content/data/clock';
 
 import { Section } from '@/components/layout/page-shell';
 import { HeroSearch, type Suggestion } from '@/components/home/hero-search';
+import { HeroSlideshow } from '@/components/home/hero-slideshow';
 import { WeekAgenda } from '@/components/home/week-agenda';
 import { FireRiskWidget } from '@/components/home/fire-risk-widget';
 import { TransparencyWidget } from '@/components/home/transparency-widget';
@@ -135,17 +136,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     <>
       {/* 3. Hero — a imagem vê-se; o texto assenta num cartão sólido */}
       <section aria-labelledby="hero-title" className="relative isolate">
-        <div className="absolute inset-0 -z-10">
-          <Image
-            src={fotoReal('/images/hero-alfandega.svg')}
-            unoptimized={ehFotoExterna(fotoReal('/images/hero-alfandega.svg'))}
-            alt={dict.home.heroImageAlt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
+        <HeroSlideshow
+          diapositivos={[
+            '/images/hero-alfandega.svg',
+            '/images/visitar/patrimonio.svg',
+            '/images/visitar/cereja.svg',
+            '/images/visitar/lagos-do-sabor.svg',
+          ].map((posicao) => {
+            const src = fotoReal(posicao);
+            return { src, alt: dict.home.heroImageAlt, externa: ehFotoExterna(src) };
+          })}
+        />
 
         <div className="container-page py-10 md:py-16">
           <div className="max-w-3xl rounded-lg border border-line bg-surface/97 p-6 shadow-[var(--shadow-2)] md:p-8">

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useTransition, type FormEvent } from 'react';
 import type { Dictionary } from '@/i18n';
 import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
+import { subscribeNewsletter } from '@/app/actions';
 
 const TOPICS = [
   { id: 'noticias', label: 'Notícias do Município' },
@@ -22,18 +23,25 @@ const TOPICS = [
 export function NewsletterForm({ dict }: { dict: Dictionary }) {
   const [email, setEmail] = useState('');
   const [topics, setTopics] = useState<string[]>(['noticias']);
-  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
+  const [state, setState] = useState<'idle' | 'done' | 'error'>('idle');
+  const [mensagem, setMensagem] = useState<string | null>(null);
+  const [aEnviar, iniciar] = useTransition();
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!email.includes('@')) {
-      setState('error');
-      return;
-    }
-    setState('sending');
-    // Ligação ao serviço de envio: ver o README, secção «Boletim informativo».
-    await new Promise((resolve) => setTimeout(resolve, 400));
-    setState('done');
+
+    const dados = new FormData(event.currentTarget);
+
+    iniciar(async () => {
+      const resposta = await subscribeNewsletter({
+        email,
+        topics,
+        empresa_website: String(dados.get('empresa') ?? ''),
+      });
+
+      setMensagem(resposta.message ?? null);
+      setState(resposta.ok ? 'done' : 'error');
+    });
   }
 
   if (state === 'done') {
@@ -41,7 +49,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
       <div className="rounded-md border border-s-4 border-success bg-success-surface p-4" role="status">
         <p className="flex items-start gap-2 text-sm text-ink">
           <Icon name="checkCircle" size={20} className="mt-0.5 shrink-0 text-success" />
-          <span>{dict.footer.newsletterDoubleOptIn}</span>
+          <span>{mensagem ?? dict.footer.newsletterDoubleOptIn}</span>
         </p>
       </div>
     );
@@ -104,10 +112,10 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
         </div>
         <button
           type="submit"
-          disabled={state === 'sending'}
+          disabled={aEnviar}
           className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-accent-600 bg-accent-600 px-4 font-semibold text-white hover:bg-accent-hover disabled:opacity-60"
         >
-          {state === 'sending' ? dict.forms.sending : dict.footer.newsletterCta}
+          {aEnviar ? dict.forms.sending : dict.footer.newsletterCta}
         </button>
       </div>
 
@@ -120,7 +128,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
       {state === 'error' ? (
         <p id="newsletter-error" role="alert" className="flex items-center gap-1.5 text-sm text-danger">
           <Icon name="alert" size={16} />
-          {dict.forms.fieldEmail}
+          {mensagem ?? dict.forms.fieldEmail}
         </p>
       ) : (
         <p id="newsletter-hint" className="text-sm text-ink-muted">

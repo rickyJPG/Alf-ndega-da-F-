@@ -6,6 +6,8 @@ import {
   newsletterSchema,
   occurrenceSchema,
 } from '@/lib/forms/schemas';
+import { criarTestemunho, ehTema, enviarConfirmacao, envioConfigurado } from '@/lib/newsletter';
+import { site } from '@/lib/site';
 
 /**
  * Server-Actions.
@@ -111,7 +113,32 @@ export async function subscribeNewsletter(input: unknown): Promise<ActionResult>
     };
   }
 
-  // TODO: enviar e-mail de confirmação com ligação de uso único (dupla adesão).
-  // A subscrição só existe depois de essa ligação ser aberta.
-  return { ok: true };
+  const temas = parsed.data.topics.filter(ehTema);
+  if (temas.length === 0) {
+    return { ok: false, message: 'Escolha pelo menos um tema.' };
+  }
+
+  // Dupla adesão: aqui não fica ninguém subscrito. Emite-se uma ligação
+  // assinada e só o clique nela inscreve — ver src/lib/newsletter.ts.
+  const testemunho = criarTestemunho(parsed.data.email, temas);
+  const ligacao = `${site.url}/boletim/confirmar?t=${encodeURIComponent(testemunho)}`;
+
+  const enviada = await enviarConfirmacao(parsed.data.email, ligacao);
+
+  if (enviada) {
+    return {
+      ok: true,
+      message: `Enviámos uma mensagem para ${parsed.data.email}. Abra a ligação que lá vem para confirmar — sem esse passo não fica subscrito.`,
+    };
+  }
+
+  // Distinguir «não há serviço configurado» de «o serviço recusou» importa:
+  // a primeira é o estado normal de uma demonstração, a segunda é uma avaria
+  // que alguém tem de ir ver.
+  return {
+    ok: true,
+    message: envioConfigurado()
+      ? 'O pedido foi registado, mas o serviço de correio não respondeu. Tente de novo mais tarde ou escreva para geral@cm-alfandegadafe.pt.'
+      : 'Portal em demonstração: ainda não há serviço de correio ligado, por isso a ligação de confirmação foi escrita no registo do servidor em vez de seguir por e-mail.',
+  };
 }
