@@ -679,7 +679,36 @@ npm start            # porta 3000 por omissão
 Atrás de um Nginx ou Caddy como proxy inverso, com TLS. Serve `public/` como
 estático e passa o resto ao Node.
 
+**O sistema de ficheiros tem de ter escrita.** O painel de administração
+guarda o conteúdo em `conteudo/` e as fotografias em `public/images/`. Uma
+máquina virtual ou um contentor com volume servem; alojamentos sem escrita
+(Vercel, Netlify) não — ver [Painel de administração](#painel-de-administração).
+
+No Nginx, o carregamento de fotografias precisa de corpo suficiente, senão
+uma imagem grande é recusada com 413 antes de chegar ao portal:
+
+```nginx
+client_max_body_size 10m;
+```
+
 ### Systemd
+
+Os segredos ficam num ficheiro à parte, não no serviço: um ficheiro de unidade
+é legível por qualquer utilizador da máquina, e a palavra-passe do painel não
+tem que estar lá.
+
+`/etc/portal.env` — `chown root:www-data`, `chmod 640`:
+
+```sh
+ADMIN_PASSWORD=uma-palavra-passe-longa-e-so-desta-instalacao
+ADMIN_SECRET=outra-cadeia-aleatoria
+NEWSLETTER_SECRET=mais-uma-cadeia-aleatoria
+RESEND_API_KEY=re_...
+```
+
+Gerar cada uma com `openssl rand -base64 32`.
+
+`/etc/systemd/system/portal.service`:
 
 ```ini
 [Unit]
@@ -692,13 +721,32 @@ User=www-data
 WorkingDirectory=/var/www/portal
 Environment=NODE_ENV=production
 Environment=NEXT_PUBLIC_SITE_URL=https://www.cm-alfandegadafe.pt
+EnvironmentFile=/etc/portal.env
 ExecStart=/usr/bin/node node_modules/.bin/next start --port 3000
 Restart=always
 RestartSec=5
 
+# O painel escreve conteúdo e fotografias. Sem estas duas pastas com
+# escrita, o portal serve-se na mesma mas guardar uma notícia falha.
+ReadWritePaths=/var/www/portal/conteudo /var/www/portal/public/images
+ProtectSystem=full
+PrivateTmp=true
+NoNewPrivileges=true
+
 [Install]
 WantedBy=multi-user.target
 ```
+
+As duas pastas têm de pertencer ao utilizador do serviço:
+
+```bash
+mkdir -p /var/www/portal/conteudo
+chown -R www-data:www-data /var/www/portal/conteudo /var/www/portal/public/images
+```
+
+**É este o passo que se esquece.** Sem ele o portal arranca, serve tudo, e só
+falha quando alguém tentar publicar a primeira notícia — que costuma ser no
+dia do lançamento.
 
 ### Cabeçalhos
 
