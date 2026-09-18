@@ -4,11 +4,27 @@ import { useActionState } from 'react';
 import { entrar, type Resultado } from '../acoes';
 import { Icon } from '@/components/ui/icon';
 
-export function FormularioDeEntrada() {
+export function FormularioDeEntrada({ porConta }: { porConta: boolean }) {
   const [estado, acao, aPedir] = useActionState<Resultado | null, FormData>(entrar, null);
 
   return (
     <form action={acao} className="rounded-lg border border-line bg-surface p-6">
+      {porConta ? (
+        <>
+          <label htmlFor="utilizador" className="mb-2 block font-semibold">
+            Nome de utilizador
+          </label>
+          <input
+            id="utilizador"
+            name="utilizador"
+            autoComplete="username"
+            autoFocus
+            required
+            className="mb-5 min-h-12 w-full rounded-md border border-line-strong bg-surface px-3 text-ink"
+          />
+        </>
+      ) : null}
+
       <label htmlFor="palavraPasse" className="block font-semibold">
         Palavra-passe
       </label>
@@ -17,7 +33,7 @@ export function FormularioDeEntrada() {
         name="palavraPasse"
         type="password"
         autoComplete="current-password"
-        autoFocus
+        autoFocus={!porConta}
         required
         aria-invalid={estado && !estado.ok ? true : undefined}
         aria-describedby={estado && !estado.ok ? 'erro-entrada' : undefined}

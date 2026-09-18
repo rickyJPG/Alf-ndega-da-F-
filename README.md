@@ -85,7 +85,7 @@ Nenhuma é obrigatória para desenvolver.
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Domínio registado na instância de Plausible. Sem isto, não há qualquer medição. |
 | `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | Endereço do script de medição, alojado por si. |
 | `MOCK_TODAY` | `AAAA-MM-DD`. Fixa a data dos dados de exemplo, para testes reproduzíveis. |
-| `ADMIN_PASSWORD` | Palavra-passe do painel de administração. Escrita por `npm run configurar`. |
+| `ADMIN_PASSWORD` | Palavra-passe de arranque do painel, até existirem contas. Escrita por `npm run configurar`. |
 | `ADMIN_SESSAO_HORAS` | Quanto dura uma sessão parada. Omissão: 168 (uma semana). |
 | `ADMIN_SECRET` | Segredo que assina o cookie de sessão do painel. Se faltar, usa `NEWSLETTER_SECRET` e, à falta desse, a própria palavra-passe. |
 | `NEWSLETTER_SECRET` | Segredo que assina as ligações de confirmação do boletim. **Defina-o em produção.** |
@@ -111,6 +111,7 @@ código, sem instalar nada, com um navegador normal.
 | **Agenda** | Eventos, com dia, hora, local e preço. |
 | **Documentos** | Publicar e substituir formulários, regulamentos, editais e atas. |
 | **Fotografias** | Trocar a imagem de qualquer posição do portal, carregando um ficheiro. |
+| **Contas** | Quem pode entrar no painel. Uma conta por pessoa, com palavra-passe própria. |
 | **Ajuda** | Instruções passo a passo, escritas para quem nunca mexeu num sítio na internet. |
 
 O resto do portal — menus, orçamento, calendário de resíduos — continua a
@@ -140,11 +141,31 @@ Uma sessão dura uma semana parada (`ADMIN_SESSAO_HORAS` muda isso) e renova-se
 sozinha sempre que se publica alguma coisa: quem está a trabalhar não é
 desligado a meio de um texto; quem desaparece uma semana volta a entrar.
 
-Vive num cookie `httpOnly` assinado com HMAC-SHA256. Não há base de dados de
-utilizadores: são três ou quatro pessoas e a palavra-passe é partilhada.
+Vive num cookie `httpOnly` assinado com HMAC-SHA256.
+
+### Contas
+
+`ADMIN_PASSWORD` é a palavra-passe de arranque: serve para entrar **enquanto
+não houver contas criadas**. Criada a primeira (em Contas), passa a entrar-se
+com nome e palavra-passe, e a palavra-passe única deixa de servir.
+
+É o que resolve o problema da palavra-passe partilhada: quem sai dos serviços
+continuava a sabê-la, e trocá-la obrigava a avisar toda a gente. Agora apaga-se
+a conta dessa pessoa e as outras ficam como estavam.
+
+As palavras-passe não são guardadas — guarda-se o resultado de as passar por
+**scrypt**, com um sal diferente para cada uma, por isso duas contas com a
+mesma palavra-passe não se parecem no ficheiro. Quem leia
+`conteudo/utilizadores.json` não fica a saber nenhuma, e não há forma de
+recuperar uma esquecida: troca-se.
+
+Duas regras que o painel não deixa quebrar: não se apaga a própria conta (quem
+está a trabalhar não se desliga a si mesmo sem perceber porquê) e não se apaga
+a última (o painel ficava sem ninguém lá dentro).
+
 Autenticação a sério (Chave Móvel Digital, LDAP do Município) entra pelo mesmo
-sítio quando existir — só muda o corpo de `credenciaisValidas()` em
-`src/lib/admin/sessao.ts`.
+sítio quando existir — só muda o corpo de `autenticar()` em
+`src/lib/admin/utilizadores.ts`.
 
 ### Onde fica o que se escreve
 
@@ -156,6 +177,7 @@ conteudo/
 ├── eventos.json
 ├── avisos.json
 ├── documentos.json
+├── utilizadores.json   contas do painel (palavras-passe em scrypt)
 └── ficheiros/          fotografias e PDF carregados pelo painel
     ├── imagens/
     └── documentos/

@@ -71,10 +71,41 @@ export function credenciaisValidas(tentativa: string): boolean {
   return iguais(tentativa, palavraPasse());
 }
 
+/* ------------------------------------------------------------- conteúdo -- */
+
+/**
+ * O que vai dentro do cookie, assinado.
+ *
+ * `quem` é o identificador da conta que entrou — ausente nas sessões abertas
+ * com a palavra-passe única de `ADMIN_PASSWORD`, que continua a valer
+ * enquanto não houver contas criadas.
+ */
+interface Conteudo {
+  expiraEm: number;
+  quem?: string;
+}
+
+function empacotar(conteudo: Conteudo): string {
+  return Buffer.from(JSON.stringify(conteudo)).toString('base64url');
+}
+
+function desempacotar(corpo: string): Conteudo | null {
+  try {
+    const conteudo = JSON.parse(Buffer.from(corpo, 'base64url').toString('utf8')) as Conteudo;
+    if (typeof conteudo?.expiraEm !== 'number' || !Number.isFinite(conteudo.expiraEm)) return null;
+    if (conteudo.quem !== undefined && typeof conteudo.quem !== 'string') return null;
+    return conteudo;
+  } catch {
+    return null;
+  }
+}
+
 /** Abre sessão: grava o cookie assinado. */
-export async function abrirSessao(): Promise<void> {
-  const expiraEm = Date.now() + VALIDADE_HORAS * 60 * 60 * 1000;
-  const corpo = String(expiraEm);
+export async function abrirSessao(quem?: string): Promise<void> {
+  const corpo = empacotar({
+    expiraEm: Date.now() + VALIDADE_HORAS * 60 * 60 * 1000,
+    ...(quem ? { quem } : {}),
+  });
   const armazenamento = await cookies();
 
   armazenamento.set(COOKIE, `${corpo}.${assinar(corpo)}`, {
@@ -91,18 +122,30 @@ export async function fecharSessao(): Promise<void> {
   armazenamento.delete(COOKIE);
 }
 
-/** A pessoa tem sessão aberta e válida? */
-export async function temSessao(): Promise<boolean> {
+/** A sessão aberta, se houver uma válida. */
+async function sessaoAtual(): Promise<Conteudo | null> {
   const armazenamento = await cookies();
   const valor = armazenamento.get(COOKIE)?.value;
-  if (!valor) return false;
+  if (!valor) return null;
 
   const [corpo, assinatura] = valor.split('.');
-  if (!corpo || !assinatura) return false;
-  if (!iguais(assinatura, assinar(corpo))) return false;
+  if (!corpo || !assinatura) return null;
+  if (!iguais(assinatura, assinar(corpo))) return null;
 
-  const expiraEm = Number(corpo);
-  return Number.isFinite(expiraEm) && expiraEm > Date.now();
+  const conteudo = desempacotar(corpo);
+  if (!conteudo || conteudo.expiraEm <= Date.now()) return null;
+
+  return conteudo;
+}
+
+/** A pessoa tem sessão aberta e válida? */
+export async function temSessao(): Promise<boolean> {
+  return (await sessaoAtual()) !== null;
+}
+
+/** Quem está com sessão aberta — `undefined` com a palavra-passe única. */
+export async function quemEstaDentro(): Promise<string | undefined> {
+  return (await sessaoAtual())?.quem;
 }
 
 /**
@@ -117,17 +160,13 @@ export async function temSessao(): Promise<boolean> {
  * a cada clique.
  */
 export async function renovarSessao(): Promise<void> {
-  const armazenamento = await cookies();
-  const valor = armazenamento.get(COOKIE)?.value;
-  if (!valor) return;
-
-  const expiraEm = Number(valor.split('.')[0]);
-  if (!Number.isFinite(expiraEm)) return;
+  const conteudo = await sessaoAtual();
+  if (!conteudo) return;
 
   const total = VALIDADE_HORAS * 60 * 60 * 1000;
-  if (expiraEm - Date.now() > total / 2) return;
+  if (conteudo.expiraEm - Date.now() > total / 2) return;
 
-  await abrirSessao();
+  await abrirSessao(conteudo.quem);
 }
 
 /**

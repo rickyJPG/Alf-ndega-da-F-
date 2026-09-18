@@ -129,7 +129,11 @@ export default async function PaginaDeAjuda() {
         />
         <Pergunta
           pergunta="Quem mais consegue entrar aqui?"
-          resposta="Quem souber a palavra-passe. É partilhada pela equipa. Se sair alguém da equipa, peça a quem mantém o portal para a trocar."
+          resposta="Quem tiver conta, em Contas. Cada pessoa tem a sua, com a sua palavra-passe. Quando alguém sai dos serviços, apaga-se a conta dessa pessoa e as outras ficam como estavam — ninguém tem de decorar uma palavra-passe nova."
+        />
+        <Pergunta
+          pergunta="Esqueci-me da minha palavra-passe."
+          resposta="Peça a outra pessoa da equipa que vá a Contas, encontre a sua e clique em «Trocar palavra-passe». Combinam uma nova ali mesmo. Ninguém consegue ver a antiga — nem quem mantém o portal: o que fica guardado não permite voltar atrás."
         />
         <Pergunta
           pergunta="Deixei isto aberto e agora pede outra vez a palavra-passe."
@@ -154,6 +158,7 @@ export default async function PaginaDeAjuda() {
       <ul className="grid list-none gap-2 p-0 sm:grid-cols-2">
         {[
           'Menus e páginas novas',
+          'Serviços — as fichas de cada serviço',
           'Ordens de trabalho das reuniões',
           'Orçamento e prestação de contas',
           'Calendário de recolha de resíduos',

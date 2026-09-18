@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { redirect } from 'next/navigation';
 
 import { palavraPasseConfigurada, temSessao } from '@/lib/admin/sessao';
+import { haContas } from '@/lib/admin/utilizadores';
 import { FormularioDeEntrada } from './formulario';
 
 /**
@@ -15,6 +16,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function PaginaDeEntrada() {
   if (await temSessao()) redirect('/admin');
+
+  // Com contas criadas entra-se por conta; sem elas, pela palavra-passe
+  // única da instalação.
+  const porConta = await haContas();
 
   return (
     <div className="mx-auto max-w-md">
@@ -30,7 +35,7 @@ export default async function PaginaDeEntrada() {
         <p className="text-sm font-semibold tracking-wide text-white uppercase">Administração</p>
       </div>
 
-      {!palavraPasseConfigurada() ? (
+      {!porConta && !palavraPasseConfigurada() ? (
         <div
           className="mb-6 rounded-md border border-s-4 border-warning bg-warning-surface p-4 text-sm"
           role="status"
@@ -50,7 +55,7 @@ export default async function PaginaDeEntrada() {
         </div>
       ) : null}
 
-      <FormularioDeEntrada />
+      <FormularioDeEntrada porConta={porConta} />
     </div>
   );
 }

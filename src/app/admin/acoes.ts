@@ -9,9 +9,18 @@ import { comoSlug, gravar, ler } from '@/lib/admin/deposito';
 import { definirBloqueio } from '@/lib/admin/bloqueio';
 import { caminhoSeguro, enderecoDe, PREFIXO, RAIZ_DOS_FICHEIROS } from '@/lib/admin/armazem';
 import {
+  acrescentar,
+  autenticar,
+  haContas,
+  lerUtilizadores,
+  remover,
+  trocarPalavraPasse,
+} from '@/lib/admin/utilizadores';
+import {
   abrirSessao,
   credenciaisValidas,
   fecharSessao,
+  quemEstaDentro,
   renovarSessao,
   temSessao,
 } from '@/lib/admin/sessao';
@@ -60,12 +69,31 @@ function revalidarPortal(): void {
 
 export async function entrar(_anterior: Resultado | null, dados: FormData): Promise<Resultado> {
   const tentativa = String(dados.get('palavraPasse') ?? '');
+  const nome = String(dados.get('utilizador') ?? '').trim();
 
   if (!tentativa) {
     return { ok: false, mensagem: 'Escreva a palavra-passe.' };
   }
+
+  // Com contas criadas, entra-se por conta. Enquanto não houver nenhuma,
+  // vale a palavra-passe única de ADMIN_PASSWORD — é o que faz uma
+  // instalação já a funcionar continuar a funcionar depois de atualizar, e
+  // o que permite criar a primeira conta a partir de dentro.
+  if (await haContas()) {
+    if (!nome) return { ok: false, mensagem: 'Escreva o seu nome de utilizador.' };
+
+    const utilizador = await autenticar(nome, tentativa);
+    if (!utilizador) {
+      // Sem dizer qual dos dois falhou: saber que um nome existe já é meio
+      // caminho andado para quem tenta às cegas.
+      return { ok: false, mensagem: 'Nome de utilizador ou palavra-passe incorretos.' };
+    }
+
+    await abrirSessao(utilizador.id);
+    redirect('/admin');
+  }
+
   if (!credenciaisValidas(tentativa)) {
-    // Sem pistas sobre o que falhou — é o mínimo contra tentativas às cegas.
     return { ok: false, mensagem: 'Palavra-passe incorreta.' };
   }
 
@@ -574,4 +602,93 @@ export async function apagarDocumento(id: string): Promise<Resultado> {
 
   revalidarPortal();
   return { ok: true, mensagem: 'Documento apagado.' };
+}
+
+
+/* ------------------------------------------------------------ utilizadores -- */
+
+const MINIMO_DA_PALAVRA_PASSE = 10;
+
+/**
+ * Cria uma conta para alguém da equipa.
+ *
+ * A primeira conta criada muda o modo de entrada do painel: a partir daí, a
+ * palavra-passe única de `ADMIN_PASSWORD` deixa de servir e passa a ser
+ * preciso nome e palavra-passe. O ecrã avisa disso antes de criar.
+ */
+export async function criarUtilizador(dados: FormData): Promise<Resultado> {
+  await exigirSessao();
+
+  const nome = textoDe(dados, 'nome');
+  const palavraPasse = String(dados.get('palavraPasse') ?? '');
+  const repeticao = String(dados.get('repeticao') ?? '');
+
+  if (!/^[\p{L}\p{N} .'-]{2,60}$/u.test(nome)) {
+    return { ok: false, mensagem: 'Escreva um nome entre 2 e 60 letras.' };
+  }
+  if (palavraPasse.length < MINIMO_DA_PALAVRA_PASSE) {
+    return {
+      ok: false,
+      mensagem: `A palavra-passe tem de ter pelo menos ${MINIMO_DA_PALAVRA_PASSE} caracteres.`,
+    };
+  }
+  if (palavraPasse !== repeticao) {
+    return { ok: false, mensagem: 'As duas palavras-passe não são iguais.' };
+  }
+
+  const lista = await lerUtilizadores();
+  if (lista.some((item) => item.nome.toLowerCase() === nome.toLowerCase())) {
+    return { ok: false, mensagem: 'Já existe uma conta com esse nome.' };
+  }
+
+  const primeira = lista.length === 0;
+  await acrescentar(nome, palavraPasse);
+
+  return {
+    ok: true,
+    mensagem: primeira
+      ? `Conta de ${nome} criada. A partir de agora entra-se com nome e palavra-passe.`
+      : `Conta de ${nome} criada.`,
+  };
+}
+
+export async function mudarPalavraPasse(dados: FormData): Promise<Resultado> {
+  await exigirSessao();
+
+  const id = textoDe(dados, 'id');
+  const palavraPasse = String(dados.get('palavraPasse') ?? '');
+  const repeticao = String(dados.get('repeticao') ?? '');
+
+  if (palavraPasse.length < MINIMO_DA_PALAVRA_PASSE) {
+    return {
+      ok: false,
+      mensagem: `A palavra-passe tem de ter pelo menos ${MINIMO_DA_PALAVRA_PASSE} caracteres.`,
+    };
+  }
+  if (palavraPasse !== repeticao) {
+    return { ok: false, mensagem: 'As duas palavras-passe não são iguais.' };
+  }
+
+  if (!(await trocarPalavraPasse(id, palavraPasse))) {
+    return { ok: false, mensagem: 'Essa conta já não existe.' };
+  }
+  return { ok: true, mensagem: 'Palavra-passe trocada.' };
+}
+
+export async function apagarUtilizador(id: string): Promise<Resultado> {
+  await exigirSessao();
+
+  // Apagar a própria conta desligava quem estava a trabalhar, e sem forma
+  // óbvia de perceber porquê. Outra pessoa da equipa faz isso.
+  if ((await quemEstaDentro()) === id) {
+    return { ok: false, mensagem: 'Não pode apagar a sua própria conta. Peça a outra pessoa.' };
+  }
+
+  if (!(await remover(id))) {
+    return {
+      ok: false,
+      mensagem: 'Não é possível apagar a última conta — o painel ficaria sem ninguém lá dentro.',
+    };
+  }
+  return { ok: true, mensagem: 'Conta apagada.' };
 }
