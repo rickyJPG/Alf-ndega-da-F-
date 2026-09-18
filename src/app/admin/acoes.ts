@@ -6,6 +6,7 @@ import { mkdir, writeFile, readdir, unlink } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 
 import { comoSlug, gravar, ler } from '@/lib/admin/deposito';
+import { definirBloqueio } from '@/lib/admin/bloqueio';
 import {
   abrirSessao,
   credenciaisValidas,
@@ -72,6 +73,39 @@ export async function entrar(_anterior: Resultado | null, dados: FormData): Prom
 export async function sair(): Promise<void> {
   await fecharSessao();
   redirect('/admin/entrar');
+}
+
+/* ---------------------------------------------------------------- bloqueio -- */
+
+/**
+ * Liga ou desliga o interruptor de emergência do portal público.
+ *
+ * Ver `src/lib/admin/bloqueio.ts` para o porquê. `revalidarPortal()` é
+ * essencial aqui: sem ela, quem já tivesse uma página em cache continuava a
+ * vê-la por mais alguns minutos — e o objetivo é cortar o acesso na hora.
+ */
+export async function alternarBloqueio(bloqueado: boolean, motivo?: string): Promise<Resultado> {
+  await exigirSessao();
+
+  // Bloquear só é possível nas instalações de demonstração (DEMO_MODE=true):
+  // numa instalação vendida a um município, ninguém deve conseguir desligar
+  // o portal inteiro com um clique, nem por engano, nem sequer chamando esta
+  // ação diretamente, à revelia do que o ecrã mostra. Desbloquear fica
+  // sempre disponível — de outro modo, um estado bloqueado herdado por
+  // engano deixaria uma instalação sem DEMO_MODE presa, sem forma de sair.
+  if (bloqueado && process.env.DEMO_MODE !== 'true') {
+    return { ok: false, mensagem: 'Esta função não está ativada nesta instalação.' };
+  }
+
+  await definirBloqueio(bloqueado, motivo?.trim() || undefined);
+  revalidarPortal();
+
+  return {
+    ok: true,
+    mensagem: bloqueado
+      ? 'Portal bloqueado. Quem abrir o endereço público já não vê o portal.'
+      : 'Portal reaberto ao público.',
+  };
 }
 
 /* ---------------------------------------------------------------- notícias -- */

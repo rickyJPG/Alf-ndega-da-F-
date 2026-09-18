@@ -9,6 +9,7 @@ import { site } from '@/lib/site';
 import { preferencesBootstrapScript } from '@/lib/preferences';
 import { governmentOrganizationJsonLd, websiteJsonLd, languageAlternates, absoluteUrl } from '@/lib/seo';
 import { getActiveAlerts } from '@/content';
+import { portalBloqueado } from '@/lib/admin/bloqueio';
 
 import { JsonLd } from '@/components/seo/json-ld';
 import { SiteHeader } from '@/components/layout/site-header';
@@ -18,6 +19,7 @@ import { CookieConsent } from '@/components/layout/cookie-consent';
 import { Analytics } from '@/components/layout/analytics';
 import { BackToTop } from '@/components/layout/back-to-top';
 import { ServiceWorkerRegistration } from '@/components/layout/service-worker';
+import { PortalBloqueado } from '@/components/layout/portal-bloqueado';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -42,6 +44,7 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
+  const bloqueado = await portalBloqueado();
 
   return {
     metadataBase: new URL(site.url),
@@ -60,6 +63,10 @@ export async function generateMetadata({
       icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
     },
     formatDetection: { telephone: true, address: true },
+    // Enquanto o interruptor estiver ligado, o ecrã de bloqueio não tem
+    // nada que interesse a um motor de busca — nem que fique indexado à
+    // espera de ser desbloqueado.
+    ...(bloqueado ? { robots: { index: false, follow: false } } : {}),
   };
 }
 
@@ -75,6 +82,23 @@ export default async function LocaleLayout({
 
   const locale = raw as Locale;
   const dict = getDictionary(locale);
+
+  // Verificado antes de tudo o resto: se o interruptor estiver ligado, não
+  // vale a pena ir buscar avisos nem preparar a página — mostra-se logo o
+  // ecrã de bloqueio. `/admin` não passa por este layout, por isso continua
+  // acessível para o desligar.
+  const bloqueado = await portalBloqueado();
+
+  if (bloqueado) {
+    return (
+      <html lang={localeHtmlLang[locale]}>
+        <body>
+          <PortalBloqueado />
+        </body>
+      </html>
+    );
+  }
+
   const alerts = await getActiveAlerts();
 
   return (

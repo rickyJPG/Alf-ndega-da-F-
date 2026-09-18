@@ -90,6 +90,8 @@ Nenhuma é obrigatória para desenvolver.
 | `NEWSLETTER_SECRET` | Segredo que assina as ligações de confirmação do boletim. **Defina-o em produção.** |
 | `RESEND_API_KEY` | Serviço de envio do boletim. Sem ela, o portal fica em modo de demonstração — ver [Boletim informativo](#boletim-informativo). |
 | `NEWSLETTER_FROM` | Remetente das mensagens do boletim. |
+| `DEMO_MODE` | `true` liga o interruptor de emergência no painel — ver [abaixo](#interruptor-de-emergência-só-instalações-de-demonstração). Omitir numa instalação vendida. |
+| `DEMO_CONTACTO` | Texto mostrado no ecrã de bloqueio (opcional). |
 
 ---
 
@@ -196,6 +198,29 @@ e o rótulo em português a `src/lib/admin/posicoes.ts`. São duas linhas.
 Cada gravação chama `revalidatePath('/', 'layout')`: o Next reconstrói as
 páginas afetadas e a alteração aparece em segundos, sem recompilar nem
 reiniciar nada.
+
+### Interruptor de emergência (só instalações de demonstração)
+
+```bash
+DEMO_MODE=true npm start
+```
+
+Pensado para mostrar o portal a um interessado antes de vender: com
+`DEMO_MODE=true`, o painel ganha um botão «Bloquear o acesso público» — quem
+abrir o endereço deixa de ver o portal, só um ecrã de indisponibilidade, sem
+desligar o servidor nem mexer em DNS. `/admin` nunca é afetado, por isso
+reabre-se com um clique a qualquer momento.
+
+**Sem `DEMO_MODE` (o caso normal, de uma instalação vendida), o botão de
+bloquear não existe** — nem no ecrã, nem por baixo: a ação de servidor recusa
+bloquear sem essa variável, mesmo chamada diretamente. Ninguém da equipa de
+um município deve poder apagar o acesso público com um clique por engano.
+Bloquear e desbloquear estão em `alternarBloqueio()`,
+`src/app/admin/acoes.ts`; desbloquear fica sempre disponível, para nenhuma
+instalação ficar presa por herdar `conteudo/definicoes.json` de outra.
+
+`DEMO_CONTACTO` (opcional): texto mostrado no ecrã de bloqueio — um endereço
+de correio ou telefone para quem vir o ecrã retomar o contacto.
 
 ### Segurança
 

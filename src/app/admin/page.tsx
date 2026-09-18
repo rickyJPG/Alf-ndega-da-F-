@@ -6,6 +6,8 @@ import { exigirEntrada } from '@/lib/admin/sessao';
 import { formatDate } from '@/lib/format';
 import { imagensCarregadas } from './acoes';
 import { hojeIso } from '@/content/data/clock';
+import { lerDefinicoes } from '@/lib/admin/bloqueio';
+import { Interruptor } from './interruptor';
 
 /**
  * Ecrã inicial do painel.
@@ -23,13 +25,15 @@ export default async function PainelInicial() {
   await exigirEntrada();
 
   const hoje = HOJE();
-  const [noticias, eventos, avisosAtivos, todosOsAvisos, fotografias] = await Promise.all([
-    getNews({ includeArchive: true }),
-    getAllEvents(),
-    getActiveAlerts(),
-    getAllAlerts(),
-    imagensCarregadas(),
-  ]);
+  const [noticias, eventos, avisosAtivos, todosOsAvisos, fotografias, definicoes] =
+    await Promise.all([
+      getNews({ includeArchive: true }),
+      getAllEvents(),
+      getActiveAlerts(),
+      getAllAlerts(),
+      imagensCarregadas(),
+      lerDefinicoes(),
+    ]);
 
   const proximos = eventos.filter((evento) => (evento.endDate ?? evento.startDate) >= hoje);
   const ultimas = noticias.slice(0, 5);
@@ -44,6 +48,13 @@ export default async function PainelInicial() {
           mais lado nenhum nem avisar ninguém.
         </p>
       </div>
+
+      {/* O botão de bloquear só aparece nas instalações de demonstração
+          (DEMO_MODE=true) — ver README. O de reabrir aparece sempre que o
+          portal estiver bloqueado, para nenhuma instalação ficar presa. */}
+      {definicoes.bloqueado || process.env.DEMO_MODE === 'true' ? (
+        <Interruptor definicoes={definicoes} permiteBloquear={process.env.DEMO_MODE === 'true'} />
+      ) : null}
 
       {/* ------------------------------------------------------- o que fazer -- */}
 
