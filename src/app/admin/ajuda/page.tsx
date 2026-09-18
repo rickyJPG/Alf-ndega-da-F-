@@ -73,6 +73,19 @@ export default async function PaginaDeAjuda() {
         />
 
         <Receita
+          icone="fileText"
+          titulo="Publicar um formulário ou um edital"
+          passos={[
+            'Clique em Documentos e depois em «Publicar documento».',
+            'Escreva o título como quer que apareça no botão de descarregar.',
+            'Em «Para que serve», uma frase a dizer quando é que o munícipe precisa dele.',
+            'Escolha o tipo (formulário, edital, ata…) e a área do portal onde deve ser listado.',
+            'Escolha o ficheiro no computador: PDF, Word, Excel ou ZIP, até 25 MB.',
+            'Clique em «Publicar documento». Fica logo disponível para descarregar.',
+          ]}
+        />
+
+        <Receita
           icone="camera"
           titulo="Trocar uma fotografia do portal"
           passos={[
@@ -107,6 +120,14 @@ export default async function PaginaDeAjuda() {
           resposta="O painel guarda o texto em português. As traduções que já existem no portal mantêm-se; ao corrigir um texto em português, a tradução antiga fica como estava até alguém a rever. Se precisar de traduzir conteúdo novo, fale com quem mantém o portal."
         />
         <Pergunta
+          pergunta="Corrigi um PDF. Tenho de avisar quem já tem a ligação?"
+          resposta="Não. Abra o documento em Documentos, escolha o ficheiro novo em «Substituir por» e guarde. O endereço do documento é o mesmo, por isso todas as ligações que já andam por aí — e-mails, redes sociais, outros sítios — passam a servir a versão corrigida sozinhas."
+        />
+        <Pergunta
+          pergunta="Um documento aparece na lista mas diz «Ficheiro por publicar»."
+          resposta="O registo existe, mas o ficheiro ainda não foi carregado. Abra-o em Documentos e escolha o ficheiro. Enquanto isso, o portal não mostra botão de descarregar nenhum — vale mais dizer que ainda não está do que deixar clicar e não acontecer nada."
+        />
+        <Pergunta
           pergunta="Quem mais consegue entrar aqui?"
           resposta="Quem souber a palavra-passe. É partilhada pela equipa. Se sair alguém da equipa, peça a quem mantém o portal para a trocar."
         />
@@ -133,8 +154,7 @@ export default async function PaginaDeAjuda() {
       <ul className="grid list-none gap-2 p-0 sm:grid-cols-2">
         {[
           'Menus e páginas novas',
-          'Documentos e formulários para descarregar',
-          'Atas e ordens de trabalho das reuniões',
+          'Ordens de trabalho das reuniões',
           'Orçamento e prestação de contas',
           'Calendário de recolha de resíduos',
           'Telefones e horários dos serviços',

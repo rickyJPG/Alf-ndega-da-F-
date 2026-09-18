@@ -73,6 +73,7 @@ Comandos disponíveis:
 | `npm run fotos` | Descarrega as fotografias reais para as posições certas |
 | `npm run vendor` | Atualiza os ficheiros do Leaflet em `public/vendor` |
 | `npm run configurar` | Escreve `.env.local` com palavra-passe e segredos, se faltarem |
+| `npm run documentos-exemplo` | Gera os PDF de demonstração que faltarem (nunca substitui os verdadeiros) |
 
 ### Variáveis de ambiente
 
@@ -108,11 +109,12 @@ código, sem instalar nada, com um navegador normal.
 | **Notícias** | Escrever, corrigir e apagar notícias, com fotografia e assunto. |
 | **Avisos** | A barra vermelha/amarela do topo do portal. Tem sempre data de fim. |
 | **Agenda** | Eventos, com dia, hora, local e preço. |
+| **Documentos** | Publicar e substituir formulários, regulamentos, editais e atas. |
 | **Fotografias** | Trocar a imagem de qualquer posição do portal, carregando um ficheiro. |
 | **Ajuda** | Instruções passo a passo, escritas para quem nunca mexeu num sítio na internet. |
 
-O resto do portal — menus, documentos, atas, orçamento, calendário de
-resíduos — continua a editar-se nos ficheiros descritos no [guia de edição de
+O resto do portal — menus, orçamento, calendário de resíduos — continua a
+editar-se nos ficheiros descritos no [guia de edição de
 conteúdos](#guia-de-edição-de-conteúdos). Foi uma escolha, não um
 esquecimento: são conteúdos que mudam uma ou duas vezes por ano, e um
 formulário para cada um seria mais trabalho a manter do que a usar. A página
@@ -152,8 +154,20 @@ Em ficheiros JSON na pasta `conteudo/`, na raiz do projeto:
 conteudo/
 ├── noticias.json
 ├── eventos.json
-└── avisos.json
+├── avisos.json
+├── documentos.json
+└── ficheiros/          fotografias e PDF carregados pelo painel
+    ├── imagens/
+    └── documentos/
 ```
+
+> **Porque é que os carregamentos não vão para `public/`.** O Next serve essa
+> pasta a partir da lista que faz durante a compilação: um ficheiro lá escrito
+> depois do arranque existe no disco e devolve **404** na mesma. O painel dizia
+> «Fotografia carregada» e o munícipe via uma imagem partida. Por isso os
+> carregamentos vivem em `conteudo/ficheiros/` e são servidos pela rota
+> `/ficheiros/…`, que lê o disco a cada pedido. Efeito colateral bem-vindo: as
+> cópias de segurança passam a ser uma pasta só.
 
 Uma coleção só passa a ser lida daqui depois de alguém a editar pela primeira
 vez; até lá vale a semente versionada em `src/content/data/`. É por isso que o
@@ -165,14 +179,13 @@ folgadamente em alguns megabytes de JSON. A gravação é atómica — escreve p
 um ficheiro temporário e só depois o renomeia —, por isso uma falha a meio
 nunca deixa um ficheiro truncado.
 
-> **Cópias de segurança.** `conteudo/` e as fotografias carregadas em
-> `public/images/` **não** estão no repositório: vivem no servidor. Quem faz as
-> cópias de segurança do servidor tem de incluir estas duas pastas, ou perde-se
-> tudo o que a redação escreveu.
+> **Cópias de segurança.** `conteudo/` **não** está no repositório: vive no
+> servidor, e lá dentro está tudo — textos, fotografias e documentos. Quem faz
+> as cópias de segurança do servidor tem de incluir esta pasta, e só esta.
 
 > **Onde isto pode ser alojado.** O painel escreve no disco, por isso precisa
-> de um servidor com sistema de ficheiros persistente — uma máquina virtual ou
-> um contentor com volume, como descrito em [Instalação em
+> de um servidor com sistema de ficheiros persistente (a pasta `conteudo/`) —
+> uma máquina virtual ou um contentor com volume, como descrito em [Instalação em
 > produção](#instalação-em-produção). Em alojamentos sem escrita (Vercel,
 > Netlify e afins) o portal serve-se na mesma, mas o painel falha ao guardar,
 > e falha em silêncio no que toca ao munícipe: quem publicar uma notícia vê
@@ -186,8 +199,8 @@ todas com o que lá está agora; carregar um ficheiro substitui a fotografia em
 todo o portal de uma vez.
 
 O nome do ficheiro guardado é decidido pela posição escolhida, nunca pelo nome
-que vem do computador de quem carrega — não há como escrever fora de
-`public/images/`. Aceita JPG, PNG e WebP até 8 MB, e verifica a assinatura do
+que vem do computador de quem carrega — não há como escrever fora da pasta de
+carregamentos. Aceita JPG, PNG e WebP até 8 MB, e verifica a assinatura do
 ficheiro, não a extensão.
 
 Para acrescentar uma posição nova, acrescente-a a `src/lib/fotos-do-municipio.ts`
@@ -580,14 +593,19 @@ símbolo de fotografia e, por baixo, o motivo que ali entra e o nome exato do
 ficheiro. Não são ilustrações a fazer de fotografia — dizem o que são, ficam
 bem numa apresentação e não se confundem com uma imagem estragada.
 
-A troca é uma operação de pastas, sem tocar em código:
+**A forma normal de trocar uma fotografia é o painel**, em `/admin/imagens`:
+escolhe-se o ficheiro e está trocada, sem recompilar nem tocar em código.
+
+Em alternativa, antes de uma compilação, continua a poder fazer-se à mão:
 
 1. Exporte as fotografias do arquivo do Município (as mesmas do sítio antigo
    servem) nos tamanhos indicados abaixo.
 2. Guarde cada uma em `public/images` com o **mesmo nome** do ficheiro que
-   substitui, mudando `.svg` para `.jpg`.
-3. Atualize a extensão no caminho correspondente em `src/content/data/` e em
-   `src/app/[locale]/page.tsx`.
+   substitui, mudando `.svg` para `.jpg`. O portal encontra-as sozinho.
+
+Este segundo caminho exige uma compilação para as fotografias aparecerem —
+`public/` é servida a partir da lista feita nessa altura. O painel não tem
+esse problema.
 
 Proporções a manter — são elas que impedem o texto de saltar enquanto a
 imagem carrega: destaque da página inicial e notícias em 16:9 (1600×900 e
@@ -690,8 +708,8 @@ Como se lá chega:
 ## Testes
 
 ```bash
-npm run test        # 56 testes unitários
-npm run test:e2e    # 131 testes de ponta a ponta (desktop + móvel)
+npm run test        # 75 testes unitários
+npm run test:e2e    # 160 testes de ponta a ponta (desktop + móvel)
 npm run test:a11y   # só acessibilidade
 ```
 
@@ -707,11 +725,16 @@ em três cliques, mudar de idioma sem perder a página, comunicar uma ocorrênci
 marcar atendimento, recusar cookies — e passam o axe-core por 28 modelos de
 página.
 
-O painel de administração tem os seus (`tests/e2e/administracao.spec.ts`):
-palavra-passe errada não entra, sem sessão nenhum ecrã abre, e o circuito
-completo de uma notícia — escrever, ver aparecer no portal, corrigir, apagar,
-confirmar que dá 404 — corre contra a compilação de produção. Os testes que
-escrevem apagam o que criaram; o conteúdo de demonstração fica como estava.
+O painel de administração tem os seus (`tests/e2e/administracao.spec.ts`,
+`documentos.spec.ts`, `interruptor.spec.ts`): palavra-passe errada não entra,
+sem sessão nenhum ecrã abre, e os circuitos completos de uma notícia e de um
+documento — escrever, ver aparecer no portal, corrigir, apagar, confirmar que
+dá 404 — correm contra a compilação de produção.
+
+Os testes que escrevem limpam o que criaram, **antes e depois**. O «antes» não
+é zelo a mais: um lote interrompido a meio deixava conteúdo gravado, e o lote
+seguinte falhava logo à entrada por causa disso, escondendo o estado real do
+código atrás de lixo do dia anterior.
 
 Os dados com prazos são gerados em relação a `MOCK_TODAY`, o que torna os
 testes reproduzíveis sem congelar o conteúdo da demonstração.
@@ -733,23 +756,16 @@ Fica em `http://SERVIDOR:3000`. Atualizar:
 git pull && docker compose up -d --build
 ```
 
-O conteúdo e as fotografias vivem em volumes (`conteudo`, `fotografias`) e
-sobrevivem a cada reconstrução da imagem. É a razão de existirem: sem eles,
-uma atualização levava à frente tudo o que a redação tivesse escrito.
+Tudo o que a redação escreve e carrega vive no volume `conteudo` e sobrevive
+a cada reconstrução da imagem. É a razão de existir: sem ele, uma atualização
+levava à frente tudo.
 
-Cópia de segurança dos dois volumes:
+Cópia de segurança:
 
 ```bash
-docker run --rm -v alfandega_conteudo:/c -v alfandega_fotografias:/f \
-  -v "$PWD":/backup alpine \
-  tar czf /backup/portal-$(date +%F).tar.gz -C / c f
+docker run --rm -v alfandega_conteudo:/c -v "$PWD":/backup alpine \
+  tar czf /backup/portal-$(date +%F).tar.gz -C / c
 ```
-
-> **Pormenor que só se descobre tarde.** Um volume com nome só recebe o
-> conteúdo da imagem na primeira vez que é criado. Uma imagem nova, com um
-> logótipo corrigido, nunca lá chegaria. Por isso o contentor guarda uma cópia
-> de referência e, a cada arranque, repõe no volume o que faltar — sem nunca
-> substituir o que já lá está (`scripts/arrancar-contentor.sh`).
 
 ### Mostrar a alguém, sem servidor
 
@@ -781,8 +797,8 @@ Atrás de um Nginx ou Caddy como proxy inverso, com TLS. Serve `public/` como
 estático e passa o resto ao Node.
 
 **O sistema de ficheiros tem de ter escrita.** O painel de administração
-guarda o conteúdo em `conteudo/` e as fotografias em `public/images/`. Uma
-máquina virtual ou um contentor com volume servem; alojamentos sem escrita
+guarda tudo em `conteudo/` — textos e ficheiros carregados. Uma máquina
+virtual ou um contentor com volume servem; alojamentos sem escrita
 (Vercel, Netlify) não — ver [Painel de administração](#painel-de-administração).
 
 No Nginx, o carregamento de fotografias precisa de corpo suficiente, senão
@@ -827,9 +843,9 @@ ExecStart=/usr/bin/node node_modules/.bin/next start --port 3000
 Restart=always
 RestartSec=5
 
-# O painel escreve conteúdo e fotografias. Sem estas duas pastas com
-# escrita, o portal serve-se na mesma mas guardar uma notícia falha.
-ReadWritePaths=/var/www/portal/conteudo /var/www/portal/public/images
+# O painel escreve aqui — textos e ficheiros carregados. Sem esta pasta
+# com escrita, o portal serve-se na mesma mas guardar uma notícia falha.
+ReadWritePaths=/var/www/portal/conteudo
 ProtectSystem=full
 PrivateTmp=true
 NoNewPrivileges=true
@@ -838,11 +854,11 @@ NoNewPrivileges=true
 WantedBy=multi-user.target
 ```
 
-As duas pastas têm de pertencer ao utilizador do serviço:
+A pasta tem de pertencer ao utilizador do serviço:
 
 ```bash
 mkdir -p /var/www/portal/conteudo
-chown -R www-data:www-data /var/www/portal/conteudo /var/www/portal/public/images
+chown -R www-data:www-data /var/www/portal/conteudo
 ```
 
 **É este o passo que se esquece.** Sem ele o portal arranca, serve tudo, e só
@@ -922,14 +938,16 @@ inventadas por quem desenvolve:
 2. **Passar as fotografias para o domínio do Município.** As que se veem vêm
    das origens indicadas no documento entregue; carregá-las em `/admin/imagens`
    resolve os direitos e a dependência de servidores de terceiros de uma vez.
+   O mesmo para os documentos: os PDF que acompanham a demonstração dizem em
+   cima que são modelos sem valor legal e têm de dar lugar aos verdadeiros.
 3. **Dados verdadeiros.** Os conteúdos em `src/content/data/` são exemplos
    realistas e verosímeis, construídos a partir de informação pública, mas
    **não são dados oficiais**. Números do orçamento, população, contactos
    diretos das divisões e nomes dos presidentes de junta têm de ser
    confirmados pelos serviços antes de irem para o ar.
-4. **Definir `ADMIN_PASSWORD` e `NEWSLETTER_SECRET`** e incluir `conteudo/` e
-   `public/images/` nas cópias de segurança do servidor. Sem isto, perde-se
-   tudo o que a redação escrever no painel.
+4. **Definir `ADMIN_PASSWORD` e `NEWSLETTER_SECRET`** e incluir `conteudo/`
+   nas cópias de segurança do servidor. Sem isto, perde-se tudo o que a
+   redação escrever e carregar no painel.
 5. **Ligar o serviço de correio do boletim** (`RESEND_API_KEY`). Sem ele o
    circuito funciona, mas a ligação de confirmação não sai do servidor.
 6. **Ligar o CMS**, se o Município quiser ir além do painel — ver

@@ -7,6 +7,7 @@ import { join, extname } from 'node:path';
 
 import { comoSlug, gravar, ler } from '@/lib/admin/deposito';
 import { definirBloqueio } from '@/lib/admin/bloqueio';
+import { caminhoSeguro, enderecoDe, PREFIXO, RAIZ_DOS_FICHEIROS } from '@/lib/admin/armazem';
 import {
   abrirSessao,
   credenciaisValidas,
@@ -17,7 +18,9 @@ import {
 import { news } from '@/content/data/news';
 import { events } from '@/content/data/events';
 import { alerts } from '@/content/data/alerts';
-import type { Alert, EventItem, NewsItem } from '@/content/types';
+import { documents } from '@/content/data/documents';
+import { hojeIso } from '@/content/data/clock';
+import type { Alert, DocumentItem, EventItem, NewsItem } from '@/content/types';
 
 /**
  * Ações do painel de administração.
@@ -346,15 +349,18 @@ export async function carregarImagem(dados: FormData): Promise<Resultado> {
     return { ok: false, mensagem: 'O ficheiro não é uma imagem válida.' };
   }
 
-  const destino = join(process.cwd(), 'public', 'images', `${posicao}${ehPng ? '.png' : ehWebp ? '.webp' : '.jpg'}`);
+  const extensaoFinal = ehPng ? '.png' : ehWebp ? '.webp' : '.jpg';
+  const destino = caminhoSeguro(join('imagens', `${posicao}${extensaoFinal}`));
+  if (!destino) return { ok: false, mensagem: 'Posição inválida.' };
+
   await mkdir(join(destino, '..'), { recursive: true });
   await writeFile(destino, bytes);
 
   // Se houver outra extensão da mesma posição, sai — senão ficavam duas
   // fotografias a disputar o mesmo sítio.
   for (const outra of ['.jpg', '.jpeg', '.png', '.webp']) {
-    const caminho = join(process.cwd(), 'public', 'images', `${posicao}${outra}`);
-    if (caminho !== destino) await unlink(caminho).catch(() => {});
+    const caminho = caminhoSeguro(join('imagens', `${posicao}${outra}`));
+    if (caminho && caminho !== destino) await unlink(caminho).catch(() => {});
   }
 
   revalidarPortal();
@@ -370,7 +376,8 @@ export async function removerImagem(posicao: string): Promise<Resultado> {
 
   let apagadas = 0;
   for (const extensao of ['.jpg', '.jpeg', '.png', '.webp']) {
-    const caminho = join(process.cwd(), 'public', 'images', `${posicao}${extensao}`);
+    const caminho = caminhoSeguro(join('imagens', `${posicao}${extensao}`));
+    if (!caminho) continue;
     await unlink(caminho).then(
       () => {
         apagadas += 1;
@@ -390,7 +397,7 @@ export async function removerImagem(posicao: string): Promise<Resultado> {
 export async function imagensCarregadas(): Promise<string[]> {
   await exigirSessao();
 
-  const raiz = join(process.cwd(), 'public', 'images');
+  const raiz = join(RAIZ_DOS_FICHEIROS, 'imagens');
   const encontradas: string[] = [];
 
   const percorrer = async (pasta: string, prefixo: string) => {
@@ -411,4 +418,160 @@ export async function imagensCarregadas(): Promise<string[]> {
 
   await percorrer(raiz, '');
   return encontradas.sort();
+}
+
+/* ------------------------------------------------------------- documentos -- */
+
+/**
+ * Formatos aceites para documentos, com a assinatura que cada um tem de ter
+ * nos primeiros bytes. Verificar a extensão não chega: um ficheiro chamado
+ * `.pdf` pode ser qualquer coisa lá dentro.
+ *
+ * DOCX, XLSX e ZIP são todos ZIP por baixo — daí partilharem assinatura.
+ */
+const ASSINATURAS: Record<string, (b: Buffer) => boolean> = {
+  '.pdf': (b) => b.subarray(0, 5).toString() === '%PDF-',
+  '.docx': (b) => b[0] === 0x50 && b[1] === 0x4b,
+  '.xlsx': (b) => b[0] === 0x50 && b[1] === 0x4b,
+  '.zip': (b) => b[0] === 0x50 && b[1] === 0x4b,
+  // CSV e JSON são texto: não há assinatura para verificar.
+  '.csv': () => true,
+  '.json': () => true,
+};
+
+const TAMANHO_MAXIMO_DOCUMENTO = 25 * 1024 * 1024;
+
+const TIPOS_DE_DOCUMENTO = new Set<DocumentItem['type']>([
+  'formulario',
+  'regulamento',
+  'edital',
+  'ata',
+  'relatorio',
+  'plano',
+  'aviso',
+  'dados',
+]);
+
+/**
+ * Grava um documento, com o ficheiro que se descarrega.
+ *
+ * O nome do ficheiro no disco vem do `slug`, nunca do nome que chega do
+ * computador de quem carrega — assim não há como escrever fora de
+ * public/documentos, e o endereço do documento mantém-se estável quando
+ * alguém substitui o PDF por uma versão corrigida.
+ */
+export async function guardarDocumento(dados: FormData): Promise<Resultado> {
+  await exigirSessao();
+
+  const titulo = textoDe(dados, 'titulo');
+  const resumo = textoDe(dados, 'resumo');
+  const tipo = textoDe(dados, 'tipo') as DocumentItem['type'];
+
+  if (!titulo) return { ok: false, mensagem: 'O documento precisa de um título.' };
+  if (!TIPOS_DE_DOCUMENTO.has(tipo)) return { ok: false, mensagem: 'Escolha o tipo de documento.' };
+
+  const lista = await ler<DocumentItem[]>('documentos', documents);
+  const id = textoDe(dados, 'id');
+  const existente = id ? lista.find((item) => item.id === id) : undefined;
+  const slug = existente?.slug ?? comoSlug(titulo);
+
+  if (!existente && lista.some((item) => item.slug === slug)) {
+    return { ok: false, mensagem: 'Já existe um documento com este título. Escolha outro.' };
+  }
+
+  // --- o ficheiro ---------------------------------------------------------
+  let ficheiroGravado = existente?.file;
+  const ficheiro = dados.get('ficheiro');
+
+  if (ficheiro instanceof File && ficheiro.size > 0) {
+    if (ficheiro.size > TAMANHO_MAXIMO_DOCUMENTO) {
+      return { ok: false, mensagem: 'O ficheiro é maior do que 25 MB.' };
+    }
+
+    const extensao = extname(ficheiro.name).toLowerCase();
+    const verificar = ASSINATURAS[extensao];
+    if (!verificar) {
+      return { ok: false, mensagem: 'Formatos aceites: PDF, DOCX, XLSX, CSV, JSON ou ZIP.' };
+    }
+
+    const bytes = Buffer.from(await ficheiro.arrayBuffer());
+    if (!verificar(bytes)) {
+      return { ok: false, mensagem: `O ficheiro não é um ${extensao.slice(1).toUpperCase()} válido.` };
+    }
+
+    const destino = caminhoSeguro(join('documentos', `${slug}${extensao}`));
+    if (!destino) return { ok: false, mensagem: 'Nome de documento inválido.' };
+
+    await mkdir(join(destino, '..'), { recursive: true });
+    await writeFile(destino, bytes);
+
+    // Se antes havia outro formato para o mesmo documento, sai — senão
+    // ficavam dois ficheiros a disputar o mesmo sítio.
+    for (const outra of Object.keys(ASSINATURAS)) {
+      const caminho = caminhoSeguro(join('documentos', `${slug}${outra}`));
+      if (caminho && caminho !== destino) await unlink(caminho).catch(() => {});
+    }
+
+    ficheiroGravado = {
+      href: enderecoDe(`documentos/${slug}${extensao}`),
+      label: { ...(existente?.file.label ?? {}), pt: titulo },
+      format: extensao.slice(1) as DocumentItem['file']['format'],
+      bytes: ficheiro.size,
+      ...(existente?.file.extractedText ? { extractedText: existente.file.extractedText } : {}),
+    };
+  } else if (ficheiroGravado) {
+    // Sem ficheiro novo, mas o título pode ter mudado: a etiqueta acompanha.
+    ficheiroGravado = { ...ficheiroGravado, label: { ...ficheiroGravado.label, pt: titulo } };
+  }
+
+  if (!ficheiroGravado) {
+    return { ok: false, mensagem: 'Escolha o ficheiro a publicar.' };
+  }
+
+  const publicadoEm = textoDe(dados, 'publicadoEm') || hojeIso();
+
+  const documento: DocumentItem = {
+    ...(existente ?? {}),
+    id: existente?.id ?? `d-${slug}`.slice(0, 90),
+    slug,
+    type: tipo,
+    area: (textoDe(dados, 'area') || 'municipio') as DocumentItem['area'],
+    year: Number(publicadoEm.slice(0, 4)),
+    publishedAt: publicadoEm,
+    title: { ...(existente?.title ?? {}), pt: titulo },
+    ...(resumo ? { summary: { ...(existente?.summary ?? {}), pt: resumo } } : {}),
+    file: ficheiroGravado,
+  } as DocumentItem;
+
+  const atualizada = existente
+    ? lista.map((item) => (item.id === existente.id ? documento : item))
+    : [documento, ...lista];
+
+  await gravar('documentos', atualizada);
+  revalidarPortal();
+
+  return { ok: true, mensagem: existente ? 'Documento atualizado.' : 'Documento publicado.' };
+}
+
+export async function apagarDocumento(id: string): Promise<Resultado> {
+  await exigirSessao();
+
+  const lista = await ler<DocumentItem[]>('documentos', documents);
+  const documento = lista.find((item) => item.id === id);
+
+  await gravar(
+    'documentos',
+    lista.filter((item) => item.id !== id),
+  );
+
+  // O ficheiro sai com o registo — senão ficava no disco para sempre, sem
+  // nada no portal a apontar-lhe, e ainda assim descarregável por quem
+  // tivesse o endereço.
+  if (documento?.file.href.startsWith(PREFIXO)) {
+    const caminho = caminhoSeguro(documento.file.href.slice(PREFIXO.length));
+    if (caminho) await unlink(caminho).catch(() => {});
+  }
+
+  revalidarPortal();
+  return { ok: true, mensagem: 'Documento apagado.' };
 }

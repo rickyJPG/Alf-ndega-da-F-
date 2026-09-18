@@ -7,6 +7,7 @@ import type { Dictionary } from '@/i18n';
 import { Icon } from '@/components/ui/icon';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { ficheiroExiste } from '@/lib/documentos';
 
 const typeLabels: Record<DocumentItem['type'], string> = {
   formulario: 'Formulário',
@@ -79,19 +80,28 @@ export function DocumentRow({
           </Link>
         ) : null}
 
-        <a
-          href={document.file.href}
-          download
-          className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line-strong bg-surface px-4 text-ink no-underline hover:bg-surface-alt"
-        >
-          <Icon name="download" size={17} />
-          <span>
-            {document.onlinePath ? dict.documents.pdfAlternative : dict.common.download}{' '}
-            <span className="whitespace-nowrap text-ink-muted">
-              ({document.file.format.toUpperCase()}, {formatFileSize(document.file.bytes, locale)})
+        {ficheiroExiste(document.file.href) ? (
+          <a
+            href={document.file.href}
+            download
+            className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line-strong bg-surface px-4 text-ink no-underline hover:bg-surface-alt"
+          >
+            <Icon name="download" size={17} />
+            <span>
+              {document.onlinePath ? dict.documents.pdfAlternative : dict.common.download}{' '}
+              <span className="whitespace-nowrap text-ink-muted">
+                ({document.file.format.toUpperCase()}, {formatFileSize(document.file.bytes, locale)})
+              </span>
             </span>
+          </a>
+        ) : (
+          // Sem ficheiro no disco não se oferece o botão: mais vale dizer
+          // que ainda não está do que dar 404 depois do clique.
+          <span className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line px-4 text-sm text-ink-muted">
+            <Icon name="clock" size={17} />
+            Ficheiro por publicar
           </span>
-        </a>
+        )}
       </div>
     </li>
   );

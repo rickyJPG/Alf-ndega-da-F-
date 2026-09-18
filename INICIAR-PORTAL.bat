@@ -59,7 +59,14 @@ if not exist "node_modules" (
     echo.
 )
 
-REM --- 4. Compilacao -----------------------------------------------------
+REM --- 4. Documentos de demonstracao -------------------------------------
+if not exist "public\documentos" (
+    echo  A preparar os documentos de demonstracao...
+    call npm run documentos-exemplo
+    echo.
+)
+
+REM --- 5. Compilacao -----------------------------------------------------
 if not exist ".next" (
     echo  A preparar o portal para abrir depressa.
     echo  Demora 1 a 3 minutos, so desta vez.
@@ -69,7 +76,7 @@ if not exist ".next" (
     echo.
 )
 
-REM --- 5. Abrir o navegador assim que o servidor responder ---------------
+REM --- 6. Abrir o navegador assim que o servidor responder ---------------
 start "" /min cmd /c "timeout /t 6 >nul & start "" http://localhost:3000"
 
 echo.

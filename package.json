@@ -21,7 +21,8 @@
     "check": "npm run typecheck && npm run lint && npm run test",
     "vendor": "node -e \"const{cpSync,mkdirSync}=require('fs');mkdirSync('public/vendor/leaflet/images',{recursive:true});cpSync('node_modules/leaflet/dist/leaflet.css','public/vendor/leaflet/leaflet.css');cpSync('node_modules/leaflet/dist/images','public/vendor/leaflet/images',{recursive:true});console.log('Leaflet-Assets aktualisiert.')\"",
     "fotos": "node scripts/obter-fotos.mjs",
-    "configurar": "node scripts/configurar.mjs"
+    "configurar": "node scripts/configurar.mjs",
+    "documentos-exemplo": "node --experimental-strip-types --no-warnings scripts/documentos-de-exemplo.mjs"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",

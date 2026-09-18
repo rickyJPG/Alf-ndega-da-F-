@@ -42,6 +42,12 @@ if [ ! -d node_modules ]; then
   echo
 fi
 
+if [ ! -d public/documentos ]; then
+  echo " A preparar os documentos de demonstração..."
+  npm run documentos-exemplo
+  echo
+fi
+
 if [ ! -d .next ]; then
   echo " A preparar o portal para abrir depressa. Demora 1 a 3 minutos."
   echo

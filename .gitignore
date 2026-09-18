@@ -60,3 +60,7 @@ pnpm-debug.log*
 /public/images/**/*.jpeg
 /public/images/**/*.webp
 !/public/images/logotipo*.png
+
+# Documentos: os verdadeiros entram pelo painel, os de demonstração são
+# gerados por `npm run documentos-exemplo`. Nenhum pertence ao repositório.
+/public/documentos/

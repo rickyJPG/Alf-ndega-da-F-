@@ -23,7 +23,7 @@ import {
   openTenders,
   tenders,
 } from './data/consultations';
-import { documents, documentYears, findDocument } from './data/documents';
+import { documents } from './data/documents';
 import { eventCategories, events } from './data/events';
 import { freguesias, findFreguesia, totalArea, totalPopulation } from './data/freguesias';
 import { assembleia, executivo, findMeeting, latestMeeting, meetings, people } from './data/governance';
@@ -69,6 +69,11 @@ async function todosOsEventos(): Promise<EventItem[]> {
 /** Avisos: o que a redação gravou, ou a semente. */
 async function todosOsAvisos(): Promise<Alert[]> {
   return ler('avisos', alerts);
+}
+
+/** Documentos: o que a redação gravou, ou a semente. */
+async function todosOsDocumentos(): Promise<DocumentItem[]> {
+  return ler('documentos', documents);
 }
 
 // --- Alerts --------------------------------------------------------------------
@@ -195,7 +200,8 @@ export async function getDocuments(options?: {
   year?: number;
   lifeEvent?: string;
 }): Promise<DocumentItem[]> {
-  let list = [...documents].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+  const todos = await todosOsDocumentos();
+  let list = [...todos].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
   if (options?.type) list = list.filter((doc) => doc.type === options.type);
   if (options?.area) list = list.filter((doc) => doc.area === options.area);
   if (options?.year) list = list.filter((doc) => doc.year === options.year);
@@ -206,11 +212,13 @@ export async function getDocuments(options?: {
 }
 
 export async function getDocument(slug: string): Promise<DocumentItem | undefined> {
-  return findDocument(slug);
+  const todos = await todosOsDocumentos();
+  return todos.find((item) => item.slug === slug);
 }
 
 export async function getDocumentYears(): Promise<number[]> {
-  return documentYears;
+  const todos = await todosOsDocumentos();
+  return [...new Set(todos.map((documento) => documento.year))].sort((a, b) => b - a);
 }
 
 // --- Consultas e concursos --------------------------------------------------------------

@@ -23,6 +23,10 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
+# Os PDF de demonstração precisam do código-fonte, que só existe aqui —
+# a imagem final não o leva. Gerados agora, seguem dentro de public/.
+RUN npm run documentos-exemplo
+
 # --- 3. Execução ------------------------------------------------------
 FROM node:22-alpine AS execucao
 WORKDIR /app
@@ -41,16 +45,12 @@ COPY --from=compilacao /app/node_modules ./node_modules
 COPY --from=compilacao /app/package.json ./package.json
 COPY --from=compilacao /app/scripts ./scripts
 
-# Cópia de referência das imagens que vêm com o portal. O arranque
-# usa-a para repor no volume o que lá faltar — ver
-# scripts/arrancar-contentor.sh.
-RUN cp -r /app/public/images /app/imagens-base
-
-# As duas pastas onde o painel escreve. Têm de pertencer ao utilizador
-# do serviço, senão o portal arranca mas publicar falha.
-RUN mkdir -p /app/conteudo /app/public/images \
-    && chmod +x /app/scripts/arrancar-contentor.sh \
-    && chown -R portal:portal /app/conteudo /app/public/images /app/.next
+# A pasta onde o painel escreve — textos e ficheiros carregados. Tem de
+# pertencer ao utilizador do serviço, senão o portal arranca mas publicar
+# falha. public/ fica só de leitura: o que o painel grava não vai para lá,
+# porque o Next serve essa pasta a partir da lista feita na compilação.
+RUN mkdir -p /app/conteudo/ficheiros \
+    && chown -R portal:portal /app/conteudo /app/.next
 
 USER portal
 EXPOSE 3000
@@ -58,5 +58,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \
     CMD node -e "fetch('http://127.0.0.1:3000/robots.txt').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
-ENTRYPOINT ["/app/scripts/arrancar-contentor.sh"]
 CMD ["npx", "next", "start"]

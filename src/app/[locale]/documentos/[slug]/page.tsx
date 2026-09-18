@@ -18,6 +18,7 @@ import { Icon } from '@/components/ui/icon';
 import { ButtonLink } from '@/components/ui/button';
 import { Alert } from '@/components/ui/alert';
 import { documentTypeLabels } from '@/components/content/document-row';
+import { ficheiroExiste } from '@/lib/documentos';
 
 export async function generateStaticParams() {
   const documents = await getDocuments();
@@ -115,24 +116,43 @@ export default async function DocumentDetailPage({
           ) : null}
 
           <h2 className="text-2xl">{dict.common.download}</h2>
-          <a
-            href={document.file.href}
-            download
-            className="mt-4 flex items-start gap-4 rounded-lg border border-line bg-surface p-5 text-ink no-underline hover:border-primary-600"
-          >
-            <span className="flex size-12 shrink-0 items-center justify-center rounded-md border border-line bg-surface-alt text-primary-700">
-              <Icon name="fileText" size={24} />
-            </span>
-            <span>
-              <span className="block font-semibold underline underline-offset-[0.2em]">
-                {tx(document.file.label, locale)}
+          {ficheiroExiste(document.file.href) ? (
+            <a
+              href={document.file.href}
+              download
+              className="mt-4 flex items-start gap-4 rounded-lg border border-line bg-surface p-5 text-ink no-underline hover:border-primary-600"
+            >
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-md border border-line bg-surface-alt text-primary-700">
+                <Icon name="fileText" size={24} />
               </span>
-              <span className="mt-0.5 block text-sm text-ink-muted">
-                {document.file.format.toUpperCase()}, {formatFileSize(document.file.bytes, locale)}
+              <span>
+                <span className="block font-semibold underline underline-offset-[0.2em]">
+                  {tx(document.file.label, locale)}
+                </span>
+                <span className="mt-0.5 block text-sm text-ink-muted">
+                  {document.file.format.toUpperCase()}, {formatFileSize(document.file.bytes, locale)}
+                </span>
               </span>
-            </span>
-            <Icon name="download" size={22} className="ms-auto mt-1 shrink-0 text-primary-700" />
-          </a>
+              <Icon name="download" size={22} className="ms-auto mt-1 shrink-0 text-primary-700" />
+            </a>
+          ) : (
+            /*
+              Sem ficheiro no disco, mostra-se isto em vez da ligação.
+              Oferecer o botão e devolver 404 depois do clique é a pior
+              forma de falhar: o munícipe fica sem perceber se o erro foi
+              dele, e sem saber o que fazer a seguir.
+            */
+            <div className="mt-4 flex items-start gap-4 rounded-lg border border-s-4 border-warning bg-warning-surface p-5">
+              <Icon name="alert" size={24} className="mt-0.5 shrink-0" />
+              <div>
+                <p className="font-semibold">Documento ainda não disponível em ficheiro</p>
+                <p className="mt-1 text-sm">
+                  Peça-o pelos contactos do Município, que lho enviamos. Estamos a tratar de o
+                  publicar aqui.
+                </p>
+              </div>
+            </div>
+          )}
 
           {document.file.extractedText ? (
             <>

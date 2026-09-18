@@ -27,6 +27,7 @@ export type NomeDaColecao =
   | 'noticias'
   | 'eventos'
   | 'avisos'
+  | 'documentos'
   | 'paginas'
   | 'servicos'
   | 'definicoes'
