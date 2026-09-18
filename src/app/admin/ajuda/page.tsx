@@ -112,7 +112,7 @@ export default async function PaginaDeAjuda() {
         />
         <Pergunta
           pergunta="Deixei isto aberto e agora pede outra vez a palavra-passe."
-          resposta="A sessão dura doze horas e depois fecha-se sozinha, por segurança. Basta voltar a entrar. O que já tinha guardado está guardado."
+          resposta="A sessão dura uma semana sem se mexer nela, e renova-se sempre que publica alguma coisa — a trabalhar, nunca é desligado a meio. Ao fim de uma semana parada fecha-se sozinha, por segurança. Basta voltar a entrar; o que já tinha guardado está guardado."
         />
         <Pergunta
           pergunta="Onde é que fica guardado o que escrevo?"

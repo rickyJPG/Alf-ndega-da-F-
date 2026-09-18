@@ -21,7 +21,7 @@ import {
   getOpenTenders,
   getServices,
 } from '@/content';
-import { startOfWeek } from '@/content/data/clock';
+import { startOfWeek, hojeIso } from '@/content/data/clock';
 
 import { Section } from '@/components/layout/page-shell';
 import { HeroSearch, type Suggestion } from '@/components/home/hero-search';
@@ -61,7 +61,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = hojeIso();
 
   const [
     featured,

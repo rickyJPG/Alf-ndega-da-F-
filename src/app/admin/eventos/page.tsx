@@ -6,13 +6,14 @@ import { exigirEntrada } from '@/lib/admin/sessao';
 import { formatDate } from '@/lib/format';
 import { apagarEvento } from '../acoes';
 import { BotaoApagar, BotaoNovo, CabecalhoDaPagina, Vazio } from '../pecas';
+import { hojeIso } from '@/content/data/clock';
 
 export const dynamic = 'force-dynamic';
 
 export default async function PaginaDaAgenda() {
   await exigirEntrada();
 
-  const hoje = new Date().toISOString().slice(0, 10);
+  const hoje = hojeIso();
   const eventos = await getAllEvents();
   const porVir = eventos.filter((evento) => (evento.endDate ?? evento.startDate) >= hoje);
   const passados = eventos

@@ -52,8 +52,9 @@ import type {
 } from './types';
 
 import { ler } from '@/lib/admin/deposito';
+import { hojeIso } from '@/content/data/clock';
 
-const todayIso = () => new Date().toISOString().slice(0, 10);
+const todayIso = () => hojeIso();
 
 /** Notícias: o que a redação gravou, ou a semente. */
 async function todasAsNoticias(): Promise<NewsItem[]> {

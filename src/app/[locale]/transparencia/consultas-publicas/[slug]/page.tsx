@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { FileLink, TextLink } from '@/components/ui/link';
 import { ConsultationForm } from '@/components/features/consultation-form';
+import { hojeIso } from '@/content/data/clock';
 
 export async function generateStaticParams() {
   const consultations = await getConsultations();
@@ -50,7 +51,7 @@ export default async function ConsultationDetailPage({
   const { locale: raw, slug } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = hojeIso();
 
   const consultation = await getConsultation(slug);
   if (!consultation) notFound();

@@ -1,5 +1,5 @@
 import type { Alert } from '../types';
-import { offsetDays } from './clock';
+import { offsetDays, hojeIso } from './clock';
 
 /**
  * Avisos ativos. Um array vazio significa que não há barra na página inicial.
@@ -37,6 +37,6 @@ export const alerts: Alert[] = [
 ];
 
 /** Apenas o que hoje está realmente em vigor. */
-export function activeAlerts(today = new Date().toISOString().slice(0, 10)): Alert[] {
+export function activeAlerts(today = hojeIso()): Alert[] {
   return alerts.filter((alert) => alert.startsAt <= today && alert.endsAt >= today);
 }

@@ -27,12 +27,33 @@ serviços.
 
 ## Começar
 
+### Sem linha de comandos
+
+Para quem só quer ver o portal a funcionar, sem saber nada de terminais:
+
+| Sistema | Ficheiro | O que faz |
+| --- | --- | --- |
+| Windows | **`INICIAR-PORTAL.bat`** | Duplo clique. Instala o que falta, escolhe a palavra-passe, arranca e abre o navegador. |
+| Linux, macOS | **`./iniciar-portal.sh`** | O mesmo. |
+| Windows | **`MOSTRAR-AO-CLIENTE.bat`** | Cria um endereço público temporário para mostrar o portal a alguém à distância. |
+
+Na primeira vez demora alguns minutos (instalação e compilação) e mostra a
+palavra-passe do painel. Nas seguintes arranca em segundos. Para desligar,
+fecha-se a janela.
+
+### Com linha de comandos
+
 Requisitos: Node.js 22 (ou 20.9+) e npm.
 
 ```bash
 npm install
+npm run configurar   # escreve .env.local com a palavra-passe do painel
 npm run dev          # http://localhost:3000
 ```
+
+`npm run configurar` corre sozinho a cada `npm start`, por isso raramente é
+preciso chamá-lo à mão. Nunca substitui valores já escritos — pode alterar a
+palavra-passe em `.env.local` à vontade que ela fica.
 
 Comandos disponíveis:
 
@@ -51,6 +72,7 @@ Comandos disponíveis:
 | `npm run placeholders` | Regenera as molduras de espera das fotografias |
 | `npm run fotos` | Descarrega as fotografias reais para as posições certas |
 | `npm run vendor` | Atualiza os ficheiros do Leaflet em `public/vendor` |
+| `npm run configurar` | Escreve `.env.local` com palavra-passe e segredos, se faltarem |
 
 ### Variáveis de ambiente
 
@@ -62,7 +84,8 @@ Nenhuma é obrigatória para desenvolver.
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Domínio registado na instância de Plausible. Sem isto, não há qualquer medição. |
 | `NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL` | Endereço do script de medição, alojado por si. |
 | `MOCK_TODAY` | `AAAA-MM-DD`. Fixa a data dos dados de exemplo, para testes reproduzíveis. |
-| `ADMIN_PASSWORD` | Palavra-passe do painel de administração. **Obrigatória em produção** — ver a secção seguinte. |
+| `ADMIN_PASSWORD` | Palavra-passe do painel de administração. Escrita por `npm run configurar`. |
+| `ADMIN_SESSAO_HORAS` | Quanto dura uma sessão parada. Omissão: 168 (uma semana). |
 | `ADMIN_SECRET` | Segredo que assina o cookie de sessão do painel. Se faltar, usa `NEWSLETTER_SECRET` e, à falta desse, a própria palavra-passe. |
 | `NEWSLETTER_SECRET` | Segredo que assina as ligações de confirmação do boletim. **Defina-o em produção.** |
 | `RESEND_API_KEY` | Serviço de envio do boletim. Sem ela, o portal fica em modo de demonstração — ver [Boletim informativo](#boletim-informativo). |
@@ -96,20 +119,28 @@ de Ajuda do painel diz isto mesmo a quem estiver lá dentro.
 ### Pôr a funcionar
 
 ```bash
-ADMIN_PASSWORD='uma-palavra-passe-longa' npm start
+npm run configurar   # uma vez; escreve .env.local e mostra a palavra-passe
+npm start
 ```
 
-**Sem `ADMIN_PASSWORD`**, o servidor gera uma palavra-passe aleatória no
-arranque e escreve-a no registo, com um aviso. O painel funciona (é o que
-permite experimentá-lo em desenvolvimento), mas nunca fica com uma palavra-passe
-predefinida — que é como se perdem sítios institucionais. O ecrã de entrada
-mostra um aviso enquanto a variável não estiver definida.
+A palavra-passe fica em `.env.local` e **não volta a mudar**. Para a alterar,
+basta editar essa linha e reiniciar o portal.
 
-A sessão dura 12 horas e vive num cookie `httpOnly` assinado com HMAC-SHA256.
-Não há base de dados de utilizadores: são três ou quatro pessoas e a
-palavra-passe é partilhada. Autenticação a sério (Chave Móvel Digital, LDAP do
-Município) entra pelo mesmo sítio quando existir — só muda o corpo de
-`credenciaisValidas()` em `src/lib/admin/sessao.ts`.
+> **Porque é que isto importa.** Sem palavra-passe fixa, o servidor gera uma
+> nova a cada arranque — e, como o segredo que assina as sessões assenta nela,
+> todas as sessões abertas morrem no mesmo instante. Era isto que fazia o
+> painel parecer «esquecer» a palavra-passe entre reinícios. O ecrã de entrada
+> avisa enquanto a instalação estiver nesse estado.
+
+Uma sessão dura uma semana parada (`ADMIN_SESSAO_HORAS` muda isso) e renova-se
+sozinha sempre que se publica alguma coisa: quem está a trabalhar não é
+desligado a meio de um texto; quem desaparece uma semana volta a entrar.
+
+Vive num cookie `httpOnly` assinado com HMAC-SHA256. Não há base de dados de
+utilizadores: são três ou quatro pessoas e a palavra-passe é partilhada.
+Autenticação a sério (Chave Móvel Digital, LDAP do Município) entra pelo mesmo
+sítio quando existir — só muda o corpo de `credenciaisValidas()` em
+`src/lib/admin/sessao.ts`.
 
 ### Onde fica o que se escreve
 
@@ -663,6 +694,51 @@ testes reproduzíveis sem congelar o conteúdo da demonstração.
 ---
 
 ## Instalação em produção
+
+### Docker (o caminho mais curto)
+
+```bash
+node scripts/configurar.mjs   # escreve .env.local, se ainda não existir
+docker compose up -d
+```
+
+Fica em `http://SERVIDOR:3000`. Atualizar:
+
+```bash
+git pull && docker compose up -d --build
+```
+
+O conteúdo e as fotografias vivem em volumes (`conteudo`, `fotografias`) e
+sobrevivem a cada reconstrução da imagem. É a razão de existirem: sem eles,
+uma atualização levava à frente tudo o que a redação tivesse escrito.
+
+Cópia de segurança dos dois volumes:
+
+```bash
+docker run --rm -v alfandega_conteudo:/c -v alfandega_fotografias:/f \
+  -v "$PWD":/backup alpine \
+  tar czf /backup/portal-$(date +%F).tar.gz -C / c f
+```
+
+> **Pormenor que só se descobre tarde.** Um volume com nome só recebe o
+> conteúdo da imagem na primeira vez que é criado. Uma imagem nova, com um
+> logótipo corrigido, nunca lá chegaria. Por isso o contentor guarda uma cópia
+> de referência e, a cada arranque, repõe no volume o que faltar — sem nunca
+> substituir o que já lá está (`scripts/arrancar-contentor.sh`).
+
+### Mostrar a alguém, sem servidor
+
+Para uma demonstração rápida a partir do próprio computador, sem alojar nada:
+
+- **Windows:** duplo clique em `MOSTRAR-AO-CLIENTE.bat`
+- **Linux, macOS:** `cloudflared tunnel --url http://localhost:3000`
+
+Dá um endereço `https://…trycloudflare.com` que qualquer pessoa abre, e que
+morre quando a janela fechar.
+
+> Quem tiver o endereço chega também a `/admin`. Para uma demonstração
+> acompanhada não há problema; para deixar o endereço a alguém durante dias,
+> vale mais alojar a sério.
 
 ### Onde alojar
 

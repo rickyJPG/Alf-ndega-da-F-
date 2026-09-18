@@ -47,6 +47,22 @@ describe('formatação pt-PT', () => {
     expect(daysUntil('2026-07-24', '2026-07-25')).toBe(-1);
   });
 
+  it('conta a partir da data de referência, e não do relógio da máquina', () => {
+    // Os conteúdos com prazo da demonstração são gerados em relação a
+    // MOCK_TODAY. Se a contagem usasse o relógio real, apareceriam como
+    // terminados poucas semanas depois de cada compilação — e uma
+    // demonstração onde tudo diz «Prazo terminado» não mostra nada.
+    const anterior = process.env.MOCK_TODAY;
+    process.env.MOCK_TODAY = '2026-07-25';
+
+    try {
+      expect(daysUntil('2026-08-06')).toBe(12);
+    } finally {
+      if (anterior === undefined) delete process.env.MOCK_TODAY;
+      else process.env.MOCK_TODAY = anterior;
+    }
+  });
+
   it('descreve o prazo em texto e atribui o tom certo', () => {
     const labels = {
       today: 'Termina hoje',

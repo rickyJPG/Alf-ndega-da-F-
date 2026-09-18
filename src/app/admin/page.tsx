@@ -5,6 +5,7 @@ import { getActiveAlerts, getAllAlerts, getAllEvents, getNews } from '@/content'
 import { exigirEntrada } from '@/lib/admin/sessao';
 import { formatDate } from '@/lib/format';
 import { imagensCarregadas } from './acoes';
+import { hojeIso } from '@/content/data/clock';
 
 /**
  * Ecrã inicial do painel.
@@ -16,7 +17,7 @@ import { imagensCarregadas } from './acoes';
 
 export const dynamic = 'force-dynamic';
 
-const HOJE = () => new Date().toISOString().slice(0, 10);
+const HOJE = () => hojeIso();
 
 export default async function PainelInicial() {
   await exigirEntrada();

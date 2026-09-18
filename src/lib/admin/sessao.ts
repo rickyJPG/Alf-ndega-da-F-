@@ -18,7 +18,14 @@ import { redirect } from 'next/navigation';
  */
 
 const COOKIE = 'cmadf_admin';
-const VALIDADE_HORAS = 12;
+
+/**
+ * Quanto tempo dura uma sessão sem se mexer nela. Sete dias por omissão:
+ * a equipa entra na segunda-feira e trabalha a semana toda sem voltar a
+ * escrever a palavra-passe. Quem preferir mais curto define
+ * `ADMIN_SESSAO_HORAS`.
+ */
+const VALIDADE_HORAS = Number(process.env.ADMIN_SESSAO_HORAS) || 24 * 7;
 
 let avisoDado = false;
 const palavraPasseGerada = randomBytes(9).toString('base64url');
@@ -31,8 +38,10 @@ function palavraPasse(): string {
     avisoDado = true;
     console.warn(
       '\n[administração] ADMIN_PASSWORD não está definida.\n' +
-        `[administração] Palavra-passe desta sessão do servidor: ${palavraPasseGerada}\n` +
-        '[administração] Defina ADMIN_PASSWORD antes de pôr o portal no ar.\n',
+        `[administração] Palavra-passe TEMPORÁRIA deste arranque: ${palavraPasseGerada}\n` +
+        '[administração] Atenção: muda a cada reinício, e quem estiver com\n' +
+        '[administração] sessão aberta é desligado quando isso acontece.\n' +
+        '[administração] Para uma palavra-passe fixa, corra: npm run configurar\n',
     );
   }
   return palavraPasseGerada;
@@ -94,6 +103,31 @@ export async function temSessao(): Promise<boolean> {
 
   const expiraEm = Number(corpo);
   return Number.isFinite(expiraEm) && expiraEm > Date.now();
+}
+
+/**
+ * Empurra o fim da sessão para a frente enquanto se está a trabalhar.
+ *
+ * Chamada pelas ações do painel — é o único sítio onde o Next deixa mesmo
+ * escrever um cookie (numa página normal, `cookies().set()` rebenta). Na
+ * prática: quem publica qualquer coisa nunca é desligado a meio; quem fecha
+ * o painel e desaparece uma semana volta a entrar, como deve ser.
+ *
+ * Só renova depois de passada metade do prazo, para não reescrever o cookie
+ * a cada clique.
+ */
+export async function renovarSessao(): Promise<void> {
+  const armazenamento = await cookies();
+  const valor = armazenamento.get(COOKIE)?.value;
+  if (!valor) return;
+
+  const expiraEm = Number(valor.split('.')[0]);
+  if (!Number.isFinite(expiraEm)) return;
+
+  const total = VALIDADE_HORAS * 60 * 60 * 1000;
+  if (expiraEm - Date.now() > total / 2) return;
+
+  await abrirSessao();
 }
 
 /**

@@ -1,4 +1,5 @@
 import type { Locale } from '@/i18n/config';
+import { agora } from '@/content/data/clock';
 
 const INTL_LOCALE: Record<Locale, string> = {
   pt: 'pt-PT',
@@ -153,8 +154,14 @@ export function formatFileSize(bytes: number, locale: Locale = 'pt'): string {
 /**
  * Dias inteiros até uma data-limite — a base de «termina em 12 dias».
  * Conta em dias UTC, para que servidor e cliente cheguem ao mesmo resultado.
+ *
+ * A origem predefinida é `agora()`, não `new Date()`: os conteúdos com prazo
+ * da demonstração são gerados em relação a `MOCK_TODAY`, e contar contra o
+ * relógio real fazia com que aparecessem como terminados poucas semanas
+ * depois de cada compilação. Em produção, sem `MOCK_TODAY`, as duas são a
+ * mesma coisa.
  */
-export function daysUntil(deadline: string | Date, from: string | Date = new Date()): number {
+export function daysUntil(deadline: string | Date, from: string | Date = agora()): number {
   const a = toDate(from);
   const b = toDate(deadline);
   const startA = Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), a.getUTCDate());
@@ -166,7 +173,7 @@ export function daysUntil(deadline: string | Date, from: string | Date = new Dat
 export function formatDeadline(
   deadline: string | Date,
   labels: { today: string; tomorrow: string; days: (n: number) => string; ended: string },
-  from: string | Date = new Date(),
+  from: string | Date = agora(),
 ): { text: string; days: number; tone: 'neutral' | 'warning' | 'danger' | 'ended' } {
   const days = daysUntil(deadline, from);
   if (days < 0) return { text: labels.ended, days, tone: 'ended' };

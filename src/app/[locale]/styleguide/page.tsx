@@ -26,6 +26,7 @@ import { NewsCard } from '@/components/content/news-card';
 import { EventCard } from '@/components/content/event-card';
 import { ConsultationCard } from '@/components/content/consultation-card';
 import { DocumentRow } from '@/components/content/document-row';
+import { hojeIso } from '@/content/data/clock';
 
 /**
  * Guia de estilo.
@@ -103,7 +104,7 @@ export default async function StyleguidePage({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = hojeIso();
 
   const [news, events, consultations, documents] = await Promise.all([
     getNews({ limit: 1 }),

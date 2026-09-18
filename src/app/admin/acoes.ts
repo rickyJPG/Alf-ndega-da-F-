@@ -6,7 +6,13 @@ import { mkdir, writeFile, readdir, unlink } from 'node:fs/promises';
 import { join, extname } from 'node:path';
 
 import { comoSlug, gravar, ler } from '@/lib/admin/deposito';
-import { abrirSessao, credenciaisValidas, fecharSessao, temSessao } from '@/lib/admin/sessao';
+import {
+  abrirSessao,
+  credenciaisValidas,
+  fecharSessao,
+  renovarSessao,
+  temSessao,
+} from '@/lib/admin/sessao';
 import { news } from '@/content/data/news';
 import { events } from '@/content/data/events';
 import { alerts } from '@/content/data/alerts';
@@ -34,6 +40,8 @@ async function exigirSessao(): Promise<void> {
   if (!(await temSessao())) {
     throw new Error('Sessão expirada. Volte a entrar.');
   }
+  // Quem está a trabalhar não deve ser desligado a meio de um texto.
+  await renovarSessao();
 }
 
 /** Reconstrói as páginas públicas afetadas por uma alteração. */

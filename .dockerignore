@@ -1,0 +1,42 @@
+# O que não deve entrar na imagem.
+#
+# Sem isto, o `docker build` começa por copiar node_modules e .next para o
+# contexto de construção — centenas de megabytes e vários minutos, para
+# depois os deitar fora.
+
+node_modules
+.next
+out
+build
+dist
+
+# Segredos desta instalação. Entram no contentor por variáveis de ambiente
+# (env_file no docker-compose), nunca cozidos na imagem.
+.env
+.env*.local
+
+# Conteúdo e fotografias: vivem em volumes, não na imagem.
+conteudo
+
+# Testes e relatórios
+coverage
+playwright-report
+test-results
+blob-report
+playwright/.cache
+tests
+
+# Controlo de versões e ferramentas
+.git
+.github
+.vscode
+.idea
+*.bundle
+.lighthouseci
+lighthouse-report*
+
+# Documentação e auxiliares que o portal não precisa para correr
+ferramentas
+cms
+*.md
+!README.md

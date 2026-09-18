@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/format';
 import { apagarAviso } from '../acoes';
 import { BotaoApagar, CabecalhoDaPagina } from '../pecas';
 import { FormularioDeAviso } from './formulario';
+import { hojeIso } from '@/content/data/clock';
 
 /**
  * Avisos.
@@ -27,7 +28,7 @@ const CORES = {
 export default async function PaginaDeAvisos() {
   await exigirEntrada();
 
-  const hoje = new Date().toISOString().slice(0, 10);
+  const hoje = hojeIso();
   const avisos = await getAllAlerts();
   const noAr = avisos.filter((aviso) => aviso.startsAt <= hoje && aviso.endsAt >= hoje);
   const fora = avisos.filter((aviso) => !noAr.includes(aviso));

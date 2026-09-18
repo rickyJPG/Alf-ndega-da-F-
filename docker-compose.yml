@@ -1,0 +1,33 @@
+# ====================================================================
+#  Portal do Município de Alfândega da Fé
+#
+#  Arrancar:   docker compose up -d
+#  Ver o que faz: docker compose logs -f
+#  Desligar:   docker compose down
+#
+#  Antes da primeira vez, criar o ficheiro de segredos:
+#      node scripts/configurar.mjs
+#  (escreve .env.local, que este ficheiro lê)
+# ====================================================================
+
+services:
+  portal:
+    build: .
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.local
+    environment:
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+
+    # Aqui vive tudo o que a redação escreve e carrega. Sem estes dois
+    # volumes, uma atualização da imagem levaria o conteúdo à frente —
+    # é o erro que se paga caro e só se descobre depois.
+    volumes:
+      - conteudo:/app/conteudo
+      - fotografias:/app/public/images
+
+volumes:
+  conteudo:
+  fotografias:

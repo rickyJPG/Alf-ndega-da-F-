@@ -21,6 +21,7 @@ import { ConsultationCard } from '@/components/content/consultation-card';
 import { DocumentRow } from '@/components/content/document-row';
 import { Icon, type IconName } from '@/components/ui/icon';
 import { ButtonLink } from '@/components/ui/button';
+import { hojeIso } from '@/content/data/clock';
 
 export async function generateMetadata({
   params,
@@ -47,7 +48,7 @@ export default async function TransparencyPage({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = hojeIso();
 
   const [budget, tenders, lastMeeting, consultations, regulations] = await Promise.all([
     getBudget(2026),

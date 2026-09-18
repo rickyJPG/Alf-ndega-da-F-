@@ -9,6 +9,7 @@ import { getConsultations } from '@/content';
 import { JsonLd } from '@/components/seo/json-ld';
 import { PageHeader, Section } from '@/components/layout/page-shell';
 import { ConsultationCard } from '@/components/content/consultation-card';
+import { hojeIso } from '@/content/data/clock';
 
 export async function generateMetadata({
   params,
@@ -35,7 +36,7 @@ export default async function ConsultationsPage({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = hojeIso();
 
   const all = await getConsultations();
   const open = all.filter((item) => item.startsAt <= today && item.endsAt >= today);

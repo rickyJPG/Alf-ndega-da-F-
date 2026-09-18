@@ -1,5 +1,5 @@
 import type { Consultation, Tender } from '../types';
-import { offsetDays } from './clock';
+import { offsetDays, hojeIso } from './clock';
 
 /**
  * Consultas públicas em curso e já encerradas. No sítio antigo estavam
@@ -253,11 +253,11 @@ export const tenders: Tender[] = [
   },
 ];
 
-export function openConsultations(today = new Date().toISOString().slice(0, 10)): Consultation[] {
+export function openConsultations(today = hojeIso()): Consultation[] {
   return consultations.filter((item) => item.startsAt <= today && item.endsAt >= today);
 }
 
-export function openTenders(today = new Date().toISOString().slice(0, 10)): Tender[] {
+export function openTenders(today = hojeIso()): Tender[] {
   return tenders.filter((item) => item.deadline >= today);
 }
 

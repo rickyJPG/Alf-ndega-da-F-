@@ -35,10 +35,17 @@ export default async function PaginaDeEntrada() {
           className="mb-6 rounded-md border border-s-4 border-warning bg-warning-surface p-4 text-sm"
           role="status"
         >
-          <p className="font-semibold">Palavra-passe por configurar</p>
+          <p className="font-semibold">Palavra-passe ainda não fixada</p>
           <p className="mt-1">
-            A variável <code>ADMIN_PASSWORD</code> não está definida. Foi gerada uma palavra-passe
-            temporária, escrita no registo do servidor. Defina-a antes de pôr o portal no ar.
+            Esta instalação está a usar uma palavra-passe temporária, escrita na janela onde o
+            portal arrancou (linha começada por <code>[administração]</code>).{' '}
+            <strong>Muda a cada reinício</strong> — e quem estiver com sessão aberta é desligado
+            quando isso acontece.
+          </p>
+          <p className="mt-2">
+            Para ficar com uma palavra-passe fixa, feche o portal e corra{' '}
+            <code>npm run configurar</code>. Escreve-a em <code>.env.local</code> e nunca mais
+            muda.
           </p>
         </div>
       ) : null}

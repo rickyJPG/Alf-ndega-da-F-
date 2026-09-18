@@ -24,6 +24,37 @@ function resolveReference(): Date {
 
 export const referenceDate = resolveReference();
 
+/**
+ * O instante «agora», respeitando `MOCK_TODAY`.
+ *
+ * Diferente de `referenceDate` num ponto que interessa: aquela é calculada
+ * uma vez, ao carregar o módulo, e é o que os dados de exemplo usam para
+ * ficarem estáveis. Esta é calculada a cada chamada — um servidor que fique
+ * meses ligado continua a contar os dias, em vez de ficar preso na hora em
+ * que arrancou.
+ */
+export function agora(): Date {
+  const override = process.env.MOCK_TODAY;
+  if (override && /^\d{4}-\d{2}-\d{2}$/.test(override)) {
+    // Meio-dia UTC: longe o suficiente das extremidades para que nenhum
+    // fuso horário faça a data saltar para o dia anterior ou seguinte.
+    return new Date(`${override}T12:00:00.000Z`);
+  }
+  return new Date();
+}
+
+/**
+ * O dia de hoje em ISO (`2026-07-25`) — a data contra a qual se decide o que
+ * está em vigor: que avisos aparecem, que consultas estão abertas, que
+ * eventos ainda não passaram.
+ *
+ * Só para código de servidor. Num componente de cliente, `MOCK_TODAY` não
+ * existe, e usá-la daria datas diferentes no servidor e no navegador.
+ */
+export function hojeIso(): string {
+  return agora().toISOString().slice(0, 10);
+}
+
 /** Data ISO (`2026-08-06`) com desvio em dias face à data de referência. */
 export function offsetDays(days: number): string {
   const date = new Date(referenceDate);
