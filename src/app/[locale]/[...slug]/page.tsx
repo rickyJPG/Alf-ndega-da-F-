@@ -6,8 +6,14 @@ import { getDictionary } from '@/i18n';
 import { isLocale, locales, localePath, type Locale } from '@/i18n/config';
 import { breadcrumbJsonLd, buildMetadata } from '@/lib/seo';
 import { routes } from '@/lib/routes';
-import { editorialPages, findEditorialPage, type PageBlock } from '@/content/data/pages';
-import { getDocuments, getExecutivo, getAssembleia, getOpenTenders } from '@/content';
+import { editorialPages, type PageBlock } from '@/content/data/pages';
+import {
+  getDocuments,
+  getEditorialPage,
+  getExecutivo,
+  getAssembleia,
+  getOpenTenders,
+} from '@/content';
 import { tx } from '@/content/types';
 import { mainNavigation, navLabel } from '@/lib/navigation';
 import { formatDate, formatDateLong, formatFileSize } from '@/lib/format';
@@ -43,7 +49,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: raw, slug } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
-  const page = findEditorialPage(slug.join('/'));
+  const page = await getEditorialPage(slug.join('/'));
   if (!page) return {};
 
   return buildMetadata({
@@ -63,7 +69,7 @@ export default async function EditorialPageRoute({
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
 
-  const page = findEditorialPage(slug.join('/'));
+  const page = await getEditorialPage(slug.join('/'));
   if (!page) notFound();
 
   const [executivo, assembleia, tenders, datasets] = await Promise.all([

@@ -53,6 +53,7 @@ import type {
 
 import { ler } from '@/lib/admin/deposito';
 import { hojeIso } from '@/content/data/clock';
+import { editorialPages, type EditorialPage } from './data/pages';
 
 const todayIso = () => hojeIso();
 
@@ -79,6 +80,15 @@ async function todosOsDocumentos(): Promise<DocumentItem[]> {
 /** Serviços: o que a redação gravou, ou a semente. */
 async function todosOsServicos(): Promise<ServiceItem[]> {
   return ler('servicos', services);
+}
+
+/** Páginas editoriais: o que a redação gravou, ou a semente. */
+export async function getEditorialPages(): Promise<EditorialPage[]> {
+  return ler('paginas', editorialPages);
+}
+
+export async function getEditorialPage(caminho: string): Promise<EditorialPage | undefined> {
+  return (await getEditorialPages()).find((pagina) => pagina.path === caminho);
 }
 
 // --- Alerts --------------------------------------------------------------------

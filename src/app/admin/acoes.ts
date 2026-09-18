@@ -29,6 +29,8 @@ import { events } from '@/content/data/events';
 import { alerts } from '@/content/data/alerts';
 import { documents } from '@/content/data/documents';
 import { services } from '@/content/data/services';
+import { editorialPages, type EditorialPage } from '@/content/data/pages';
+import { blocoEditavel } from '@/lib/admin/blocos';
 import { hojeIso } from '@/content/data/clock';
 import type { Alert, DocumentItem, EventItem, NewsItem, ServiceItem } from '@/content/types';
 
@@ -815,4 +817,89 @@ export async function apagarServico(id: string): Promise<Resultado> {
   revalidarPortal();
 
   return { ok: true, mensagem: 'Serviço apagado.' };
+}
+
+/* ----------------------------------------------------------------- páginas -- */
+
+/**
+ * Grava uma página editorial.
+ *
+ * Os blocos chegam pelo índice que ocupam na página (`bloco-3-paragrafos`),
+ * e os que não vêm no formulário são copiados tal e qual. Assim editar o
+ * primeiro parágrafo de uma página nunca apaga a galeria que está por baixo
+ * — o formulário não a conhece, e não precisa de conhecer.
+ */
+export async function guardarPagina(dados: FormData): Promise<Resultado> {
+  await exigirSessao();
+
+  const caminho = textoDe(dados, 'caminho');
+  const titulo = textoDe(dados, 'titulo');
+  const lead = textoDe(dados, 'lead');
+
+  if (!titulo) return { ok: false, mensagem: 'A página precisa de um título.' };
+
+  const lista = await ler<EditorialPage[]>('paginas', editorialPages);
+  const existente = lista.find((item) => item.path === caminho);
+  if (!existente) return { ok: false, mensagem: 'Essa página já não existe.' };
+
+  const blocos = existente.blocks.map((bloco, indice) => {
+    if (!blocoEditavel(bloco.type)) return bloco;
+
+    const prefixo = `bloco-${indice}`;
+    const cabecalho = textoDe(dados, `${prefixo}-titulo`);
+
+    if (bloco.type === 'prose') {
+      const paragrafos = textoDe(dados, `${prefixo}-paragrafos`)
+        .split(/\n{2,}/)
+        .map((paragrafo) => paragrafo.trim())
+        .filter(Boolean);
+
+      return {
+        ...bloco,
+        ...(cabecalho ? { heading: { ...(bloco.heading ?? {}), pt: cabecalho } } : {}),
+        paragraphs: { ...bloco.paragraphs, pt: paragrafos },
+      };
+    }
+
+    if (bloco.type === 'list') {
+      const itens = textoDe(dados, `${prefixo}-itens`)
+        .split('\n')
+        .map((item) => item.trim())
+        .filter(Boolean);
+
+      return {
+        ...bloco,
+        heading: { ...bloco.heading, pt: cabecalho || bloco.heading.pt },
+        items: { ...bloco.items, pt: itens },
+      };
+    }
+
+    if (bloco.type === 'callout') {
+      return {
+        ...bloco,
+        heading: { ...bloco.heading, pt: cabecalho || bloco.heading.pt },
+        body: { ...bloco.body, pt: textoDe(dados, `${prefixo}-corpo`) },
+      };
+    }
+
+    // Tipo declarado como editável mas sem tratamento aqui: devolve-se
+    // intacto. Vale mais não mexer do que gravar um bloco meio preenchido.
+    return bloco;
+  });
+
+  const pagina: EditorialPage = {
+    ...existente,
+    title: { ...existente.title, pt: titulo },
+    lead: { ...existente.lead, pt: lead },
+    blocks: blocos as EditorialPage['blocks'],
+    updatedAt: hojeIso(),
+  };
+
+  await gravar(
+    'paginas',
+    lista.map((item) => (item.path === caminho ? pagina : item)),
+  );
+  revalidarPortal();
+
+  return { ok: true, mensagem: 'Página atualizada.' };
 }

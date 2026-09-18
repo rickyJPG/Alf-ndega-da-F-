@@ -112,15 +112,28 @@ código, sem instalar nada, com um navegador normal.
 | **Documentos** | Publicar e substituir formulários, regulamentos, editais e atas. |
 | **Fotografias** | Trocar a imagem de qualquer posição do portal, carregando um ficheiro. |
 | **Serviços** | As fichas de cada serviço: a quem se destina, o que levar, prazo, custo e passos. |
+| **Páginas** | Os textos das páginas institucionais. Galerias e vídeos ficam no código. |
 | **Contas** | Quem pode entrar no painel. Uma conta por pessoa, com palavra-passe própria. |
 | **Ajuda** | Instruções passo a passo, escritas para quem nunca mexeu num sítio na internet. |
 
-O resto do portal — menus e páginas institucionais, orçamento, calendário de
-resíduos — continua a editar-se nos ficheiros descritos no [guia de edição de
+O resto — menus, orçamento, calendário de resíduos, e criar páginas novas —
+continua a editar-se nos ficheiros descritos no [guia de edição de
 conteúdos](#guia-de-edição-de-conteúdos). Foi uma escolha, não um
 esquecimento: são conteúdos que mudam uma ou duas vezes por ano, e um
-formulário para cada um seria mais trabalho a manter do que a usar. A página
-de Ajuda do painel diz isto mesmo a quem estiver lá dentro.
+formulário para cada um seria mais trabalho a manter do que a usar.
+
+**Os menus, em particular, ficam de fora de propósito.** São a espinha do
+portal, existem em quatro línguas e um engano ali não estraga uma página —
+estraga a navegação toda, para toda a gente, e de uma forma que não é óbvia
+a quem fez a alteração. O risco não compensa para uma coisa que muda de dois
+em dois anos.
+
+Nas páginas editam-se os textos, as listas e as caixas de destaque — 50 dos
+80 blocos existentes, e a esmagadora maioria do que muda no dia a dia. As
+galerias, os vídeos e os blocos que se preenchem sozinhos (eleitos,
+concursos, contactos) aparecem na lista com a razão à vista, mas não se
+alteram por lá. A página de Ajuda do painel diz isto mesmo a quem estiver
+lá dentro.
 
 ### Pôr a funcionar
 
@@ -179,6 +192,7 @@ conteudo/
 ├── avisos.json
 ├── documentos.json
 ├── servicos.json
+├── paginas.json
 ├── utilizadores.json   contas do painel (palavras-passe em scrypt)
 └── ficheiros/          fotografias e PDF carregados pelo painel
     ├── imagens/

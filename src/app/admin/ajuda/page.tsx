@@ -98,6 +98,18 @@ export default async function PaginaDeAjuda() {
         />
 
         <Receita
+          icone="book"
+          titulo="Corrigir o texto de uma página"
+          passos={[
+            'Clique em Páginas. Estão agrupadas como no menu do portal.',
+            'Encontre a página e clique em «Corrigir».',
+            'Cada parte da página aparece separada, com um título por cima a dizer o que é.',
+            'Corrija o que precisar. Nos textos, deixe uma linha em branco entre parágrafos; nas listas, um item por linha.',
+            'Guarde. As galerias, os vídeos e as listas que se preenchem sozinhas ficam onde estão — não são tocadas.',
+          ]}
+        />
+
+        <Receita
           icone="camera"
           titulo="Trocar uma fotografia do portal"
           passos={[
@@ -140,6 +152,10 @@ export default async function PaginaDeAjuda() {
           resposta="O registo existe, mas o ficheiro ainda não foi carregado. Abra-o em Documentos e escolha o ficheiro. Enquanto isso, o portal não mostra botão de descarregar nenhum — vale mais dizer que ainda não está do que deixar clicar e não acontecer nada."
         />
         <Pergunta
+          pergunta="Numa página, há partes que não me deixa mexer."
+          resposta="São as galerias de fotografias, os vídeos e as listas que o portal preenche sozinho (eleitos, concursos, contactos). Aparecem na lista, para saber que continuam lá, mas mudam-se no código. Se precisar de alterar alguma, fale com quem mantém o portal."
+        />
+        <Pergunta
           pergunta="Quem mais consegue entrar aqui?"
           resposta="Quem tiver conta, em Contas. Cada pessoa tem a sua, com a sua palavra-passe. Quando alguém sai dos serviços, apaga-se a conta dessa pessoa e as outras ficam como estavam — ninguém tem de decorar uma palavra-passe nova."
         />
@@ -169,7 +185,7 @@ export default async function PaginaDeAjuda() {
       </p>
       <ul className="grid list-none gap-2 p-0 sm:grid-cols-2">
         {[
-          'Menus e páginas novas',
+          'Menus e criar páginas novas',
           'Ordens de trabalho das reuniões',
           'Orçamento e prestação de contas',
           'Calendário de recolha de resíduos',
