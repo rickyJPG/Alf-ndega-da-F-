@@ -28,8 +28,9 @@ import { news } from '@/content/data/news';
 import { events } from '@/content/data/events';
 import { alerts } from '@/content/data/alerts';
 import { documents } from '@/content/data/documents';
+import { services } from '@/content/data/services';
 import { hojeIso } from '@/content/data/clock';
-import type { Alert, DocumentItem, EventItem, NewsItem } from '@/content/types';
+import type { Alert, DocumentItem, EventItem, NewsItem, ServiceItem } from '@/content/types';
 
 /**
  * Ações do painel de administração.
@@ -691,4 +692,127 @@ export async function apagarUtilizador(id: string): Promise<Resultado> {
     };
   }
   return { ok: true, mensagem: 'Conta apagada.' };
+}
+
+/* ---------------------------------------------------------------- serviços -- */
+
+const AREAS_DE_SERVICO = new Set<ServiceItem['area']>([
+  'balcao',
+  'urbanismo',
+  'agua-e-residuos',
+  'taxas-e-licencas',
+  'acao-social',
+  'educacao',
+  'saude',
+  'apoios',
+]);
+
+/** Uma linha por item, linhas vazias ignoradas. */
+function linhasDe(dados: FormData, campo: string): string[] {
+  return textoDe(dados, campo)
+    .split('\n')
+    .map((linha) => linha.trim())
+    .filter(Boolean);
+}
+
+/**
+ * Grava a ficha de um serviço.
+ *
+ * A ficha responde sempre às mesmas cinco perguntas — a quem se destina, o
+ * que levar, quanto demora, quanto custa e como se faz — e é essa constância
+ * que a torna útil. Por isso nenhuma delas pode ficar por preencher: uma
+ * ficha com a taxa em branco manda o munícipe ao balcão perguntar, que é
+ * exatamente o que o portal existe para evitar.
+ *
+ * Os passos chegam em dois campos paralelos (`passoTitulo[]` e
+ * `passoDetalhe[]`), emparelhados pela ordem — é o que um formulário HTML
+ * dá sem ginástica nenhuma.
+ */
+export async function guardarServico(dados: FormData): Promise<Resultado> {
+  await exigirSessao();
+
+  const titulo = textoDe(dados, 'titulo');
+  const resumo = textoDe(dados, 'resumo');
+  const area = textoDe(dados, 'area') as ServiceItem['area'];
+
+  if (!titulo) return { ok: false, mensagem: 'O serviço precisa de um nome.' };
+  if (!resumo) return { ok: false, mensagem: 'Escreva a frase que explica o serviço.' };
+  if (!AREAS_DE_SERVICO.has(area)) return { ok: false, mensagem: 'Escolha a área do serviço.' };
+
+  const paraQuem = textoDe(dados, 'paraQuem');
+  const prazo = textoDe(dados, 'prazo');
+  const custo = textoDe(dados, 'custo');
+  const documentos = linhasDe(dados, 'documentos');
+
+  if (!paraQuem) return { ok: false, mensagem: 'Diga a quem se destina — é a primeira pergunta de quem chega.' };
+  if (!prazo) return { ok: false, mensagem: 'Indique o prazo. «Imediato» é uma resposta válida.' };
+  if (!custo) return { ok: false, mensagem: 'Indique o custo. «Gratuito» é uma resposta válida.' };
+
+  const titulosDosPassos = dados.getAll('passoTitulo').map((valor) => String(valor).trim());
+  const detalhesDosPassos = dados.getAll('passoDetalhe').map((valor) => String(valor).trim());
+
+  const passos = titulosDosPassos
+    .map((tituloDoPasso, indice) => ({
+      title: { pt: tituloDoPasso },
+      detail: { pt: detalhesDosPassos[indice] ?? '' },
+    }))
+    .filter((passo) => passo.title.pt);
+
+  if (passos.length === 0) {
+    return { ok: false, mensagem: 'Escreva pelo menos um passo — é o «como se faz».' };
+  }
+
+  const lista = await ler<ServiceItem[]>('servicos', services);
+  const id = textoDe(dados, 'id');
+  const existente = id ? lista.find((item) => item.id === id) : undefined;
+  const slug = existente?.slug ?? comoSlug(titulo);
+
+  if (!existente && lista.some((item) => item.slug === slug)) {
+    return { ok: false, mensagem: 'Já existe um serviço com este nome. Escolha outro.' };
+  }
+
+  const canais = dados.getAll('canais').map((valor) => String(valor)) as ServiceItem['channels'];
+  const enderecoOnline = textoDe(dados, 'enderecoOnline');
+
+  const servico: ServiceItem = {
+    ...(existente ?? {}),
+    id: existente?.id ?? `s-${slug}`.slice(0, 90),
+    slug,
+    area,
+    title: { ...(existente?.title ?? {}), pt: titulo },
+    summary: { ...(existente?.summary ?? {}), pt: resumo },
+    audience: { ...(existente?.audience ?? {}), pt: paraQuem },
+    processingTime: { ...(existente?.processingTime ?? {}), pt: prazo },
+    fee: { ...(existente?.fee ?? {}), pt: custo },
+    requiredDocuments: { ...(existente?.requiredDocuments ?? {}), pt: documentos },
+    steps: passos,
+    channels: canais.length > 0 ? canais : ['presencial'],
+    ...(enderecoOnline ? { onlineUrl: enderecoOnline } : {}),
+    lifeEvents: existente?.lifeEvents ?? [],
+    department: textoDe(dados, 'servico') || existente?.department || 'Balcão Único',
+    icon: textoDe(dados, 'simbolo') || existente?.icon || 'fileText',
+    featured: dados.get('destaque') !== null,
+  } as ServiceItem;
+
+  const atualizada = existente
+    ? lista.map((item) => (item.id === existente.id ? servico : item))
+    : [...lista, servico];
+
+  await gravar('servicos', atualizada);
+  revalidarPortal();
+
+  return { ok: true, mensagem: existente ? 'Serviço atualizado.' : 'Serviço criado.' };
+}
+
+export async function apagarServico(id: string): Promise<Resultado> {
+  await exigirSessao();
+
+  const lista = await ler<ServiceItem[]>('servicos', services);
+  await gravar(
+    'servicos',
+    lista.filter((item) => item.id !== id),
+  );
+  revalidarPortal();
+
+  return { ok: true, mensagem: 'Serviço apagado.' };
 }

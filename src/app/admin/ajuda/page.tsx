@@ -86,6 +86,18 @@ export default async function PaginaDeAjuda() {
         />
 
         <Receita
+          icone="briefcase"
+          titulo="Corrigir uma taxa ou um prazo de um serviço"
+          passos={[
+            'Clique em Serviços. Estão agrupados por área, como no portal.',
+            'Encontre o serviço e clique em «Corrigir».',
+            'Na secção «As perguntas de quem chega» estão a taxa, o prazo, a quem se destina e o que é preciso levar.',
+            'Corrija o que mudou e guarde. O portal fica atualizado em segundos.',
+            'Se o modo de tratar mudou, corrija também os passos, em «Como se faz».',
+          ]}
+        />
+
+        <Receita
           icone="camera"
           titulo="Trocar uma fotografia do portal"
           passos={[
@@ -158,7 +170,6 @@ export default async function PaginaDeAjuda() {
       <ul className="grid list-none gap-2 p-0 sm:grid-cols-2">
         {[
           'Menus e páginas novas',
-          'Serviços — as fichas de cada serviço',
           'Ordens de trabalho das reuniões',
           'Orçamento e prestação de contas',
           'Calendário de recolha de resíduos',

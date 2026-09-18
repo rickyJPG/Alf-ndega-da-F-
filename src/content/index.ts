@@ -28,7 +28,7 @@ import { eventCategories, events } from './data/events';
 import { freguesias, findFreguesia, totalArea, totalPopulation } from './data/freguesias';
 import { assembleia, executivo, findMeeting, latestMeeting, meetings, people } from './data/governance';
 import { news, newsCategories } from './data/news';
-import { featuredServices, findService, services } from './data/services';
+import { services } from './data/services';
 import {
   availableSlots,
   bookableServices,
@@ -74,6 +74,11 @@ async function todosOsAvisos(): Promise<Alert[]> {
 /** Documentos: o que a redação gravou, ou a semente. */
 async function todosOsDocumentos(): Promise<DocumentItem[]> {
   return ler('documentos', documents);
+}
+
+/** Serviços: o que a redação gravou, ou a semente. */
+async function todosOsServicos(): Promise<ServiceItem[]> {
+  return ler('servicos', services);
 }
 
 // --- Alerts --------------------------------------------------------------------
@@ -176,7 +181,7 @@ export async function getEventCategories(): Promise<string[]> {
 // --- Serviços ---------------------------------------------------------------------
 
 export async function getServices(options?: { area?: string; lifeEvent?: string }): Promise<ServiceItem[]> {
-  let list = [...services];
+  let list = [...(await todosOsServicos())];
   if (options?.area) list = list.filter((service) => service.area === options.area);
   if (options?.lifeEvent) {
     list = list.filter((service) => service.lifeEvents.includes(options.lifeEvent as never));
@@ -185,11 +190,11 @@ export async function getServices(options?: { area?: string; lifeEvent?: string 
 }
 
 export async function getService(slug: string): Promise<ServiceItem | undefined> {
-  return findService(slug);
+  return (await todosOsServicos()).find((service) => service.slug === slug);
 }
 
 export async function getFeaturedServices(): Promise<ServiceItem[]> {
-  return featuredServices;
+  return (await todosOsServicos()).filter((service) => service.featured);
 }
 
 // --- Documentos ----------------------------------------------------------------------

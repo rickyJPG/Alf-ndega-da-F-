@@ -111,11 +111,12 @@ código, sem instalar nada, com um navegador normal.
 | **Agenda** | Eventos, com dia, hora, local e preço. |
 | **Documentos** | Publicar e substituir formulários, regulamentos, editais e atas. |
 | **Fotografias** | Trocar a imagem de qualquer posição do portal, carregando um ficheiro. |
+| **Serviços** | As fichas de cada serviço: a quem se destina, o que levar, prazo, custo e passos. |
 | **Contas** | Quem pode entrar no painel. Uma conta por pessoa, com palavra-passe própria. |
 | **Ajuda** | Instruções passo a passo, escritas para quem nunca mexeu num sítio na internet. |
 
-O resto do portal — menus, orçamento, calendário de resíduos — continua a
-editar-se nos ficheiros descritos no [guia de edição de
+O resto do portal — menus e páginas institucionais, orçamento, calendário de
+resíduos — continua a editar-se nos ficheiros descritos no [guia de edição de
 conteúdos](#guia-de-edição-de-conteúdos). Foi uma escolha, não um
 esquecimento: são conteúdos que mudam uma ou duas vezes por ano, e um
 formulário para cada um seria mais trabalho a manter do que a usar. A página
@@ -177,6 +178,7 @@ conteudo/
 ├── eventos.json
 ├── avisos.json
 ├── documentos.json
+├── servicos.json
 ├── utilizadores.json   contas do painel (palavras-passe em scrypt)
 └── ficheiros/          fotografias e PDF carregados pelo painel
     ├── imagens/
@@ -492,6 +494,9 @@ não pode ser dispensado pelo visitante — use-o só quando houver risco para
 pessoas.
 
 ### Acrescentar um serviço
+
+> Isto faz-se em `/admin/servicos`. O que se segue descreve o formato da
+> semente, para quem precise de mexer nela.
 
 Ficheiro: `src/content/data/services.ts`.
 
