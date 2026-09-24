@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { temSessao } from '@/lib/admin/sessao';
 import { sair } from './acoes';
+import { ManterSessao } from './manter-sessao';
 import { NavegacaoDoPainel } from './navegacao';
 
 import '@/styles/globals.css';
@@ -32,6 +33,10 @@ export default async function LayoutDoPainel({ children }: { children: React.Rea
         <a href="#conteudo-do-painel" className="sr-only focus:not-sr-only">
           Saltar para o conteúdo
         </a>
+
+        {/* Só com sessão aberta: no ecrã de entrada não há nada para manter,
+            e o pedido seria desperdiçado. */}
+        {autenticada ? <ManterSessao /> : null}
 
         {autenticada ? (
           <header>

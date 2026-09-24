@@ -109,6 +109,25 @@ export async function sair(): Promise<void> {
   redirect('/admin/entrar');
 }
 
+/**
+ * Mantém viva a sessão de quem está a usar o painel sem gravar nada.
+ *
+ * Até aqui, a sessão só se renovava ao publicar alguma coisa — é
+ * `exigirSessao()` que chama `renovarSessao()`, e essa corre nas ações de
+ * escrita. Quem passasse a semana a consultar listas sem publicar nada era
+ * desligado ao fim dos sete dias, sem nunca ter estado parado.
+ *
+ * Não faz verificação nenhuma de propósito, e não é um descuido:
+ * `renovarSessao()` já lê o cookie, confere a assinatura e o prazo, e não
+ * faz nada se algum falhar. Uma sessão expirada não revive por aqui, e uma
+ * assinatura forjada não passa. Por isso também não lança exceção quando
+ * não há sessão: é chamada de um efeito de cliente, e rebentar ali só daria
+ * um erro na consola a quem já está no ecrã de entrada.
+ */
+export async function manterSessaoAtiva(): Promise<void> {
+  await renovarSessao();
+}
+
 /* ---------------------------------------------------------------- bloqueio -- */
 
 /**

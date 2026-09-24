@@ -152,8 +152,19 @@ basta editar essa linha e reiniciar o portal.
 > avisa enquanto a instalação estiver nesse estado.
 
 Uma sessão dura uma semana parada (`ADMIN_SESSAO_HORAS` muda isso) e renova-se
-sozinha sempre que se publica alguma coisa: quem está a trabalhar não é
-desligado a meio de um texto; quem desaparece uma semana volta a entrar.
+sozinha enquanto se andar pelo painel — tanto ao publicar como só ao navegar
+entre ecrãs. Quem está a trabalhar não é desligado a meio de um texto; quem
+desaparece uma semana volta a entrar.
+
+A renovação vem de dois sítios. As ações de escrita passam por
+`exigirSessao()`, que já a fazia. A navegação passa pelo componente
+`ManterSessao`, montado no layout do painel: corre a cada mudança de ecrã e
+chama a ação `manterSessaoAtiva()`, que não faz mais nada senão esticar o
+prazo. Sem ele, quem passasse a semana a consultar listas sem publicar nada
+era desligado como se tivesse estado parado.
+
+Em qualquer dos casos o cookie só é reescrito depois de passada metade do
+prazo, para não haver uma escrita por clique.
 
 Vive num cookie `httpOnly` assinado com HMAC-SHA256.
 
