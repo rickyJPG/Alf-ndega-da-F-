@@ -28,6 +28,7 @@ import { TextLink } from '@/components/ui/link';
 import Image from 'next/image';
 import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 import { VideoFacade } from '@/components/features/video-facade';
+import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
 
 /**
  * Páginas editoriais vindas da coleção `Paginas`.
@@ -65,6 +66,7 @@ export default async function EditorialPageRoute({
 }: {
   params: Promise<{ locale: string; slug: string[] }>;
 }) {
+  const contactos = await lerContactos();
   const { locale: raw, slug } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
@@ -279,11 +281,11 @@ export default async function EditorialPageRoute({
               <address className="not-italic">
                 {site.legalName}
                 <br />
-                {site.address.street}, {site.address.postalCode} {site.address.city}
+                {contactos.morada}, {contactos.codigoPostal} {contactos.localidade}
               </address>
               <p className="mt-3 flex flex-col gap-1.5">
-                <TextLink href={`tel:${site.contact.phoneE164}`}>{site.contact.phone}</TextLink>
-                <TextLink href={`mailto:${site.contact.email}`}>{site.contact.email}</TextLink>
+                <TextLink href={`tel:${telefoneInternacional(contactos.telefone)}`}>{contactos.telefone}</TextLink>
+                <TextLink href={`mailto:${contactos.email}`}>{contactos.email}</TextLink>
               </p>
               <p className="mt-3">
                 <TextLink href={routes.contacts(locale)}>Ver todos os contactos</TextLink>

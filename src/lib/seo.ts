@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { site } from './site';
 import { locales, localeHtmlLang, localePath, defaultLocale, type Locale } from '@/i18n/config';
+import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
 
 /**
  * Metadados comuns e JSON-LD.
@@ -73,7 +74,9 @@ export function buildMetadata({
 
 // --- JSON-LD ---------------------------------------------------------------------
 
-export function governmentOrganizationJsonLd() {
+export async function governmentOrganizationJsonLd() {
+  const contactos = await lerContactos();
+
   return {
     '@context': 'https://schema.org',
     '@type': 'GovernmentOrganization',
@@ -81,18 +84,18 @@ export function governmentOrganizationJsonLd() {
     name: site.legalName,
     alternateName: site.name,
     url: site.url,
-    email: site.contact.email,
-    telephone: site.contact.phoneE164,
-    taxID: site.nif,
+    email: contactos.email,
+    telephone: telefoneInternacional(contactos.telefone),
+    taxID: contactos.nif,
     areaServed: {
       '@type': 'AdministrativeArea',
       name: `Concelho de ${site.shortName}`,
     },
     address: {
       '@type': 'PostalAddress',
-      streetAddress: site.address.street,
-      postalCode: site.address.postalCode,
-      addressLocality: site.address.city,
+      streetAddress: contactos.morada,
+      postalCode: contactos.codigoPostal,
+      addressLocality: contactos.localidade,
       addressRegion: site.address.district,
       addressCountry: site.address.country,
     },
@@ -101,6 +104,12 @@ export function governmentOrganizationJsonLd() {
       latitude: site.geo.lat,
       longitude: site.geo.lon,
     },
+    // O horário legível muda no painel; esta é a forma que as máquinas
+    // leem, e continua no código. Traduzir «Segunda a sexta, 09:00 – 12:30 e
+    // 14:00 – 17:30» para ISO-8601 exigiria adivinhar o que a redação
+    // escreveu, e um palpite errado manda horários falsos para os motores de
+    // busca — pior do que ficarem desatualizados de propósito. O painel
+    // avisa disto ao lado do campo.
     openingHoursSpecification: site.openingHoursSpec.map((spec) => {
       const [days, hours] = spec.split(' ');
       const [opens, closes] = hours.split('-');
@@ -223,7 +232,12 @@ export function eventJsonLd(options: {
   };
 }
 
-export function governmentServiceJsonLd(options: {
+/**
+ * Assíncrona pela mesma razão que a da organização: o telefone e a morada do
+ * balcão saem do painel. Se ficassem fixos no código, a ficha que o motor de
+ * busca lê contradizia o número impresso na própria página do serviço.
+ */
+export async function governmentServiceJsonLd(options: {
   locale: Locale;
   name: string;
   description: string;
@@ -231,6 +245,8 @@ export function governmentServiceJsonLd(options: {
   audience: string;
   channelOnline?: boolean;
 }) {
+  const contactos = await lerContactos();
+
   return {
     '@context': 'https://schema.org',
     '@type': 'GovernmentService',
@@ -245,15 +261,17 @@ export function governmentServiceJsonLd(options: {
       {
         '@type': 'ServiceChannel',
         serviceUrl: absoluteUrl(localePath(options.locale, options.path)),
-        ...(options.channelOnline ? {} : { servicePhone: site.contact.phoneE164 }),
+        ...(options.channelOnline
+          ? {}
+          : { servicePhone: telefoneInternacional(contactos.telefone) }),
         serviceLocation: {
           '@type': 'Place',
           name: site.legalName,
           address: {
             '@type': 'PostalAddress',
-            streetAddress: site.address.street,
-            postalCode: site.address.postalCode,
-            addressLocality: site.address.city,
+            streetAddress: contactos.morada,
+            postalCode: contactos.codigoPostal,
+            addressLocality: contactos.localidade,
             addressCountry: site.address.country,
           },
         },

@@ -11,8 +11,9 @@
  * São os que só têm texto — e são a esmagadora maioria do que muda: um
  * horário dentro de um parágrafo, uma alínea a mais numa lista, o teor de um
  * aviso. Os restantes (galerias, vídeos, listas de ligações, blocos que se
- * preenchem sozinhos como o de contactos) ficam intactos ao gravar, e o ecrã
- * diz porquê em vez de os esconder.
+ * preenchem sozinhos) ficam intactos ao gravar, e o ecrã diz porquê em vez de
+ * os esconder. O de contactos é o caso particular: não se edita aqui porque
+ * se edita num sítio só — em Contactos —, e aparece igual em todo o portal.
  */
 const EDITAVEIS = new Set(['prose', 'list', 'callout']);
 
@@ -35,7 +36,7 @@ const DESCRICOES: Record<string, string> = {
   people: 'Lista de eleitos (preenche-se sozinha)',
   tenders: 'Concursos abertos (preenche-se sozinha)',
   datasets: 'Dados abertos (preenche-se sozinha)',
-  contact: 'Contactos do Município (preenchem-se sozinhos)',
+  contact: 'Contactos do Município (mudam-se em Contactos)',
   sitemap: 'Mapa do portal (preenche-se sozinho)',
   galeria: 'Galeria de fotografias',
   video: 'Vídeo',

@@ -10,6 +10,13 @@ import { Icon } from '@/components/ui/icon';
  * De propósito fora de /[locale]: é o service worker que a serve quando não
  * há rede, por isso não pode depender de nada que tenha de ser transferido.
  * Os contactos e os números de emergência estão fixos no próprio markup.
+ *
+ * É também a única página que **não** lê os contactos editáveis do painel.
+ * Tem de existir inteira no cache do navegador antes de a rede faltar: ir
+ * buscar o telefone ao servidor no momento em que não há servidor é o
+ * oposto do que esta página serve para fazer. O preço é que, se o Município
+ * mudar o número no painel, esta página só o mostra depois de o portal ser
+ * recompilado.
  */
 export const metadata: Metadata = {
   title: 'Sem ligação',

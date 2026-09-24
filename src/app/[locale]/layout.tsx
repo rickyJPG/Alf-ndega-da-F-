@@ -122,7 +122,7 @@ export default async function LocaleLayout({
         />
       </head>
       <body>
-        <JsonLd data={[governmentOrganizationJsonLd(), websiteJsonLd(locale)]} />
+        <JsonLd data={[await governmentOrganizationJsonLd(), websiteJsonLd(locale)]} />
 
         {/* Ligações de salto — primeiro conteúdo focável da página. */}
         <a href="#conteudo" className="sr-only-focusable">

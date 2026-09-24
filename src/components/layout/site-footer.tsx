@@ -4,6 +4,7 @@ import { complaintsBook, legalLinks, navLabel } from '@/lib/navigation';
 import { localePath, type Locale } from '@/i18n/config';
 import { fill, type Dictionary } from '@/i18n';
 import { getFreguesias } from '@/content';
+import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
 import { Icon } from '@/components/ui/icon';
 import { NewsletterForm } from './newsletter-form';
 import { Brasao } from './brasao';
@@ -18,10 +19,11 @@ import { Brasao } from './brasao';
  */
 export async function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const freguesias = await getFreguesias();
+  const contactos = await lerContactos();
   const year = new Date().getFullYear();
 
   const mapQuery = encodeURIComponent(
-    `${site.address.street}, ${site.address.postalCode} ${site.address.city}, Portugal`,
+    `${contactos.morada}, ${contactos.codigoPostal} ${contactos.localidade}, Portugal`,
   );
 
   return (
@@ -38,9 +40,9 @@ export async function SiteFooter({ locale, dict }: { locale: Locale; dict: Dicti
                 {site.legalName}
               </p>
               <address className="mt-2 not-italic text-ink-muted">
-                {site.address.street}
+                {contactos.morada}
                 <br />
-                {site.address.postalCode} {site.address.city}
+                {contactos.codigoPostal} {contactos.localidade}
               </address>
             </div>
           </div>
@@ -48,18 +50,18 @@ export async function SiteFooter({ locale, dict }: { locale: Locale; dict: Dicti
           <ul className="mt-4 flex flex-col gap-2 text-ink-muted">
             <li className="flex items-center gap-2">
               <Icon name="phone" size={17} />
-              <a href={`tel:${site.contact.phoneE164}`} className="text-ink underline underline-offset-[0.2em]">
-                {site.contact.phone}
+              <a href={`tel:${telefoneInternacional(contactos.telefone)}`} className="text-ink underline underline-offset-[0.2em]">
+                {contactos.telefone}
               </a>
               <span className="text-sm">({site.contact.callCost})</span>
             </li>
             <li className="flex items-center gap-2">
               <Icon name="mail" size={17} />
               <a
-                href={`mailto:${site.contact.email}`}
+                href={`mailto:${contactos.email}`}
                 className="break-all text-ink underline underline-offset-[0.2em]"
               >
-                {site.contact.email}
+                {contactos.email}
               </a>
             </li>
           </ul>
@@ -77,10 +79,10 @@ export async function SiteFooter({ locale, dict }: { locale: Locale; dict: Dicti
 
           <h3 className="mt-8 font-serif text-lg font-semibold">{dict.footer.hoursTitle}</h3>
           <dl className="mt-2">
-            {site.openingHours.map((entry) => (
-              <div key={entry.days} className="flex flex-col py-1 sm:flex-row sm:gap-2">
-                <dt className="font-medium">{entry.days}</dt>
-                <dd className="text-ink-muted">{entry.hours}</dd>
+            {contactos.horarios.map((horario) => (
+              <div key={horario.dias} className="flex flex-col py-1 sm:flex-row sm:gap-2">
+                <dt className="font-medium">{horario.dias}</dt>
+                <dd className="text-ink-muted">{horario.horas}</dd>
               </div>
             ))}
           </dl>

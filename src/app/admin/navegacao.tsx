@@ -22,6 +22,7 @@ const SECCOES: { href: string; rotulo: string; icone: IconName }[] = [
   { href: '/admin/servicos', rotulo: 'Serviços', icone: 'briefcase' },
   { href: '/admin/paginas', rotulo: 'Páginas', icone: 'book' },
   { href: '/admin/imagens', rotulo: 'Fotografias', icone: 'camera' },
+  { href: '/admin/contactos', rotulo: 'Contactos', icone: 'phone' },
   { href: '/admin/utilizadores', rotulo: 'Contas', icone: 'users' },
   { href: '/admin/ajuda', rotulo: 'Ajuda', icone: 'lightbulb' },
 ];

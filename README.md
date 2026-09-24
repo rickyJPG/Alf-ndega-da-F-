@@ -113,6 +113,7 @@ código, sem instalar nada, com um navegador normal.
 | **Fotografias** | Trocar a imagem de qualquer posição do portal, carregando um ficheiro. |
 | **Serviços** | As fichas de cada serviço: a quem se destina, o que levar, prazo, custo e passos. |
 | **Páginas** | Os textos das páginas institucionais. Galerias e vídeos ficam no código. |
+| **Contactos** | Morada, telefone, fax, correio eletrónico, NIF e horário de atendimento. |
 | **Contas** | Quem pode entrar no painel. Uma conta por pessoa, com palavra-passe própria. |
 | **Ajuda** | Instruções passo a passo, escritas para quem nunca mexeu num sítio na internet. |
 
@@ -131,9 +132,11 @@ em dois anos.
 Nas páginas editam-se os textos, as listas e as caixas de destaque — 50 dos
 80 blocos existentes, e a esmagadora maioria do que muda no dia a dia. As
 galerias, os vídeos e os blocos que se preenchem sozinhos (eleitos,
-concursos, contactos) aparecem na lista com a razão à vista, mas não se
-alteram por lá. A página de Ajuda do painel diz isto mesmo a quem estiver
-lá dentro.
+concursos) aparecem na lista com a razão à vista, mas não se alteram por lá.
+O bloco de contactos aparece na mesma lista e também não se edita aí — mas
+por outra razão: edita-se em **Contactos**, num sítio só, e muda em todas as
+páginas ao mesmo tempo. A página de Ajuda do painel diz isto mesmo a quem
+estiver lá dentro.
 
 ### Pôr a funcionar
 
@@ -204,6 +207,7 @@ conteudo/
 ├── documentos.json
 ├── servicos.json
 ├── paginas.json
+├── contactos.json      morada, telefones, correio, NIF e horários
 ├── utilizadores.json   contas do painel (palavras-passe em scrypt)
 └── ficheiros/          fotografias e PDF carregados pelo painel
     ├── imagens/
@@ -254,6 +258,51 @@ ficheiro, não a extensão.
 
 Para acrescentar uma posição nova, acrescente-a a `src/lib/fotos-do-municipio.ts`
 e o rótulo em português a `src/lib/admin/posicoes.ts`. São duas linhas.
+
+### Contactos
+
+Morada, código postal, localidade, telefone, fax, correio eletrónico, NIF e
+horário de atendimento. Um formulário só — há um conjunto de contactos e não
+vários —, em `src/lib/admin/contactos.ts` e `/admin/contactos`.
+
+Eram, até aqui, constantes em `src/lib/site.ts`: mudar o telefone obrigava a
+alterar código e a recompilar o portal, para uma coisa que qualquer
+administrativo sabe de cor. Agora `site.ts` é só a **semente** — os valores de
+origem, usados enquanto `conteudo/contactos.json` não existir.
+
+Escrito num sítio, lido em todos. Quem passou a ler do painel:
+
+| Onde | Ficheiro |
+| --- | --- |
+| Rodapé (todas as páginas) | `src/components/layout/site-footer.tsx` |
+| Página de contactos | `src/app/[locale]/municipio/contactos/page.tsx` |
+| Marcação de atendimento | `src/app/[locale]/servicos/marcacoes/page.tsx` |
+| Fichas dos serviços | `src/app/[locale]/servicos/[area]/[slug]/page.tsx` |
+| Bloco de contactos das páginas | `src/app/[locale]/[...slug]/page.tsx` |
+| Declaração de acessibilidade | `src/app/[locale]/acessibilidade/page.tsx` |
+| Ficha que os motores de busca leem | `src/lib/seo.ts` |
+
+O telefone em formato internacional (o dos `tel:` e do JSON-LD) é **derivado**
+do número escrito, por `telefoneInternacional()`. Pedir as duas formas
+convidava a que ficassem diferentes, e o erro só apareceria a quem carregasse
+no número a partir do telemóvel.
+
+Fica **de propósito** fora do painel:
+
+- **`site.openingHoursSpec`** — a versão do horário que só as máquinas leem
+  (`Mo-Fr 09:00-12:30`). Tem sintaxe própria e um engano ali não se vê em
+  lado nenhum do portal: estraga o horário que o Google mostra ao lado do
+  resultado de pesquisa. O formulário avisa que, se o horário mudar mesmo,
+  há esta segunda versão a acertar.
+- **`src/app/offline/page.tsx`** — a página servida pelo *service worker*
+  quando falta a rede. Tem de estar inteira no navegador antes de a ligação
+  cair; ir buscar o telefone ao servidor no momento em que não há servidor é
+  o contrário do que ela serve para fazer. Só apanha um número novo na
+  recompilação seguinte, e o comentário no topo do ficheiro diz porquê.
+- **Números de emergência, posto de turismo, redes sociais, coordenadas do
+  mapa e a designação legal da autarquia** — mudam de década em década, ou
+  exigem mais do que trocar um campo (as coordenadas, por exemplo, têm de
+  ser conferidas no mapa).
 
 ### Como se comporta o portal depois de uma alteração
 
@@ -580,7 +629,7 @@ de quem edita.
 | `people` | Composição do executivo ou da assembleia |
 | `tenders` | Procedimentos com prazo aberto |
 | `datasets` | Conjuntos de dados abertos |
-| `contact` | Bloco de contactos |
+| `contact` | Bloco de contactos (preenchido a partir de `/admin/contactos`) |
 | `sitemap` | Mapa do portal |
 | `galeria` | Grelha de fotografias com legenda |
 | `video` | Vídeo do YouTube, carregado só depois do clique |
@@ -996,7 +1045,8 @@ inventadas por quem desenvolve:
    realistas e verosímeis, construídos a partir de informação pública, mas
    **não são dados oficiais**. Números do orçamento, população, contactos
    diretos das divisões e nomes dos presidentes de junta têm de ser
-   confirmados pelos serviços antes de irem para o ar.
+   confirmados pelos serviços antes de irem para o ar. Os contactos gerais do
+   Município conferem-se em `/admin/contactos`, sem tocar em código.
 4. **Definir `ADMIN_PASSWORD` e `NEWSLETTER_SECRET`** e incluir `conteudo/`
    nas cópias de segurança do servidor. Sem isto, perde-se tudo o que a
    redação escrever e carregar no painel.
@@ -1004,7 +1054,8 @@ inventadas por quem desenvolve:
    circuito funciona, mas a ligação de confirmação não sai do servidor.
 6. **Ligar o CMS**, se o Município quiser ir além do painel — ver
    [`cms/README.md`](cms/README.md). O painel em `/admin` cobre notícias,
-   avisos, agenda e fotografias, que é o que muda todas as semanas.
+   avisos, agenda, documentos, serviços, textos das páginas, contactos e
+   fotografias, que é o que muda ao longo do ano.
 7. **Área de Munícipe**: integrar a autenticação com Chave Móvel Digital.
 8. **Ligar os formulários ao processo interno.** As Server Actions validam e
    devolvem número de referência, mas os pontos de entrega estão marcados com

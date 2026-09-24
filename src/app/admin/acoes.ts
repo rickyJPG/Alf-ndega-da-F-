@@ -31,6 +31,7 @@ import { documents } from '@/content/data/documents';
 import { services } from '@/content/data/services';
 import { editorialPages, type EditorialPage } from '@/content/data/pages';
 import { blocoEditavel } from '@/lib/admin/blocos';
+import { esquemaDeContactos } from '@/lib/admin/contactos';
 import { hojeIso } from '@/content/data/clock';
 import type { Alert, DocumentItem, EventItem, NewsItem, ServiceItem } from '@/content/types';
 
@@ -921,4 +922,51 @@ export async function guardarPagina(dados: FormData): Promise<Resultado> {
   revalidarPortal();
 
   return { ok: true, mensagem: 'Página atualizada.' };
+}
+
+/* --------------------------------------------------------------- contactos -- */
+
+/**
+ * Grava os contactos do Município.
+ *
+ * Única ação do painel validada com Zod, e não à mão como as outras. A razão
+ * é o que se está a validar: um código postal, um NIF, um endereço de
+ * correio e um telefone têm formato próprio, e escrever essas verificações à
+ * mão dava mais código do que o esquema — que além disso serve de descrição
+ * do que é aceite, num sítio só.
+ *
+ * Os horários chegam em campos paralelos (`dia[]` e `hora[]`), emparelhados
+ * pela ordem, como os passos de um serviço.
+ */
+export async function guardarContactos(dados: FormData): Promise<Resultado> {
+  await exigirSessao();
+
+  const dias = dados.getAll('dia').map((valor) => String(valor).trim());
+  const horas = dados.getAll('hora').map((valor) => String(valor).trim());
+
+  const horarios = dias
+    .map((diasDaLinha, indice) => ({ dias: diasDaLinha, horas: horas[indice] ?? '' }))
+    .filter((horario) => horario.dias || horario.horas);
+
+  const analise = esquemaDeContactos.safeParse({
+    morada: textoDe(dados, 'morada'),
+    codigoPostal: textoDe(dados, 'codigoPostal'),
+    localidade: textoDe(dados, 'localidade'),
+    telefone: textoDe(dados, 'telefone'),
+    fax: textoDe(dados, 'fax'),
+    email: textoDe(dados, 'email'),
+    nif: textoDe(dados, 'nif'),
+    horarios,
+  });
+
+  if (!analise.success) {
+    // A primeira falha chega para orientar quem está a corrigir; mostrar as
+    // sete de uma vez só afogava a que interessa.
+    return { ok: false, mensagem: analise.error.issues[0]?.message ?? 'Reveja os campos.' };
+  }
+
+  await gravar('contactos', analise.data);
+  revalidarPortal();
+
+  return { ok: true, mensagem: 'Contactos atualizados. O portal já os mostra.' };
 }

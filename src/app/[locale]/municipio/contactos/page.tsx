@@ -13,6 +13,7 @@ import { Icon } from '@/components/ui/icon';
 import { TextLink } from '@/components/ui/link';
 import { ButtonLink } from '@/components/ui/button';
 import { DataTable, Tbody, Td, Th, Thead, Tr } from '@/components/ui/table';
+import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
 
 const DEPARTMENTS = [
   { name: 'Atendimento ao Munícipe', phone: '279 468 120', email: 'atendimento@cm-alfandegadafe.pt' },
@@ -44,13 +45,14 @@ export async function generateMetadata({
 }
 
 export default async function ContactsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const contactos = await lerContactos();
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
   const freguesias = await getFreguesias();
 
   const mapQuery = encodeURIComponent(
-    `${site.address.street}, ${site.address.postalCode} ${site.address.city}, Portugal`,
+    `${contactos.morada}, ${contactos.codigoPostal} ${contactos.localidade}, Portugal`,
   );
 
   const crumbs = [
@@ -61,7 +63,7 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
 
   return (
     <>
-      <JsonLd data={[breadcrumbJsonLd(locale, crumbs), governmentOrganizationJsonLd()]} />
+      <JsonLd data={[breadcrumbJsonLd(locale, crumbs), await governmentOrganizationJsonLd()]} />
 
       <PageHeader
         title={dict.contact.title}
@@ -87,9 +89,9 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
             <address className="mt-3 text-lg not-italic">
               {site.legalName}
               <br />
-              {site.address.street}
+              {contactos.morada}
               <br />
-              {site.address.postalCode} {site.address.city}
+              {contactos.codigoPostal} {contactos.localidade}
               <br />
               <span className="text-ink-muted">
                 Distrito de {site.address.district}, {site.address.region}
@@ -99,25 +101,25 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
             <ul className="mt-5 flex flex-col gap-3">
               <li className="flex items-center gap-2.5">
                 <Icon name="phone" size={19} className="text-primary-700" />
-                <TextLink href={`tel:${site.contact.phoneE164}`}>{site.contact.phone}</TextLink>
+                <TextLink href={`tel:${telefoneInternacional(contactos.telefone)}`}>{contactos.telefone}</TextLink>
                 <span className="text-sm text-ink-muted">({dict.contact.callCost})</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Icon name="mail" size={19} className="text-primary-700" />
-                <TextLink href={`mailto:${site.contact.email}`}>{site.contact.email}</TextLink>
+                <TextLink href={`mailto:${contactos.email}`}>{contactos.email}</TextLink>
               </li>
               <li className="flex items-center gap-2.5">
                 <Icon name="fileText" size={19} className="text-primary-700" />
-                <span>NIPC {site.nif}</span>
+                <span>NIPC {contactos.nif}</span>
               </li>
             </ul>
 
             <h2 className="mt-10 text-2xl">{dict.contact.openingHours}</h2>
             <dl className="mt-3">
-              {site.openingHours.map((entry) => (
-                <div key={entry.days} className="flex flex-col border-b border-line py-2 sm:flex-row sm:gap-4">
-                  <dt className="font-semibold sm:w-64">{entry.days}</dt>
-                  <dd className="text-ink-muted">{entry.hours}</dd>
+              {contactos.horarios.map((horario) => (
+                <div key={horario.dias} className="flex flex-col border-b border-line py-2 sm:flex-row sm:gap-4">
+                  <dt className="font-semibold sm:w-64">{horario.dias}</dt>
+                  <dd className="text-ink-muted">{horario.horas}</dd>
                 </div>
               ))}
             </dl>

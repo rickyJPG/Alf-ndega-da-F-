@@ -12,6 +12,7 @@ import { PageHeader, Section } from '@/components/layout/page-shell';
 import { BookingForm } from '@/components/features/booking-form';
 import { Alert } from '@/components/ui/alert';
 import { TextLink } from '@/components/ui/link';
+import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
 
 /** Os próximos 21 dias de calendário; availableSlots() retira os fins de semana. */
 function nextDays(count: number): string[] {
@@ -46,6 +47,7 @@ export async function generateMetadata({
 }
 
 export default async function BookingPage({ params }: { params: Promise<{ locale: string }> }) {
+  const contactos = await lerContactos();
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
@@ -99,7 +101,7 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
           <aside>
             <Alert tone="info" title="Prefere tratar por telefone?">
               <p>
-                Ligue para <TextLink href={`tel:${site.contact.phoneE164}`}>{site.contact.phone}</TextLink>, de
+                Ligue para <TextLink href={`tel:${telefoneInternacional(contactos.telefone)}`}>{contactos.telefone}</TextLink>, de
                 segunda a sexta, entre as 09:00 e as 17:30. Marcamos consigo ao telefone.
               </p>
               <p className="mt-3">
@@ -113,9 +115,9 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
               <address className="mt-2 not-italic text-ink-muted">
                 {site.legalName}
                 <br />
-                {site.address.street}
+                {contactos.morada}
                 <br />
-                {site.address.postalCode} {site.address.city}
+                {contactos.codigoPostal} {contactos.localidade}
               </address>
               <p className="mt-3 text-sm text-ink-muted">
                 Entrada acessível pelo lado nascente, com rampa e lugar de estacionamento reservado.

@@ -12,6 +12,7 @@ import { PageHeader, Section } from '@/components/layout/page-shell';
 import { Alert } from '@/components/ui/alert';
 import { Icon } from '@/components/ui/icon';
 import { TextLink } from '@/components/ui/link';
+import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
 
 /**
  * Declaração de Acessibilidade.
@@ -83,6 +84,7 @@ export default async function AccessibilityStatementPage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
+  const contactos = await lerContactos();
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
@@ -212,13 +214,13 @@ export default async function AccessibilityStatementPage({
             </li>
             <li className="flex items-center gap-2.5">
               <Icon name="phone" size={19} className="text-primary-700" />
-              <TextLink href={`tel:${site.contact.phoneE164}`}>{site.contact.phone}</TextLink>
+              <TextLink href={`tel:${telefoneInternacional(contactos.telefone)}`}>{contactos.telefone}</TextLink>
             </li>
             <li className="flex items-start gap-2.5">
               <Icon name="mapPin" size={19} className="mt-0.5 text-primary-700" />
               <span>
-                {site.legalName}, {site.address.street}, {site.address.postalCode}{' '}
-                {site.address.city}
+                {site.legalName}, {contactos.morada}, {contactos.codigoPostal}{' '}
+                {contactos.localidade}
               </span>
             </li>
           </ul>

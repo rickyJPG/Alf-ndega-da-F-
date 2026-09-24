@@ -8,7 +8,6 @@ import { breadcrumbJsonLd, buildMetadata, governmentServiceJsonLd } from '@/lib/
 import { routes, serviceAreaLabels } from '@/lib/routes';
 import { getDocuments, getService, getServices } from '@/content';
 import { tx } from '@/content/types';
-import { site } from '@/lib/site';
 
 import { JsonLd } from '@/components/seo/json-ld';
 import { PageHeader, Section } from '@/components/layout/page-shell';
@@ -17,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { ButtonLink } from '@/components/ui/button';
 import { FileLink, TextLink } from '@/components/ui/link';
+import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
 
 export async function generateStaticParams() {
   const services = await getServices();
@@ -48,6 +48,7 @@ export default async function ServiceDetailPage({
 }: {
   params: Promise<{ locale: string; area: string; slug: string }>;
 }) {
+  const contactos = await lerContactos();
   const { locale: raw, area, slug } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);
@@ -78,7 +79,7 @@ export default async function ServiceDetailPage({
       <JsonLd
         data={[
           breadcrumbJsonLd(locale, crumbs),
-          governmentServiceJsonLd({
+          await governmentServiceJsonLd({
             locale,
             name: tx(service.title, locale),
             description: tx(service.summary, locale),
@@ -206,8 +207,8 @@ export default async function ServiceDetailPage({
               <h3 className="mt-6 font-serif text-lg">{dict.services.contactService}</h3>
               <p className="mt-1 text-ink-muted">{service.department}</p>
               <p className="mt-3 flex flex-col gap-1.5 text-sm">
-                <TextLink href={`tel:${site.contact.phoneE164}`}>{site.contact.phone}</TextLink>
-                <TextLink href={`mailto:${site.contact.email}`}>{site.contact.email}</TextLink>
+                <TextLink href={`tel:${telefoneInternacional(contactos.telefone)}`}>{contactos.telefone}</TextLink>
+                <TextLink href={`mailto:${contactos.email}`}>{contactos.email}</TextLink>
               </p>
             </CardBody>
           </Card>
@@ -260,7 +261,7 @@ export default async function ServiceDetailPage({
       <Section tone="alt">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <p className="measure text-ink-muted">
-            Não encontrou o que procurava? Fale connosco pelo telefone {site.contact.phone} ou marque
+            Não encontrou o que procurava? Fale connosco pelo telefone {contactos.telefone} ou marque
             atendimento.
           </p>
           <ButtonLink href={routes.contacts(locale)} variant="subtle" icon="phone">

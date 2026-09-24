@@ -110,6 +110,18 @@ export default async function PaginaDeAjuda() {
         />
 
         <Receita
+          icone="phone"
+          titulo="Mudar o telefone, o horário ou a morada"
+          passos={[
+            'Clique em Contactos. É um formulário só — não há lista nem nada para escolher.',
+            'Corrija o que mudou: morada, código postal, telefone, fax, correio eletrónico ou NIF.',
+            'O horário de atendimento tem uma linha por período. «Acrescentar linha» para um período novo, «Retirar» para um que acabou.',
+            'Clique em «Guardar contactos».',
+            'Fica mudado de uma vez em todo o portal: no rodapé de todas as páginas, na página de contactos, nas fichas dos serviços e na marcação de atendimento.',
+          ]}
+        />
+
+        <Receita
           icone="camera"
           titulo="Trocar uma fotografia do portal"
           passos={[
@@ -153,7 +165,12 @@ export default async function PaginaDeAjuda() {
         />
         <Pergunta
           pergunta="Numa página, há partes que não me deixa mexer."
-          resposta="São as galerias de fotografias, os vídeos e as listas que o portal preenche sozinho (eleitos, concursos, contactos). Aparecem na lista, para saber que continuam lá, mas mudam-se no código. Se precisar de alterar alguma, fale com quem mantém o portal."
+          resposta="São as galerias de fotografias, os vídeos e as listas que o portal preenche sozinho (eleitos, concursos). Aparecem na lista, para saber que continuam lá, mas mudam-se no código. A caixa de contactos é a exceção: essa muda-se em Contactos, e muda em todas as páginas ao mesmo tempo."
+        />
+
+        <Pergunta
+          pergunta="Mudei o telefone em Contactos. Tenho de o mudar mais nalgum lado?"
+          resposta="Não. Escreve-se num sítio só e aparece em todos: rodapé, página de contactos, fichas dos serviços, marcação de atendimento e a ficha que os motores de busca leem. A única exceção é a página que aparece quando falta a ligação à Internet — essa tem de estar guardada no telemóvel de antemão, por isso só apanha o número novo quando quem mantém o portal o voltar a publicar."
         />
         <Pergunta
           pergunta="Quem mais consegue entrar aqui?"
@@ -189,7 +206,7 @@ export default async function PaginaDeAjuda() {
           'Ordens de trabalho das reuniões',
           'Orçamento e prestação de contas',
           'Calendário de recolha de resíduos',
-          'Telefones e horários dos serviços',
+          'Números de emergência e posto de turismo',
         ].map((assunto) => (
           <li
             key={assunto}
