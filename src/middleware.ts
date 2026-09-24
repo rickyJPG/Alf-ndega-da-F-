@@ -57,8 +57,14 @@ export const config = {
    * `/admin` também fica de fora: o painel de administração só existe em
    * português e não vive dentro de /[locale]. Sem esta exceção, /admin seria
    * reescrito para /pt/admin — uma rota que não existe.
+   *
+   * `/offline` e `/ficheiros` pela mesma razão, e cada um com a sua
+   * consequência se faltasse aqui: a página offline é a que o service worker
+   * guarda para quando não há rede, e um 404 não se nota até ao dia em que
+   * ela faz falta; `/ficheiros` serve as fotografias e os PDF carregados no
+   * painel, que também não têm idioma.
    */
-  matcher: ['/((?!api|admin|_next/static|_next/image|.*\\..*).*)'],
+  matcher: ['/((?!api|admin|offline|ficheiros|_next/static|_next/image|.*\\..*).*)'],
 };
 
 export { LOCALE_COOKIE, locales };
