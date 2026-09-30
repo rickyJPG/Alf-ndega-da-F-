@@ -64,3 +64,10 @@ pnpm-debug.log*
 # Documentos: os verdadeiros entram pelo painel, os de demonstração são
 # gerados por `npm run documentos-exemplo`. Nenhum pertence ao repositório.
 /public/documentos/
+
+# A ferramenta do túnel, descarregada pelo mostrar-ao-cliente.sh para junto
+# dele. São 40 MB de executável que não são deste projeto — quem precisar
+# dele volta a descarregá-lo em segundos.
+/cloudflared
+/cloudflared.exe
+/cloudflared.tgz

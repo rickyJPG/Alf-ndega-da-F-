@@ -36,6 +36,7 @@ Para quem só quer ver o portal a funcionar, sem saber nada de terminais:
 | Windows | **`INICIAR-PORTAL.bat`** | Duplo clique. Instala o que falta, escolhe a palavra-passe, arranca e abre o navegador. |
 | Linux, macOS | **`./iniciar-portal.sh`** | O mesmo. |
 | Windows | **`MOSTRAR-AO-CLIENTE.bat`** | Cria um endereço público temporário para mostrar o portal a alguém à distância. |
+| Linux, macOS | **`./mostrar-ao-cliente.sh`** | O mesmo. |
 
 Na primeira vez demora alguns minutos (instalação e compilação) e mostra a
 palavra-passe do painel. Nas seguintes arranca em segundos. Para desligar,
@@ -873,14 +874,21 @@ docker run --rm -v alfandega_conteudo:/c -v "$PWD":/backup alpine \
 Para uma demonstração rápida a partir do próprio computador, sem alojar nada:
 
 - **Windows:** duplo clique em `MOSTRAR-AO-CLIENTE.bat`
-- **Linux, macOS:** `cloudflared tunnel --url http://localhost:3000`
+- **Linux, macOS:** `./mostrar-ao-cliente.sh`
 
-Dá um endereço `https://…trycloudflare.com` que qualquer pessoa abre, e que
-morre quando a janela fechar.
+Os dois fazem o mesmo: confirmam que o portal está a correr, descarregam a
+ferramenta do túnel se ainda não estiver (gratuita, sem conta) e criam o
+endereço. Dá um `https://…trycloudflare.com` que qualquer pessoa abre, e que
+morre quando a janela fechar ou ao Ctrl+C.
 
 > Quem tiver o endereço chega também a `/admin`. Para uma demonstração
 > acompanhada não há problema; para deixar o endereço a alguém durante dias,
 > vale mais alojar a sério.
+
+> **Se der `provisioning failed with status 403`**, não é o portal: é a rede a
+> barrar o acesso a `api.trycloudflare.com`. Acontece em redes de empresa e de
+> organismos públicos, e em contentores com política de saída restrita.
+> Experimente noutra rede — ou, se for para durar, alojar em vez de túnel.
 
 ### Onde alojar
 
