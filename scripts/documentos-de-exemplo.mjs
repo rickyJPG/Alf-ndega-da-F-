@@ -1,6 +1,36 @@
 #!/usr/bin/env node
 import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { registerHooks } from 'node:module';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+/**
+ * Deixa o Node seguir os `import './clock'` do código do portal.
+ *
+ * O `--experimental-strip-types` do Node corre TypeScript sem compilar, mas
+ * não adivinha extensões: um `from './clock'` — a forma que o `tsconfig`
+ * deste projeto usa em todo o lado — fica em ERR_MODULE_NOT_FOUND. Sem isto,
+ * `consultations.ts` não se consegue importar, e os documentos das consultas
+ * públicas e dos concursos ficavam de fora sem ninguém perceber porquê: o
+ * `.catch()` em baixo engolia o erro e o contador dizia menos ficheiros.
+ *
+ * Vinte linhas aqui em vez de uma dependência de compilação só para um
+ * script de demonstração.
+ */
+registerHooks({
+  resolve(especificador, contexto, seguinte) {
+    if (especificador.startsWith('.') && !/\.[a-z]+$/i.test(especificador)) {
+      const base = new URL(especificador, contexto.parentURL);
+      for (const sufixo of ['.ts', '/index.ts']) {
+        const tentativa = new URL(base.href + sufixo);
+        if (existsSync(fileURLToPath(tentativa))) {
+          return { url: tentativa.href, shortCircuit: true };
+        }
+      }
+    }
+    return seguinte(especificador, contexto);
+  },
+});
 
 /**
  * Gera um PDF por cada documento do catálogo de exemplo.
@@ -145,9 +175,43 @@ function gerarPdf({ titulo, resumo, tipo }) {
 
 /* ------------------------------------------------------------------------ */
 
-const { documents } = await import('../src/content/data/documents.ts').catch(() => ({}));
+/**
+ * De onde vêm os ficheiros a gerar.
+ *
+ * Eram só os do catálogo de documentos. Mas o portal oferece ficheiros a
+ * partir de mais três sítios — as atas e ordens de trabalho das reuniões, os
+ * documentos das consultas públicas e as peças dos concursos — e esses
+ * nenhum ficheiro criava. Numa demonstração, a página de reuniões mostrava
+ * dezesseis atas «por publicar» e nenhuma abria.
+ *
+ * Não era visível antes porque as páginas ofereciam o botão de qualquer
+ * maneira e davam 404. Agora que escondem o que não existe, a falta aparece
+ * à vista — e a correção certa é gerar também estes.
+ */
+/**
+ * Carrega uma fonte de dados, dizendo em voz alta se não conseguir.
+ *
+ * O `.catch(() => ({}))` que aqui estava era pior do que um erro: o script
+ * continuava, gerava menos ficheiros, e dizia «8 gerados» como se estivesse
+ * tudo bem. Foi assim que os documentos das consultas públicas passaram
+ * meses sem ser gerados.
+ */
+async function carregar(caminho) {
+  try {
+    return await import(caminho);
+  } catch (erro) {
+    console.error(`[documentos] não foi possível ler ${caminho}:`, erro.message);
+    return null;
+  }
+}
 
-if (!documents) {
+const [catalogo, governacao, consultas] = await Promise.all([
+  carregar('../src/content/data/documents.ts'),
+  carregar('../src/content/data/governance.ts'),
+  carregar('../src/content/data/consultations.ts'),
+]);
+
+if (!catalogo?.documents) {
   console.error(
     'Não foi possível ler o catálogo. Corra através de `npm run documentos-exemplo`,\n' +
       'que trata da compilação do TypeScript.',
@@ -155,30 +219,93 @@ if (!documents) {
   process.exit(1);
 }
 
+// As outras duas não são indispensáveis, mas a falta delas tem de aparecer.
+if (!governacao || !consultas) {
+  console.error(
+    '[documentos] Faltam fontes de dados. As atas e os documentos das\n' +
+      '[documentos] consultas públicas não vão ser gerados.',
+  );
+  process.exitCode = 1;
+}
+
+const { documents } = catalogo;
+
 mkdirSync(DESTINO, { recursive: true });
+
+/** Cada ficheiro a gerar: endereço, título e o que escrever no corpo. */
+const porGerar = [];
+
+for (const documento of documents) {
+  porGerar.push({
+    href: documento.file?.href,
+    titulo: documento.title.pt,
+    resumo: documento.summary?.pt ?? '',
+    tipo: documento.type,
+  });
+}
+
+for (const reuniao of governacao.meetings ?? []) {
+  const orgao = reuniao.body === 'camara' ? 'Câmara Municipal' : 'Assembleia Municipal';
+  for (const [ficheiro, tipo] of [
+    [reuniao.agendaFile, 'ordem-de-trabalhos'],
+    [reuniao.minutes, 'ata'],
+  ]) {
+    if (!ficheiro) continue;
+    porGerar.push({
+      href: ficheiro.href,
+      titulo: ficheiro.label.pt,
+      resumo: `${orgao} — reunião ${reuniao.kind} de ${reuniao.date}.`,
+      tipo,
+    });
+  }
+}
+
+for (const consulta of consultas.consultations ?? []) {
+  for (const ficheiro of consulta.documents ?? []) {
+    porGerar.push({
+      href: ficheiro.href,
+      titulo: ficheiro.label.pt,
+      resumo: `Documento da consulta pública «${consulta.title.pt}».`,
+      tipo: 'consulta-publica',
+    });
+  }
+}
+
+for (const concurso of consultas.tenders ?? []) {
+  for (const ficheiro of concurso.documents ?? []) {
+    porGerar.push({
+      href: ficheiro.href,
+      titulo: ficheiro.label.pt,
+      resumo: `${concurso.reference} — ${concurso.title.pt}`,
+      tipo: concurso.kind === 'recrutamento' ? 'recrutamento' : 'concurso',
+    });
+  }
+}
 
 let gerados = 0;
 let mantidos = 0;
+const jaFeitos = new Set();
 
-for (const documento of documents) {
-  if (!documento.file?.href?.startsWith('/documentos/')) continue;
+for (const pedido of porGerar) {
+  if (!pedido.href?.startsWith('/documentos/')) continue;
 
-  const nome = documento.file.href.slice('/documentos/'.length);
+  const nome = pedido.href.slice('/documentos/'.length);
+  if (!nome.toLowerCase().endsWith('.pdf')) continue;
+
+  // O mesmo ficheiro pode estar referido em dois sítios — por exemplo um
+  // formulário que aparece no catálogo e numa ficha de serviço.
+  if (jaFeitos.has(nome)) continue;
+  jaFeitos.add(nome);
+
   const caminho = join(DESTINO, nome);
-
   if (existsSync(caminho)) {
     mantidos += 1;
     continue;
   }
-  if (!nome.toLowerCase().endsWith('.pdf')) continue;
 
   writeFileSync(
     caminho,
-    gerarPdf({
-      titulo: documento.title.pt,
-      resumo: documento.summary?.pt ?? '',
-      tipo: documento.type,
-    }),
+    gerarPdf({ titulo: pedido.titulo, resumo: pedido.resumo, tipo: pedido.tipo }),
   );
   gerados += 1;
 }

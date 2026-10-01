@@ -74,7 +74,7 @@ Comandos disponíveis:
 | `npm run fotos` | Descarrega as fotografias reais para as posições certas |
 | `npm run vendor` | Atualiza os ficheiros do Leaflet em `public/vendor` |
 | `npm run configurar` | Escreve `.env.local` com palavra-passe e segredos, se faltarem |
-| `npm run documentos-exemplo` | Gera os PDF de demonstração que faltarem (nunca substitui os verdadeiros) |
+| `npm run documentos-exemplo` | Gera os PDF de demonstração que faltarem, para o catálogo, as atas, as consultas públicas e os concursos (nunca substitui os verdadeiros) |
 
 ### Variáveis de ambiente
 
@@ -392,6 +392,55 @@ línguas, para que uma ligação partilhada continue a apontar para a mesma pág
 Todos os endereços são construídos em `src/lib/routes.ts`. Nenhum caminho é
 montado à mão no meio do código.
 
+Quatro prefixos vivem **fora** do segmento de idioma, e estão por isso
+excetuados no `matcher` do `src/middleware.ts`: `/admin` (o painel só existe
+em português), `/offline` (a página que o *service worker* guarda), e
+`/ficheiros` e `/dados`, que servem ficheiros e não têm idioma. Esquecer um
+deles não dá erro nenhum — dá um 404 silencioso, que foi o que aconteceu a
+`/offline` durante semanas.
+
+### Descarregamentos
+
+O portal oferece ficheiros a partir de oito sítios: a lista de documentos, as
+fichas dos serviços, as atas e ordens de trabalho das reuniões, os documentos
+das consultas públicas, as peças dos concursos, a prestação de contas, a
+página do orçamento e os dados abertos.
+
+Em todos eles vale a mesma regra, e é `ficheiroExiste()`
+(`src/lib/documentos.ts`) que a impõe: **se o ficheiro não está lá, não se
+mostra o botão** — mostra-se «Ficheiro por publicar», pela peça comum
+`src/components/content/ficheiro.tsx`. O catálogo e os ficheiros são coisas
+separadas, e numa instalação nova o catálogo vem cheio e as pastas vêm
+vazias; oferecer o descarregamento de qualquer maneira é a pior forma de um
+serviço público falhar — em silêncio, já depois do clique.
+
+`tests/e2e/descarregamentos.spec.ts` percorre as páginas todas, recolhe as
+ligações de ficheiro que o portal mostra e pede cada uma. A regra que impõe é
+uma só: *se o portal oferece o botão, o botão tem de funcionar*. Verifica
+também que os dados abertos **são** oferecidos, para que «esconder tudo» não
+seja uma forma de o teste passar.
+
+#### Dados abertos
+
+`/dados/orcamento-<ano>.csv` e `/dados/ocorrencias-<ano>.json` não são
+ficheiros em disco: são gerados a cada pedido pela rota
+`src/app/dados/[ficheiro]/route.ts`, a partir das mesmas fontes que as
+páginas mostram (`src/lib/dados-abertos.ts`).
+
+Assim por duas razões. A primeira é que não existiam: estavam no catálogo,
+não estavam versionados, e o gerador de exemplos só trata de PDF — dois
+botões numa página de dados abertos, os dois a dar 404. A segunda é a que
+interessa a prazo: um CSV escrito à mão começa certo e envelhece. Corrige-se
+um montante no orçamento, a página mostra o número novo, e o ficheiro
+continua a distribuir o antigo. Derivando da fonte, a divergência deixa de
+ser possível — e um teste unitário confirma que as categorias do CSV somam a
+despesa que a página anuncia.
+
+O CSV sai em RFC 4180 com BOM (sem ele o Excel em Windows estraga os
+acentos), e os dois ficheiros levam dentro a licença CC BY 4.0 e a atribuição
+que a página declara, porque um ficheiro descarregado chega ao destino sem a
+página que o explicava.
+
 ### Ligações antigas
 
 `src/lib/redirects.ts` mantém a tabela de redirecionamentos 301 das antigas URL
@@ -629,7 +678,7 @@ de quem edita.
 | `callout` | Caixa de destaque (informação, aviso, sucesso) |
 | `people` | Composição do executivo ou da assembleia |
 | `tenders` | Procedimentos com prazo aberto |
-| `datasets` | Conjuntos de dados abertos |
+| `datasets` | Conjuntos de dados abertos (ficheiros gerados pela rota `/dados`) |
 | `contact` | Bloco de contactos (preenchido a partir de `/admin/contactos`) |
 | `sitemap` | Mapa do portal |
 | `galeria` | Grelha de fotografias com legenda |

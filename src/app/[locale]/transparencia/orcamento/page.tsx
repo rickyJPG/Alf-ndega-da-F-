@@ -12,6 +12,8 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { PageHeader, Section } from '@/components/layout/page-shell';
 import { BudgetExplorer } from '@/components/features/budget-explorer';
 import { Icon } from '@/components/ui/icon';
+import { FicheiroPorPublicar } from '@/components/content/ficheiro';
+import { ficheiroExiste } from '@/lib/documentos';
 
 export async function generateMetadata({
   params,
@@ -104,15 +106,22 @@ export default async function BudgetPage({ params }: { params: Promise<{ locale:
         <ul className="flex flex-col gap-3">
           {budget.documents.map((file) => (
             <li key={file.href}>
-              <a
-                href={file.href}
-                download
-                className="inline-flex items-center gap-2 text-primary-600 underline underline-offset-[0.2em]"
-              >
-                <Icon name="download" size={18} />
-                {tx(file.label, locale)}{' '}
-                <span className="text-ink-muted">({file.format.toUpperCase()})</span>
-              </a>
+              {ficheiroExiste(file.href) ? (
+                <a
+                  href={file.href}
+                  download
+                  className="inline-flex items-center gap-2 text-primary-600 underline underline-offset-[0.2em]"
+                >
+                  <Icon name="download" size={18} />
+                  {tx(file.label, locale)}{' '}
+                  <span className="text-ink-muted">({file.format.toUpperCase()})</span>
+                </a>
+              ) : (
+                <span className="inline-flex items-center gap-2 text-ink-muted">
+                  {tx(file.label, locale)}{' '}
+                  <FicheiroPorPublicar className="inline-flex items-center gap-1.5 text-sm text-ink-muted" />
+                </span>
+              )}
             </li>
           ))}
         </ul>

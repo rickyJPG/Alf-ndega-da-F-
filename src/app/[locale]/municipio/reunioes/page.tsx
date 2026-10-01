@@ -13,7 +13,7 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { PageHeader } from '@/components/layout/page-shell';
 import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
-import { FileLink } from '@/components/ui/link';
+import { FicheiroDescarregavel } from '@/components/content/ficheiro';
 import { cn } from '@/lib/utils';
 
 export async function generateMetadata({
@@ -221,14 +221,9 @@ export default async function MeetingsPage({
                     </span>
                     {meeting.minutes ? (
                       <span className="relative z-10">
-                        <FileLink
-                          href={meeting.minutes.href}
-                          format={meeting.minutes.format}
-                          bytes={meeting.minutes.bytes}
-                          locale={locale}
-                        >
+                        <FicheiroDescarregavel ficheiro={meeting.minutes} locale={locale}>
                           {dict.meetings.minutes}
-                        </FileLink>
+                        </FicheiroDescarregavel>
                       </span>
                     ) : null}
                   </p>

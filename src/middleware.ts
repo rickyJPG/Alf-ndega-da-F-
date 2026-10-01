@@ -63,8 +63,13 @@ export const config = {
    * guarda para quando não há rede, e um 404 não se nota até ao dia em que
    * ela faz falta; `/ficheiros` serve as fotografias e os PDF carregados no
    * painel, que também não têm idioma.
+   *
+   * `/dados` serve os ficheiros de dados abertos. Hoje escaparia pela regra
+   * das extensões — `.csv`, `.json` —, mas escaparia por acidente: o dia em
+   * que houver um `/dados/orcamento` sem extensão, seria reescrito para
+   * `/pt/dados/orcamento` e daria 404. Fica dito em vez de ficar à sorte.
    */
-  matcher: ['/((?!api|admin|offline|ficheiros|_next/static|_next/image|.*\\..*).*)'],
+  matcher: ['/((?!api|admin|offline|ficheiros|dados|_next/static|_next/image|.*\\..*).*)'],
 };
 
 export { LOCALE_COOKIE, locales };

@@ -14,7 +14,8 @@ import { Section } from '@/components/layout/page-shell';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { Badge } from '@/components/ui/badge';
 import { Icon, type IconName } from '@/components/ui/icon';
-import { FileLink, TextLink } from '@/components/ui/link';
+import { TextLink } from '@/components/ui/link';
+import { FicheiroDescarregavel } from '@/components/content/ficheiro';
 
 const OUTCOME: Record<string, { tone: 'success' | 'danger' | 'neutral'; icon: IconName; label: string }> = {
   aprovado: { tone: 'success', icon: 'checkCircle', label: 'Aprovado' },
@@ -161,26 +162,16 @@ export default async function MeetingDetailPage({
             <ul className="mt-3 flex flex-col gap-3">
               {meeting.agendaFile ? (
                 <li>
-                  <FileLink
-                    href={meeting.agendaFile.href}
-                    format={meeting.agendaFile.format}
-                    bytes={meeting.agendaFile.bytes}
-                    locale={locale}
-                  >
+                  <FicheiroDescarregavel ficheiro={meeting.agendaFile} locale={locale}>
                     {tx(meeting.agendaFile.label, locale)}
-                  </FileLink>
+                  </FicheiroDescarregavel>
                 </li>
               ) : null}
               {meeting.minutes ? (
                 <li>
-                  <FileLink
-                    href={meeting.minutes.href}
-                    format={meeting.minutes.format}
-                    bytes={meeting.minutes.bytes}
-                    locale={locale}
-                  >
+                  <FicheiroDescarregavel ficheiro={meeting.minutes} locale={locale}>
                     {tx(meeting.minutes.label, locale)}
-                  </FileLink>
+                  </FicheiroDescarregavel>
                 </li>
               ) : null}
             </ul>

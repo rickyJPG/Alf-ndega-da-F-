@@ -14,7 +14,8 @@ import { Section } from '@/components/layout/page-shell';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
-import { FileLink, TextLink } from '@/components/ui/link';
+import { TextLink } from '@/components/ui/link';
+import { FicheiroDescarregavel } from '@/components/content/ficheiro';
 import { ConsultationForm } from '@/components/features/consultation-form';
 import { hojeIso } from '@/content/data/clock';
 
@@ -175,14 +176,9 @@ export default async function ConsultationDetailPage({
               <ul className="mt-3 flex flex-col gap-3">
                 {consultation.documents.map((file) => (
                   <li key={file.href}>
-                    <FileLink
-                      href={file.href}
-                      format={file.format}
-                      bytes={file.bytes}
-                      locale={locale}
-                    >
+                    <FicheiroDescarregavel ficheiro={file} locale={locale}>
                       {tx(file.label, locale)}
-                    </FileLink>
+                    </FicheiroDescarregavel>
                   </li>
                 ))}
               </ul>

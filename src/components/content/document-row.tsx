@@ -8,6 +8,7 @@ import { Icon } from '@/components/ui/icon';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { ficheiroExiste } from '@/lib/documentos';
+import { FicheiroPorPublicar } from './ficheiro';
 
 const typeLabels: Record<DocumentItem['type'], string> = {
   formulario: 'Formulário',
@@ -97,10 +98,7 @@ export function DocumentRow({
         ) : (
           // Sem ficheiro no disco não se oferece o botão: mais vale dizer
           // que ainda não está do que dar 404 depois do clique.
-          <span className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line px-4 text-sm text-ink-muted">
-            <Icon name="clock" size={17} />
-            Ficheiro por publicar
-          </span>
+          <FicheiroPorPublicar />
         )}
       </div>
     </li>

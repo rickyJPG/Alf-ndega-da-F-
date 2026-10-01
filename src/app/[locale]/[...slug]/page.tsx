@@ -29,6 +29,8 @@ import Image from 'next/image';
 import { ehFotoExterna, fotoReal } from '@/lib/imagens';
 import { VideoFacade } from '@/components/features/video-facade';
 import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
+import { FicheiroPorPublicar } from '@/components/content/ficheiro';
+import { ficheiroExiste } from '@/lib/documentos';
 
 /**
  * Páginas editoriais vindas da coleção `Paginas`.
@@ -228,14 +230,18 @@ export default async function EditorialPageRoute({
                       até <time dateTime={tender.deadline}>{formatDate(tender.deadline, locale)}</time>
                     </span>
                     {tender.documents[0] ? (
-                      <a
-                        href={tender.documents[0].href}
-                        download
-                        className="inline-flex items-center gap-1.5 text-primary-600 underline underline-offset-[0.2em]"
-                      >
-                        <Icon name="download" size={16} />
-                        {tx(tender.documents[0].label, locale)}
-                      </a>
+                      ficheiroExiste(tender.documents[0].href) ? (
+                        <a
+                          href={tender.documents[0].href}
+                          download
+                          className="inline-flex items-center gap-1.5 text-primary-600 underline underline-offset-[0.2em]"
+                        >
+                          <Icon name="download" size={16} />
+                          {tx(tender.documents[0].label, locale)}
+                        </a>
+                      ) : (
+                        <FicheiroPorPublicar className="inline-flex items-center gap-1.5 text-sm text-ink-muted" />
+                      )
                     ) : null}
                   </li>
                 ))}
@@ -255,18 +261,24 @@ export default async function EditorialPageRoute({
                     <p className="mt-1 text-sm text-ink-muted">{tx(dataset.summary, locale)}</p>
                   ) : null}
                   <p className="mt-3 flex flex-wrap items-center gap-3">
-                    <a
-                      href={dataset.file.href}
-                      download
-                      className="inline-flex items-center gap-1.5 text-primary-600 underline underline-offset-[0.2em]"
-                    >
-                      <Icon name="download" size={16} />
-                      {dataset.file.format.toUpperCase()}
-                    </a>
-                    <span className="text-sm text-ink-muted">
-                      {formatFileSize(dataset.file.bytes, locale)} · atualizado a{' '}
-                      {formatDate(dataset.publishedAt, locale)}
-                    </span>
+                    {ficheiroExiste(dataset.file.href) ? (
+                      <>
+                        <a
+                          href={dataset.file.href}
+                          download
+                          className="inline-flex items-center gap-1.5 text-primary-600 underline underline-offset-[0.2em]"
+                        >
+                          <Icon name="download" size={16} />
+                          {dataset.file.format.toUpperCase()}
+                        </a>
+                        <span className="text-sm text-ink-muted">
+                          {formatFileSize(dataset.file.bytes, locale)} · atualizado a{' '}
+                          {formatDate(dataset.publishedAt, locale)}
+                        </span>
+                      </>
+                    ) : (
+                      <FicheiroPorPublicar className="inline-flex items-center gap-1.5 text-sm text-ink-muted" />
+                    )}
                   </p>
                 </li>
               ))}

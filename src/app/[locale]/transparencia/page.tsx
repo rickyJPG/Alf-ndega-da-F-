@@ -19,6 +19,8 @@ import { PageHeader, Section } from '@/components/layout/page-shell';
 import { TransparencyWidget } from '@/components/home/transparency-widget';
 import { ConsultationCard } from '@/components/content/consultation-card';
 import { DocumentRow } from '@/components/content/document-row';
+import { FicheiroPorPublicar } from '@/components/content/ficheiro';
+import { ficheiroExiste } from '@/lib/documentos';
 import { Icon, type IconName } from '@/components/ui/icon';
 import { ButtonLink } from '@/components/ui/button';
 import { hojeIso } from '@/content/data/clock';
@@ -198,10 +200,17 @@ export default async function TransparencyPage({
           {budget.documents.map((file) => (
             <li key={file.href} className="flex items-center gap-3 border-b border-line py-4 last:border-b-0">
               <Icon name="fileText" size={20} className="text-primary-700" />
-              <a href={file.href} download className="text-primary-600 underline underline-offset-[0.2em]">
-                {tx(file.label, locale)}{' '}
-                <span className="text-ink-muted">({file.format.toUpperCase()})</span>
-              </a>
+              {ficheiroExiste(file.href) ? (
+                <a href={file.href} download className="text-primary-600 underline underline-offset-[0.2em]">
+                  {tx(file.label, locale)}{' '}
+                  <span className="text-ink-muted">({file.format.toUpperCase()})</span>
+                </a>
+              ) : (
+                <span className="text-ink-muted">
+                  {tx(file.label, locale)}{' '}
+                  <FicheiroPorPublicar className="inline-flex items-center gap-1.5 text-sm text-ink-muted" />
+                </span>
+              )}
             </li>
           ))}
         </ul>

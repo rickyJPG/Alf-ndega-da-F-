@@ -137,7 +137,9 @@ export const budget2026: BudgetYear = {
       href: '/dados/orcamento-2026.csv',
       label: { pt: 'Orçamento 2026 em CSV', en: '2026 budget as CSV' },
       format: 'csv',
-      bytes: 48_128,
+      // Gerado pela rota /dados a partir destes mesmos números. Tamanho
+      // medido; o teste unitário avisa se deixar de corresponder.
+      bytes: 3_406,
     },
   ],
 };

@@ -351,7 +351,10 @@ export const documents: DocumentItem[] = [
       href: '/dados/orcamento-2026.csv',
       label: { pt: 'Orçamento 2026 (dados abertos)', en: '2026 budget (open data)' },
       format: 'csv',
-      bytes: 48_128,
+      // Gerado pela rota /dados, não guardado em disco: este número é o
+      // tamanho medido do que ela serve. `tests/unit/dados-abertos.test.ts`
+      // avisa se o orçamento crescer e o deixar desatualizado.
+      bytes: 3_406,
     },
   },
   {
@@ -480,7 +483,8 @@ export const documents: DocumentItem[] = [
       href: '/dados/ocorrencias-2026.json',
       label: { pt: 'Ocorrências 2026 (JSON)', en: '2026 reports (JSON)' },
       format: 'json',
-      bytes: 122_880,
+      // Também gerado pela rota /dados — ver a nota no CSV do orçamento.
+      bytes: 2_780,
     },
   },
 ];

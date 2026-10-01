@@ -3,6 +3,7 @@ import { join, normalize } from 'node:path';
 import { cache } from 'react';
 
 import { existeNoArmazem, PREFIXO } from './admin/armazem';
+import { dadosAbertosDisponiveis, PREFIXO_DOS_DADOS } from './dados-abertos';
 
 /**
  * O ficheiro de um documento está mesmo no disco?
@@ -29,6 +30,11 @@ export const ficheiroExiste = cache((href: string): boolean => {
 
   // Carregado pelo painel: vive em conteudo/ficheiros, não em public/.
   if (href.startsWith(PREFIXO)) return existeNoArmazem(href);
+
+  // Dados abertos: não estão em disco nenhum — são gerados a cada pedido a
+  // partir das fontes do portal. Procurá-los em `public/` daria sempre
+  // «não existe», e o botão desaparecia.
+  if (href.startsWith(PREFIXO_DOS_DADOS)) return dadosAbertosDisponiveis(href);
 
   const relativo = normalize(href).replace(/^(\.\.[/\\])+/, '').replace(/^[/\\]+/, '');
   const caminho = join(process.cwd(), 'public', relativo);

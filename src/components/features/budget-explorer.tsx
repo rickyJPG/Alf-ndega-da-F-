@@ -38,44 +38,6 @@ export function BudgetExplorer({
 
   const max = categories[0]?.amount ?? 1;
 
-  function downloadCsv() {
-    const rows: string[][] = [
-      ['area', 'subrubrica', 'ano', 'montante_eur', 'ano_anterior_eur', 'variacao_pct'],
-    ];
-
-    for (const category of categories) {
-      const variation = (category.amount - category.previousAmount) / category.previousAmount;
-      rows.push([
-        tx(category.label, 'pt'),
-        '',
-        String(budget.year),
-        String(category.amount),
-        String(category.previousAmount),
-        (variation * 100).toFixed(1),
-      ]);
-      for (const child of category.children ?? []) {
-        const childVariation = (child.amount - child.previousAmount) / child.previousAmount;
-        rows.push([
-          tx(category.label, 'pt'),
-          tx(child.label, 'pt'),
-          String(budget.year),
-          String(child.amount),
-          String(child.previousAmount),
-          (childVariation * 100).toFixed(1),
-        ]);
-      }
-    }
-
-    const csv = rows.map((row) => row.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(',')).join('\r\n');
-    const blob = new Blob([`﻿${csv}`], { type: 'text/csv;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `orcamento-${budget.year}-alfandega-da-fe.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
-  }
-
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
@@ -89,14 +51,21 @@ export function BudgetExplorer({
           <span className="font-medium">{dict.transparency.comparePreviousYear}</span>
         </label>
 
-        <button
-          type="button"
-          onClick={downloadCsv}
-          className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line-strong bg-surface px-4 font-semibold text-ink hover:bg-surface-alt"
+        {/* Uma ligação, não um botão que fabrica o CSV aqui.
+            Havia duas versões do mesmo ficheiro — esta, montada no
+            navegador com seis colunas, e a de /dados, com nove e com a
+            licença lá dentro. Duas formas do mesmo orçamento é uma a mais:
+            quem comparasse os dois ficheiros encontrava diferenças que não
+            existem nos números. Ficou a da rota, que é a que a página de
+            Dados Abertos também serve. */}
+        <a
+          href={`/dados/orcamento-${budget.year}.csv`}
+          download
+          className="inline-flex min-h-11 items-center gap-2 rounded-md border border-line-strong bg-surface px-4 font-semibold text-ink no-underline hover:bg-surface-alt"
         >
           <Icon name="download" size={18} />
           {dict.transparency.downloadCsv}
-        </button>
+        </a>
       </div>
 
       <ul className="flex flex-col gap-2">

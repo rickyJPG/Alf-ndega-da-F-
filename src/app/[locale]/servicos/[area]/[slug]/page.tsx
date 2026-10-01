@@ -15,7 +15,8 @@ import { Card, CardBody } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Icon } from '@/components/ui/icon';
 import { ButtonLink } from '@/components/ui/button';
-import { FileLink, TextLink } from '@/components/ui/link';
+import { TextLink } from '@/components/ui/link';
+import { FicheiroDescarregavel } from '@/components/content/ficheiro';
 import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
 
 export async function generateStaticParams() {
@@ -220,14 +221,9 @@ export default async function ServiceDetailPage({
                 <ul className="mt-3 flex flex-col gap-3">
                   {forms.map((document) => (
                     <li key={document.id}>
-                      <FileLink
-                        href={document.file.href}
-                        format={document.file.format}
-                        bytes={document.file.bytes}
-                        locale={locale}
-                      >
+                      <FicheiroDescarregavel ficheiro={document.file} locale={locale}>
                         {tx(document.title, locale)}
-                      </FileLink>
+                      </FicheiroDescarregavel>
                     </li>
                   ))}
                 </ul>
