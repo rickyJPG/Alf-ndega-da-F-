@@ -100,7 +100,7 @@ export default async function OccurrencesPage({
               label: dict.reports.trackReport,
               content: (
                 <div className="max-w-2xl">
-                  <ReportTracker occurrences={occurrences} locale={locale} dict={dict} />
+                  <ReportTracker locale={locale} dict={dict} />
                 </div>
               ),
             },

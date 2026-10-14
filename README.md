@@ -106,7 +106,8 @@ código, sem instalar nada, com um navegador normal.
 
 | Secção | O que gere |
 | --- | --- |
-| **Início** | O que está publicado agora e atalhos para as tarefas do dia a dia. |
+| **Início** | O que está publicado agora, quantos pedidos esperam resposta, e atalhos para as tarefas do dia a dia. |
+| **Pedidos** | O que os munícipes enviaram pelos formulários: ocorrências, participações em consultas públicas e marcações. Mudar o estado, responder, apagar. |
 | **Notícias** | Escrever, corrigir e apagar notícias, com fotografia e assunto. |
 | **Avisos** | A barra vermelha/amarela do topo do portal. Tem sempre data de fim. |
 | **Agenda** | Eventos, com dia, hora, local e preço. |
@@ -208,6 +209,7 @@ conteudo/
 ├── documentos.json
 ├── servicos.json
 ├── paginas.json
+├── pedidos.json       o que os munícipes enviaram (leva dados pessoais)
 ├── contactos.json      morada, telefones, correio, NIF e horários
 ├── utilizadores.json   contas do painel (palavras-passe em scrypt)
 └── ficheiros/          fotografias e PDF carregados pelo painel
@@ -259,6 +261,76 @@ ficheiro, não a extensão.
 
 Para acrescentar uma posição nova, acrescente-a a `src/lib/fotos-do-municipio.ts`
 e o rótulo em português a `src/lib/admin/posicoes.ts`. São duas linhas.
+
+### Pedidos dos munícipes
+
+Os três formulários do portal — comunicar uma ocorrência, participar numa
+consulta pública, marcar atendimento — **gravam** o que recebem, em
+`conteudo/pedidos.json`. O número de referência que o munícipe recebe é o do
+registo gravado, e é com ele que consulta o estado.
+
+Até aqui não gravavam nada: validavam, inventavam uma referência com
+`Math.random()` e descartavam os dados. O ecrã dizia «Guarde este número para
+acompanhar o estado» e não havia estado nenhum para acompanhar — e a página
+de consulta, que procurava numa lista de exemplos, respondia «Verifique se o
+copiou corretamente», culpando o munícipe por um engano que não tinha
+cometido. Um buraco na estrada comunicado às três da tarde desaparecia às
+três e um segundo.
+
+A referência é sequencial por tipo e por ano (`OC-2026-0001`, `CP-2026-0001`,
+`AT-2026-0001`), e as gravações passam por uma fila: duas submissões no mesmo
+segundo — nada de extraordinário num dia de aviso de corte de água — davam,
+com `Math.random()`, a mesma referência a duas pessoas, e com
+ler-modificar-escrever em paralelo perdiam uma das duas. Os testes unitários
+cobrem as duas situações, e falham se a fila for retirada.
+
+Estados: **recebido**, **em análise**, **resolvido** e **sem seguimento**.
+O último não estava no pedido original e fica porque é um desfecho real num
+município — uma comunicação que não é da competência da Câmara, ou um pedido
+repetido. Fechar sem resolver não é o mesmo que resolver, e dizê-lo é melhor
+do que deixar o pedido eternamente «em análise».
+
+#### Dados pessoais
+
+Um pedido guarda o que a pessoa escreveu, nome e contacto incluídos. Por
+isso:
+
+- **A consulta de estado corre no servidor** e devolve só o estado, as datas,
+  um resumo e a resposta dos serviços. Antes a procura era feita no navegador,
+  sobre a lista que a página trazia — o que só não era um problema porque a
+  lista era inventada. Com pedidos verdadeiros, isso poria o nome e o contacto
+  de todos os munícipes na página de qualquer visitante.
+- **Nem os dados do próprio são devolvidos.** Quem escreve um número não prova
+  ser quem o pediu, e uma referência não é uma senha: se a consulta trouxesse
+  contactos, bastava adivinhar um número para os ler.
+- **A referência vai no corpo do pedido, não no endereço.** Um número no URL
+  fica no histórico do navegador, no cabeçalho `Referer` e no registo de
+  acessos de qualquer servidor pelo caminho. Os filtros do painel
+  (`?tipo=&estado=`) não são dados pessoais e por isso vão no endereço, para
+  se poderem guardar nos favoritos.
+- **Nada disto vai para o registo do servidor.** Um `console.log` com o
+  conteúdo de um formulário punha nome, correio e telefone num ficheiro de
+  texto que ninguém trata como dados pessoais.
+- **Os três formulários mostram um aviso antes do clique**
+  (`src/components/features/aviso-de-dados.tsx`), nos quatro idiomas: onde
+  ficam os dados, para que servem, e que podem ser consultados, corrigidos ou
+  apagados. Pedir o consentimento sem dizer o que se consente não é
+  consentimento.
+- **O mapa público não mostra o que é comunicado aqui.** Era tecnicamente
+  fácil e seria um erro: publicaria texto livre sem ninguém o ler primeiro, e
+  é em texto livre que as pessoas escrevem o nome do vizinho e o número da
+  porta. O mapa continua a mostrar a lista curada.
+- **`conteudo/pedidos.json` é o ficheiro mais sensível da instalação.** Entra
+  nas cópias de segurança como o resto de `conteudo/`, e quem apagar um pedido
+  no painel deve contar que ele continua nas cópias antigas.
+
+As ocorrências de exemplo só entram na consulta quando `DEMO_MODE=true`. Numa
+instalação vendida seria indefensável: um munícipe que escrevesse uma
+referência à sorte podia cair num caso inventado e tomá-lo por seu.
+
+A ligação às aplicações de gestão do Município continua por fazer (os `TODO`
+em `src/app/actions.ts`). A diferença é que o pedido já não se perde enquanto
+ela não existir.
 
 ### Contactos
 
@@ -1111,8 +1183,8 @@ inventadas por quem desenvolve:
    circuito funciona, mas a ligação de confirmação não sai do servidor.
 6. **Ligar o CMS**, se o Município quiser ir além do painel — ver
    [`cms/README.md`](cms/README.md). O painel em `/admin` cobre notícias,
-   avisos, agenda, documentos, serviços, textos das páginas, contactos e
-   fotografias, que é o que muda ao longo do ano.
+   avisos, agenda, documentos, serviços, textos das páginas, contactos,
+   pedidos dos munícipes e fotografias, que é o que muda ao longo do ano.
 7. **Área de Munícipe**: integrar a autenticação com Chave Móvel Digital.
 8. **Ligar os formulários ao processo interno.** As Server Actions validam e
    devolvem número de referência, mas os pontos de entrega estão marcados com

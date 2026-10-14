@@ -110,6 +110,19 @@ export default async function PaginaDeAjuda() {
         />
 
         <Receita
+          icone="mail"
+          titulo="Responder a um pedido de um munícipe"
+          passos={[
+            'Clique em Pedidos. Em cima diz quantos estão à espera de resposta.',
+            'Pode filtrar por tipo (ocorrência, consulta pública, marcação) e por estado.',
+            'Clique num pedido para o ver por inteiro, com o contacto de quem o fez.',
+            'Mude o estado para «Em análise» quando começar a tratá-lo, e para «Resolvido» quando estiver feito.',
+            'Escreva uma ou duas frases em «Resposta ao munícipe». É o que ele vê ao consultar o número de referência no portal — mude o estado sem escrever nada e ele fica a ver um rótulo e mais nada.',
+            'Quando o assunto estiver encerrado e já não precisar dos dados, apague o pedido.',
+          ]}
+        />
+
+        <Receita
           icone="phone"
           titulo="Mudar o telefone, o horário ou a morada"
           passos={[
@@ -162,6 +175,18 @@ export default async function PaginaDeAjuda() {
         <Pergunta
           pergunta="Um documento aparece na lista mas diz «Ficheiro por publicar»."
           resposta="O registo existe, mas o ficheiro ainda não foi carregado. Abra-o em Documentos e escolha o ficheiro. Enquanto isso, o portal não mostra botão de descarregar nenhum — vale mais dizer que ainda não está do que deixar clicar e não acontecer nada."
+        />
+        <Pergunta
+          pergunta="Um munícipe diz que enviou uma ocorrência e não aparece em Pedidos."
+          resposta="Em Pedidos está tudo o que chegou pelo portal, desde o dia em que esta secção passou a existir. O que foi enviado antes disso não ficou guardado em sítio nenhum — era uma falha do portal, já corrigida. Se o pedido foi feito ao balcão, por telefone ou por correio eletrónico, também não aparece aqui: só o que entra pelos formulários do portal."
+        />
+        <Pergunta
+          pergunta="Posso apagar um pedido depois de o resolver?"
+          resposta="Pode, e deve, quando já não precisar dos dados. Um pedido guarda o nome e o contacto de quem o fez, e guardar dados pessoais mais tempo do que o necessário não é permitido. Apagar leva o registo todo e não há como voltar atrás — o munícipe deixa de conseguir consultar a referência."
+        />
+        <Pergunta
+          pergunta="O que é que o munícipe vê do pedido dele?"
+          resposta="O estado, as datas, um resumo do que pediu e a resposta que lhe escrever. Não vê mais nada — nem os dados de contacto que ele próprio deixou. Quem escreve um número de referência não prova ser quem o pediu, e se a consulta devolvesse contactos bastava adivinhar um número para os ler."
         />
         <Pergunta
           pergunta="Numa página, há partes que não me deixa mexer."

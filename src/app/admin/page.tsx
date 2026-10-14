@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/format';
 import { imagensCarregadas } from './acoes';
 import { hojeIso } from '@/content/data/clock';
 import { lerDefinicoes } from '@/lib/admin/bloqueio';
+import { contarAbertos } from '@/lib/admin/pedidos';
 import { Interruptor } from './interruptor';
 
 /**
@@ -25,7 +26,7 @@ export default async function PainelInicial() {
   await exigirEntrada();
 
   const hoje = HOJE();
-  const [noticias, eventos, avisosAtivos, todosOsAvisos, fotografias, definicoes] =
+  const [noticias, eventos, avisosAtivos, todosOsAvisos, fotografias, definicoes, pedidosAbertos] =
     await Promise.all([
       getNews({ includeArchive: true }),
       getAllEvents(),
@@ -33,6 +34,7 @@ export default async function PainelInicial() {
       getAllAlerts(),
       imagensCarregadas(),
       lerDefinicoes(),
+      contarAbertos(),
     ]);
 
   const proximos = eventos.filter((evento) => (evento.endDate ?? evento.startDate) >= hoje);
@@ -48,6 +50,29 @@ export default async function PainelInicial() {
           mais lado nenhum nem avisar ninguém.
         </p>
       </div>
+
+      {/* Primeiro do que tudo, quando houver: do outro lado de um pedido está
+          alguém à espera de resposta, e isso vem antes de escrever a próxima
+          notícia. */}
+      {pedidosAbertos > 0 ? (
+        <Link
+          href="/admin/pedidos"
+          className="mb-8 flex items-center gap-3 rounded-lg border border-s-4 border-accent-600 bg-accent-600/10 p-4 no-underline hover:bg-accent-600/15"
+        >
+          <Icon name="mail" size={24} className="shrink-0 text-accent-600" />
+          <span className="text-ink">
+            <strong className="block">
+              {pedidosAbertos === 1
+                ? 'Há 1 pedido de um munícipe à espera de resposta.'
+                : `Há ${pedidosAbertos} pedidos de munícipes à espera de resposta.`}
+            </strong>
+            <span className="text-sm text-ink-muted">
+              Ocorrências, participações em consultas públicas e marcações de atendimento. Ver os
+              pedidos.
+            </span>
+          </span>
+        </Link>
+      ) : null}
 
       {/* O botão de bloquear só aparece nas instalações de demonstração
           (DEMO_MODE=true) — ver README. O de reabrir aparece sempre que o
@@ -94,6 +119,13 @@ export default async function PainelInicial() {
         Como está o portal agora
       </h2>
       <ul className="mb-10 grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-4">
+        <Contagem
+          href="/admin/pedidos"
+          numero={pedidosAbertos}
+          singular="pedido à espera de resposta"
+          plural="pedidos à espera de resposta"
+          destacar={pedidosAbertos > 0}
+        />
         <Contagem
           href="/admin/noticias"
           numero={noticias.length}

@@ -32,6 +32,7 @@ export type NomeDaColecao =
   | 'contactos'
   | 'paginas'
   | 'servicos'
+  | 'pedidos'
   | 'definicoes'
   | 'legendas';
 

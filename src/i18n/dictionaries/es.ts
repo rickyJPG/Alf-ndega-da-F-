@@ -274,6 +274,8 @@ export const es: Dictionary = {
     photoHint: 'JPG o PNG hasta 5 MB. Ayuda a resolverlo antes.',
     consent: 'Autorizo el tratamiento de mis datos para responder a esta solicitud.',
     consentLink: 'Leer la política de privacidad',
+    privacyNotice:
+      'Los datos que escriba aquí se guardan en el servidor del Municipio de Alfândega da Fé y se usan únicamente para tramitar esta solicitud y responderle. No se venden ni se comparten con terceros. Puede pedir consultarlos, corregirlos o borrarlos escribiendo al Municipio.',
     sending: 'Enviando…',
     sent: 'Solicitud enviada',
     errorTitle: 'No se ha podido enviar',

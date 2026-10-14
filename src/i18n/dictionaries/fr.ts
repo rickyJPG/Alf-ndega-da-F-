@@ -275,6 +275,8 @@ export const fr: Dictionary = {
     photoHint: 'JPG ou PNG jusqu’à 5 Mo. Cela aide à résoudre plus vite.',
     consent: 'J’autorise le traitement de mes données pour répondre à cette demande.',
     consentLink: 'Lire la politique de confidentialité',
+    privacyNotice:
+      'Les données que vous saisissez ici sont conservées sur le serveur de la Municipalité d’Alfândega da Fé et servent uniquement à traiter cette demande et à vous répondre. Elles ne sont ni vendues ni communiquées à des tiers. Vous pouvez demander à les consulter, les corriger ou les supprimer en écrivant à la Municipalité.',
     sending: 'Envoi en cours…',
     sent: 'Demande envoyée',
     errorTitle: 'L’envoi a échoué',

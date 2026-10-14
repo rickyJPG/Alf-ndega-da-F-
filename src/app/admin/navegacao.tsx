@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 
 const SECCOES: { href: string; rotulo: string; icone: IconName }[] = [
   { href: '/admin', rotulo: 'Início', icone: 'home' },
+  { href: '/admin/pedidos', rotulo: 'Pedidos', icone: 'mail' },
   { href: '/admin/noticias', rotulo: 'Notícias', icone: 'megaphone' },
   { href: '/admin/avisos', rotulo: 'Avisos', icone: 'alert' },
   { href: '/admin/eventos', rotulo: 'Agenda', icone: 'calendar' },

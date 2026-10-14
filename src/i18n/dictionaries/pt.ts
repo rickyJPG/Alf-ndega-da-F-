@@ -281,6 +281,8 @@ export const pt = {
     consent:
       'Autorizo o tratamento dos meus dados para dar resposta a este pedido.',
     consentLink: 'Ler a política de privacidade',
+    privacyNotice:
+      'Os dados que escrever aqui ficam guardados no servidor do Município de Alfândega da Fé e são usados apenas para tratar este pedido e responder-lhe. Não são vendidos nem partilhados com terceiros. Pode pedir para os consultar, corrigir ou apagar, escrevendo para o Município.',
     sending: 'A enviar…',
     sent: 'Pedido enviado',
     errorTitle: 'Não foi possível enviar',

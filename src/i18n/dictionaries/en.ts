@@ -274,6 +274,8 @@ export const en: Dictionary = {
     photoHint: 'JPG or PNG up to 5 MB. It helps us fix things faster.',
     consent: 'I agree to my data being processed so this request can be answered.',
     consentLink: 'Read the privacy policy',
+    privacyNotice:
+      'What you write here is stored on the Municipality of Alfândega da Fé’s own server and used only to handle this request and reply to you. It is never sold or shared with third parties. You may ask to see, correct or delete it by writing to the Municipality.',
     sending: 'Sending…',
     sent: 'Request sent',
     errorTitle: 'We could not send this',

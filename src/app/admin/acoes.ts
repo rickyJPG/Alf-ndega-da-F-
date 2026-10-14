@@ -32,6 +32,8 @@ import { services } from '@/content/data/services';
 import { editorialPages, type EditorialPage } from '@/content/data/pages';
 import { blocoEditavel } from '@/lib/admin/blocos';
 import { esquemaDeContactos } from '@/lib/admin/contactos';
+import { apagarPedido, mudarEstado } from '@/lib/admin/pedidos';
+import { ESTADO_EM_PORTUGUES, ESTADOS, type EstadoDePedido } from '@/lib/estado-do-pedido';
 import { hojeIso } from '@/content/data/clock';
 import type { Alert, DocumentItem, EventItem, NewsItem, ServiceItem } from '@/content/types';
 
@@ -969,4 +971,55 @@ export async function guardarContactos(dados: FormData): Promise<Resultado> {
   revalidarPortal();
 
   return { ok: true, mensagem: 'Contactos atualizados. O portal já os mostra.' };
+}
+
+/* --------------------------------------------------------------- pedidos -- */
+
+/**
+ * Pedidos dos munícipes.
+ *
+ * Não se criam aqui — chegam dos formulários do portal, por
+ * `src/app/actions.ts`. O painel só muda o estado, escreve a resposta e
+ * apaga.
+ *
+ * `revalidarPortal()` é chamado depois de mudar o estado porque o munícipe
+ * consulta o seu pedido numa página do portal: sem isso, veria o estado
+ * antigo até à revalidação seguinte.
+ */
+export async function mudarEstadoDoPedido(dados: FormData): Promise<Resultado> {
+  await exigirSessao();
+
+  const referencia = textoDe(dados, 'referencia');
+  const estado = textoDe(dados, 'estado') as EstadoDePedido;
+  const resposta = textoDe(dados, 'resposta');
+
+  if (!ESTADOS.includes(estado)) {
+    return { ok: false, mensagem: 'Estado desconhecido.' };
+  }
+
+  const atualizado = await mudarEstado(referencia, estado, resposta);
+  if (!atualizado) {
+    return { ok: false, mensagem: 'Esse pedido já não existe.' };
+  }
+
+  revalidarPortal();
+  return {
+    ok: true,
+    mensagem: `Pedido ${referencia}: ${ESTADO_EM_PORTUGUES[estado].toLowerCase()}. O munícipe já vê o novo estado.`,
+  };
+}
+
+export async function apagarPedidoDoPainel(referencia: string): Promise<Resultado> {
+  await exigirSessao();
+
+  const apagado = await apagarPedido(referencia);
+  if (!apagado) {
+    return { ok: false, mensagem: 'Esse pedido já não existe.' };
+  }
+
+  revalidarPortal();
+
+  // Volta à lista em vez de recarregar: o ecrã de onde se apagou é o do
+  // pedido, e recarregá-lo daria um 404 a quem acabou de fazer a coisa certa.
+  redirect('/admin/pedidos');
 }

@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Alert } from '@/components/ui/alert';
 import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
+import { AvisoDeDados } from './aviso-de-dados';
 
 /**
  * Marcação de atendimento em três passos: serviço, dia e hora.
@@ -254,6 +255,9 @@ export function BookingForm({
           </ul>
         </div>
       ) : null}
+
+      <AvisoDeDados dict={dict} locale={locale} />
+
 
       <CheckboxField error={errors.consent?.message} {...register('consent')}>
         {dict.forms.consent}{' '}

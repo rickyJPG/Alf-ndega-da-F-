@@ -11,6 +11,7 @@ import type { Dictionary } from '@/i18n';
 import { CheckboxField, Honeypot, TextArea, TextField } from '@/components/ui/field';
 import { Button } from '@/components/ui/button';
 import { Alert } from '@/components/ui/alert';
+import { AvisoDeDados } from './aviso-de-dados';
 
 /**
  * Contributo para uma consulta pública em curso.
@@ -99,6 +100,9 @@ export function ConsultationForm({
         error={errors.contribution?.message}
         {...register('contribution')}
       />
+
+      <AvisoDeDados dict={dict} locale={locale} />
+
 
       <CheckboxField error={errors.consent?.message} {...register('consent')}>
         {dict.forms.consent}{' '}

@@ -14,6 +14,7 @@ import { CheckboxField, Honeypot, SelectField, TextArea, TextField } from '@/com
 import { Button } from '@/components/ui/button';
 import { Alert } from '@/components/ui/alert';
 import { Icon } from '@/components/ui/icon';
+import { AvisoDeDados } from './aviso-de-dados';
 
 /** Leaflet só no navegador — poupa cerca de 45 kB em todas as outras páginas. */
 const LocationMap = dynamic(
@@ -223,6 +224,9 @@ export function ReportForm({
           {...register('phone')}
         />
       </fieldset>
+
+      <AvisoDeDados dict={dict} locale={locale} />
+
 
       <CheckboxField error={errors.consent?.message} {...register('consent')}>
         {dict.forms.consent}{' '}
