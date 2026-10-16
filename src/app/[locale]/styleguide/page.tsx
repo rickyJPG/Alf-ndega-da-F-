@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { getDictionary } from '@/i18n';
 import { isLocale, type Locale } from '@/i18n/config';
+import { ehAmbienteDeDesenvolvimento } from '@/lib/ambiente';
 import { buildMetadata } from '@/lib/seo';
 import { routes } from '@/lib/routes';
 import { getConsultations, getEvents, getDocuments, getNews } from '@/content';
@@ -35,7 +37,11 @@ import { hojeIso } from '@/content/data/clock';
  * verificar contrastes e estados de foco de uma vez, e dar à equipa de
  * comunicação uma referência do que existe antes de pedir algo novo.
  *
- * Não é indexada por motores de busca.
+ * **Só existe em desenvolvimento.** Em produção devolve 404 — ver
+ * `src/lib/ambiente.ts`. Até aqui respondia 200 a quem escrevesse o
+ * endereço, e o que a escondia era a linha de `Disallow` no `robots.txt`:
+ * um pedido aos motores de busca, não um controlo de acesso. Essa linha
+ * continua lá, mas passou a ser o reforço e não a tranca.
  */
 
 const COLOR_GROUPS: { title: string; tokens: { name: string; className: string; on: string }[] }[] = [
@@ -87,6 +93,12 @@ export async function generateMetadata({
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
 
+  // Em produção a página não existe, e uma página que não existe não tem
+  // título nem descrição que interessem.
+  if (!ehAmbienteDeDesenvolvimento()) {
+    return { title: 'Página não encontrada', robots: { index: false, follow: false } };
+  }
+
   return buildMetadata({
     locale,
     path: '/styleguide',
@@ -101,6 +113,9 @@ export default async function StyleguidePage({
 }: {
   params: Promise<{ locale: string }>;
 }) {
+  // Primeiro de tudo, antes de ir buscar conteúdo nenhum.
+  if (!ehAmbienteDeDesenvolvimento()) notFound();
+
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : 'pt') as Locale;
   const dict = getDictionary(locale);

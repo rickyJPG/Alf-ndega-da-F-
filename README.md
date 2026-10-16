@@ -607,6 +607,17 @@ etiquetas, avisos, navegação, campos de formulário, cartões, tabelas, format
 portugueses e os símbolos disponíveis. É a página a visitar antes de pedir um
 componente novo.
 
+> **Só existe em desenvolvimento.** Com `npm run dev` abre normalmente; em
+> produção devolve 404 (`src/lib/ambiente.ts`). É uma ferramenta de quem
+> constrói o portal e não tem nada a dizer a um munícipe. Até aqui respondia
+> 200 a quem escrevesse o endereço, e o que a escondia era a linha de
+> `Disallow` no `robots.txt` — um pedido aos motores de busca que se portam
+> bem, não um controlo de acesso. Essa linha ficou, como reforço.
+>
+> O **guia de imagens** (`/guia-de-imagens`) continua acessível de
+> propósito: mostra à autarquia onde entra cada fotografia sem precisar de
+> abrir código, e é uma ferramenta dela. Está `noindex`, como antes.
+
 Os componentes interativos assentam em **Radix UI** (menu de navegação,
 diálogos, separadores, acordeão, balões), o que traz a navegação por teclado e
 os atributos ARIA corretos de origem.

@@ -42,7 +42,13 @@ const TEMPLATES: { name: string; path: string }[] = [
   { name: 'pesquisa', path: '/pesquisa?q=certidao' },
   { name: 'página editorial', path: '/visitar/lagos-do-sabor' },
   { name: 'declaração de acessibilidade', path: '/acessibilidade' },
-  { name: 'guia de estilo', path: '/styleguide' },
+  // O guia de estilo saiu desta varredura por passar a devolver 404 em
+  // produção, que é contra o que esta bateria corre. Era o único sítio que
+  // mostrava todos os componentes de uma vez, mas o que ele verificava —
+  // contraste dos tokens, estados de foco — é exercido nas dezoito páginas
+  // reais que ficam, porque é nelas que esses componentes aparecem. Quem
+  // quiser a verificação de página única: `npm run dev` e correr o axe
+  // contra /styleguide, onde continua a existir.
   { name: 'guia de imagens', path: '/guia-de-imagens' },
   { name: 'página não encontrada', path: '/pagina-que-nao-existe' },
 ];
