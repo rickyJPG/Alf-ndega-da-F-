@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { Icon } from '@/components/ui/icon';
 import { posicoesPorGrupo } from '@/lib/admin/posicoes';
 import { exigirEntrada } from '@/lib/admin/sessao';
@@ -31,6 +33,33 @@ export default async function PaginaDeImagens() {
         titulo="Fotografias"
         descricao="Cada quadrado é um sítio do portal. Carregue a fotografia e ela entra lá — não é preciso mexer em mais nada."
       />
+
+      {/* O inventário das posições vive numa página do portal, não aqui: tem
+          a pré-visualização de cada uma, onde aparece e em que proporção, e
+          repeti-lo neste ecrã era manter a mesma lista em dois sítios. O
+          que faltava era dizer que existe — quem chega aqui vê uma parede de
+          quadrados com nomes e não sabe qual é qual.
+
+          Sem número de posições na frase de propósito: o guia monta a lista
+          dele a partir de outra fonte, e um número escrito aqui passaria a
+          mentir no dia em que as duas se separassem. */}
+      <Link
+        href="/guia-de-imagens"
+        target="_blank"
+        rel="noreferrer"
+        className="mb-8 flex items-start gap-3 rounded-lg border border-s-4 border-info bg-info-surface p-4 no-underline hover:brightness-[0.98]"
+      >
+        <Icon name="book" size={24} className="mt-0.5 shrink-0" />
+        <span className="text-ink">
+          <strong className="block">Não sabe qual é qual? Veja o guia de imagens.</strong>
+          <span className="text-sm">
+            Mostra cada posição com a fotografia que lá está agora, em que página do portal
+            aparece e em que proporção. Abre num separador novo, para poder ir comparando com
+            este ecrã.
+          </span>
+        </span>
+        <Icon name="external" size={18} className="mt-0.5 ms-auto shrink-0" />
+      </Link>
 
       <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <Conselho

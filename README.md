@@ -816,8 +816,11 @@ várias vêm de sítios de terceiros.
 
 **Para mostrar a alguém sem abrir código:** a página **`/guia-de-imagens`**
 lista as 28 posições de fotografia do portal — pré-visualização, nome de
-ficheiro, onde aparece e em que proporção —, com as instruções de
-substituição em português corrente. Não é indexada por motores de busca.
+ficheiro, onde aparece e em que proporção —, e diz em primeiro lugar que a
+forma normal de trocar uma fotografia é o painel. Não é indexada por motores
+de busca, e está ligada do painel em dois sítios: no topo do ecrã
+**Fotografias** e na receita das fotografias, em **Ajuda** — quem vê a parede
+de quadrados com nomes como `visitar/patrimonio` precisa de saber qual é qual.
 
 O portal foi desenhado para fotografias reais do concelho, como o sítio
 oficial sempre teve. Este repositório não as pode incluir — os direitos têm

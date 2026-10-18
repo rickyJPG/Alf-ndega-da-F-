@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 
 import { Icon, type IconName } from '@/components/ui/icon';
 import { exigirEntrada } from '@/lib/admin/sessao';
@@ -144,6 +145,17 @@ export default async function PaginaDeAjuda() {
             'A fotografia deve ser deitada (mais larga do que alta) e ter menos de 8 MB.',
             'Se se enganar, clique em «Remover» e volte a carregar a certa.',
           ]}
+          nota={
+            <Link
+              href="/guia-de-imagens"
+              target="_blank"
+              className="inline-flex items-center gap-2"
+            >
+              <Icon name="book" size={16} className="shrink-0" />
+              Ver o guia de imagens — qual posição é qual, e em que proporção
+              <Icon name="external" size={14} className="shrink-0" />
+            </Link>
+          }
         />
       </div>
 
@@ -162,7 +174,7 @@ export default async function PaginaDeAjuda() {
         />
         <Pergunta
           pergunta="A fotografia que carreguei aparece em mais sítios do que eu queria."
-          resposta="Cada posição é um sítio fixo do portal, e há posições usadas em mais do que uma página. Se precisar de uma posição nova, é um pedido para quem mantém o portal — é uma linha de código, não é um trabalho."
+          resposta="Cada posição é um sítio fixo do portal, e há posições usadas em mais do que uma página. O guia de imagens — a ligação está na receita das fotografias, aqui em cima, e também no topo do ecrã Fotografias — diz de cada posição em que páginas aparece. Se precisar de uma posição nova, é um pedido para quem mantém o portal: é uma linha de código, não é um trabalho."
         />
         <Pergunta
           pergunta="Posso escrever em inglês ou em francês?"
@@ -261,10 +273,13 @@ function Receita({
   icone,
   titulo,
   passos,
+  nota,
 }: {
   icone: IconName;
   titulo: string;
   passos: string[];
+  /** Fica depois dos passos — para uma ligação ou um aviso curto. */
+  nota?: ReactNode;
 }) {
   return (
     <section className="rounded-lg border border-line bg-surface p-5">
@@ -279,6 +294,7 @@ function Receita({
           </li>
         ))}
       </ol>
+      {nota ? <div className="mt-4 border-t border-line pt-3 text-sm">{nota}</div> : null}
     </section>
   );
 }

@@ -119,11 +119,27 @@ export default async function GuiaDeImagensPage({
 
       <Section title="Como se troca uma fotografia">
         <div className="measure">
+          <Alert tone="success" title="Pelo painel, sem tocar em ficheiros" className="mb-6">
+            <p className="mb-2">
+              Quem trata do portal faz isto em <strong>Fotografias</strong>, no painel de
+              administração: cada quadrado é uma das posições listadas em baixo, escolhe-se a
+              fotografia no computador e fica trocada em todo o portal. Não é preciso compilar
+              nada nem reiniciar o servidor.
+            </p>
+            <p>
+              Esta página serve para saber <strong>qual é qual</strong>: onde entra cada posição,
+              com que nome e em que proporção.
+            </p>
+          </Alert>
+
+          <h3 className="mt-8 mb-3 font-serif text-lg font-semibold">
+            Pelos ficheiros, para quem mantém o portal
+          </h3>
           <p className="mb-4">
-            As fotografias que vê são as indicadas pelo Município, carregadas a partir da
-            origem. Ainda <strong>não estão alojadas no portal</strong> — o passo seguinte é
-            passá-las para o próprio domínio, e isso não exige programação: basta copiar cada
-            ficheiro para a pasta certa. O ficheiro local ganha sempre à origem externa.
+            As fotografias de demonstração vêm indicadas pelo Município e são carregadas a partir
+            da origem. Para as passar para o próprio domínio de uma vez — a primeira carga — vale
+            mais copiar os ficheiros do que percorrer o painel posição a posição. O ficheiro local
+            ganha sempre à origem externa, e uma fotografia carregada pelo painel ganha a ambos.
           </p>
           <ol className="prose-cm mb-6 list-decimal ps-5">
             <li>
