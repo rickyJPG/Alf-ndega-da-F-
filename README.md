@@ -23,6 +23,18 @@ serviços.
 9. [Instalação em produção](#instalação-em-produção)
 10. [O que falta fazer antes do lançamento](#o-que-falta-fazer-antes-do-lançamento)
 
+> **Para quem vai escrever no portal:** há um manual próprio, sem jargão, em
+> [`docs/manual-do-editor.md`](docs/manual-do-editor.md) — e em
+> [PDF](docs/manual-do-editor.pdf), para imprimir e deixar ao lado do
+> computador. Cobre o painel ecrã a ecrã, a rotina dos pedidos dos
+> munícipes, e tem um último capítulo para a informática (Docker, cópias de
+> segurança, palavras-passe).
+>
+> O PDF é gerado a partir do Markdown. Para o refazer depois de o alterar:
+> `pandoc docs/manual-do-editor.md -f gfm -t html5` e imprimir o resultado
+> para PDF com o Chromium — precisa de `pandoc` instalado no sistema, que
+> não é dependência do projeto.
+
 ---
 
 ## Começar
