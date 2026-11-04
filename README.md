@@ -104,7 +104,8 @@ Nenhuma é obrigatória para desenvolver.
 | `NEWSLETTER_SECRET` | Segredo que assina as ligações de confirmação do boletim. **Defina-o em produção.** |
 | `RESEND_API_KEY` | Serviço de envio do boletim. Sem ela, o portal fica em modo de demonstração — ver [Boletim informativo](#boletim-informativo). |
 | `NEWSLETTER_FROM` | Remetente das mensagens do boletim. |
-| `DEMO_MODE` | `true` liga o interruptor de emergência no painel — ver [abaixo](#interruptor-de-emergência-só-instalações-de-demonstração). Omitir numa instalação vendida. |
+| `DEMO_MODE` | `true` liga o modo de demonstração — faixa, `noindex`, aviso nos formulários e interruptor de emergência. Ver [Modo de demonstração](#modo-de-demonstração). Omitir numa instalação vendida. |
+| `DEMO_VALIDO_ATE` | `AAAA-MM-DD`. Último dia da demonstração, inclusive. **Sem `DEMO_MODE` não tem efeito nenhum.** |
 | `DEMO_CONTACTO` | Texto mostrado no ecrã de bloqueio (opcional). |
 
 ---
@@ -394,6 +395,63 @@ Fica **de propósito** fora do painel:
 Cada gravação chama `revalidatePath('/', 'layout')`: o Next reconstrói as
 páginas afetadas e a alteração aparece em segundos, sem recompilar nem
 reiniciar nada.
+
+### Modo de demonstração
+
+Para mostrar o portal a um município interessado sem que a demonstração se
+confunda com o sítio verdadeiro — e sem que fique a funcionar para sempre
+depois de a conversa acabar.
+
+```bash
+DEMO_MODE=true \
+DEMO_VALIDO_ATE=2026-12-15 \
+DEMO_CONTACTO="Nome da empresa — contacto@exemplo.pt" \
+npm run build && npm start
+```
+
+| Variável | O que faz |
+| --- | --- |
+| `DEMO_MODE=true` | Liga tudo o que se segue. **Sem ela, nada disto existe.** |
+| `DEMO_VALIDO_ATE` | `AAAA-MM-DD`. Último dia em que a demonstração funciona, **inclusive**. Opcional: sem ela, não expira. |
+| `DEMO_CONTACTO` | Mostrado no ecrã de fim, para retomar a conversa. Opcional. |
+
+O que muda com `DEMO_MODE`:
+
+- uma **faixa** no topo de todas as páginas públicas, a dizer «Versão de
+  demonstração», nos quatro idiomas e anunciada aos leitores de ecrã como
+  nota. Quando há prazo, mostra também quantos dias faltam;
+- **`noindex, nofollow`** em todas as páginas, `Disallow: /` no `robots.txt`
+  e mapa do sítio vazio. Uma demonstração indexada passa a ser um sítio
+  falso do Município nos resultados de quem procura o verdadeiro;
+- um **aviso por cima dos três formulários** que recolhem dados de pessoas:
+  «Versão de demonstração: não envie dados pessoais reais.» Quem experimenta
+  um formulário escreve o seu nome verdadeiro sem pensar duas vezes, e esses
+  dados ficariam gravados numa instalação que vai ser apagada;
+- o **interruptor de emergência** no painel, para cortar o acesso na hora
+  (ver a secção seguinte).
+
+Passado `DEMO_VALIDO_ATE`, o portal **inteiro** — incluindo `/admin`, os
+ficheiros carregados e os dados abertos — passa a mostrar apenas um ecrã
+«Demonstração terminada», com a data e o contacto. Para reabrir, muda-se a
+data no servidor; não há forma de o fazer de dentro do painel, que é o que
+se pretende.
+
+> **O prazo é verificado a cada pedido, na *middleware*.** As páginas do
+> portal são geradas na compilação e uma página gerada não volta a perguntar
+> as horas — se a verificação estivesse nelas, a demonstração só terminaria
+> na próxima recompilação, que é coisa que ninguém faz a meio de uma
+> demonstração.
+>
+> A faixa, o `noindex` das páginas e o aviso dos formulários, esses, ficam
+> decididos **na compilação**: é por isso que o `DEMO_MODE` vai antes do
+> `npm run build` no comando acima, e não só antes do `npm start`. O
+> `robots.txt` e o mapa do sítio são lidos a cada pedido, por segurança.
+
+> **Numa instalação vendida, tire as três variáveis.** `DEMO_VALIDO_ATE`
+> sozinha não tem efeito nenhum — foi feita assim de propósito, para que um
+> portal a sério não se possa fechar por alguém se ter esquecido de limpar
+> um ficheiro de configuração. Há testes que fixam esse comportamento nos
+> dois sentidos.
 
 ### Interruptor de emergência (só instalações de demonstração)
 

@@ -13,6 +13,7 @@ import { BookingForm } from '@/components/features/booking-form';
 import { Alert } from '@/components/ui/alert';
 import { TextLink } from '@/components/ui/link';
 import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
+import { AvisoDeDemonstracao } from '@/components/layout/aviso-de-demonstracao';
 
 /** Os próximos 21 dias de calendário; availableSlots() retira os fins de semana. */
 function nextDays(count: number): string[] {
@@ -89,6 +90,7 @@ export default async function BookingPage({ params }: { params: Promise<{ locale
       <Section>
         <div className="grid gap-10 lg:grid-cols-3">
           <div className="lg:col-span-2">
+            <AvisoDeDemonstracao dict={dict} />
             <BookingForm
               services={services}
               slotsByDay={slotsByDay}

@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { temSessao } from '@/lib/admin/sessao';
 import { sair } from './acoes';
 import { ManterSessao } from './manter-sessao';
+import { demonstracaoTerminada } from '@/lib/demo';
+import { DemonstracaoTerminada } from '@/components/layout/demonstracao-terminada';
 import { NavegacaoDoPainel } from './navegacao';
 
 import '@/styles/globals.css';
@@ -25,6 +27,22 @@ export const metadata: Metadata = {
 };
 
 export default async function LayoutDoPainel({ children }: { children: React.ReactNode }) {
+  // Passado o prazo da demonstração, o painel fecha como o portal.
+  //
+  // Ao contrário do interruptor de emergência — que deixa `/admin` sempre
+  // acessível, para se poder desligar —, aqui não há nada para desligar de
+  // dentro: o prazo acabou. Quem precisar de reabrir muda `DEMO_VALIDO_ATE`
+  // no servidor, que é onde a decisão foi tomada.
+  if (demonstracaoTerminada()) {
+    return (
+      <html lang="pt-PT" data-theme="light">
+        <body className="min-h-screen bg-surface-alt">
+          <DemonstracaoTerminada />
+        </body>
+      </html>
+    );
+  }
+
   const autenticada = await temSessao();
 
   return (

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+import { demonstracaoTerminada } from '@/lib/demo';
+
 import {
   encontrarAnoDoOrcamento,
   NOME_DAS_OCORRENCIAS,
@@ -39,6 +41,14 @@ export async function GET(
   _pedido: Request,
   { params }: { params: Promise<{ ficheiro: string }> },
 ) {
+
+  // Demonstração terminada: também aqui. Deixar os ficheiros a responder
+  // enquanto todas as páginas dizem que acabou era fechar a porta da frente
+  // e deixar a das traseiras aberta.
+  if (demonstracaoTerminada()) {
+    return new NextResponse('Não encontrado', { status: 404 });
+  }
+
   const { ficheiro } = await params;
   const nome = decodeURIComponent(ficheiro);
 

@@ -9,6 +9,8 @@ const config = [
     // next-env.d.ts wird von Next erzeugt und ist nicht unserer.
     ignores: [
       '.next/**',
+      // Segundo build, com DEMO_MODE, feito pela bateria de testes.
+      '.next-demonstracao/**',
       'node_modules/**',
       'out/**',
       'playwright-report/**',

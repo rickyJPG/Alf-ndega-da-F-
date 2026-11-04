@@ -36,7 +36,17 @@ async function paginasDoPortal(pedido: APIRequestContext): Promise<string[]> {
   return [...caminhos].filter((c) => !/^\/(en|es|fr)(\/|$)/.test(c)).sort();
 }
 
-const ENDERECO_DE_FICHEIRO = /^\/(documentos|dados|ficheiros)\//;
+/**
+ * Uma ligação para um ficheiro, e não para uma página.
+ *
+ * A extensão no fim é o que as distingue: `/documentos/ata-08-2026.pdf` é
+ * um descarregamento, `/documentos/edital-de-transito` é a página desse
+ * documento. Sem esta exigência, a ficha de um documento que liga para a
+ * ficha de outro entrava na conta — e o teste acusava um descarregamento
+ * partido que não existe, ainda por cima só quando outro teste da bateria
+ * apagava esse documento a meio.
+ */
+const ENDERECO_DE_FICHEIRO = /^\/(documentos|dados|ficheiros)\/.*\.[a-z0-9]{2,5}$/i;
 
 /** As ligações para ficheiros numa página, com o sítio onde apareceram. */
 async function ficheirosOferecidos(pagina: Page, caminho: string) {

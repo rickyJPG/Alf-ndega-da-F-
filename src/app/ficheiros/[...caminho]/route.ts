@@ -4,6 +4,8 @@ import { extname } from 'node:path';
 import type { ReadableOptions } from 'node:stream';
 import { NextResponse } from 'next/server';
 
+import { demonstracaoTerminada } from '@/lib/demo';
+
 import { caminhoSeguro } from '@/lib/admin/armazem';
 
 /**
@@ -38,6 +40,14 @@ export async function GET(
   _pedido: Request,
   { params }: { params: Promise<{ caminho: string[] }> },
 ) {
+
+  // Demonstração terminada: também aqui. Deixar os ficheiros a responder
+  // enquanto todas as páginas dizem que acabou era fechar a porta da frente
+  // e deixar a das traseiras aberta.
+  if (demonstracaoTerminada()) {
+    return new NextResponse('Não encontrado', { status: 404 });
+  }
+
   const { caminho: partes } = await params;
   const relativo = partes.map(decodeURIComponent).join('/');
 

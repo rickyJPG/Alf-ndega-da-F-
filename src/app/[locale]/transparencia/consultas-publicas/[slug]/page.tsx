@@ -18,6 +18,7 @@ import { TextLink } from '@/components/ui/link';
 import { FicheiroDescarregavel } from '@/components/content/ficheiro';
 import { ConsultationForm } from '@/components/features/consultation-form';
 import { hojeIso } from '@/content/data/clock';
+import { AvisoDeDemonstracao } from '@/components/layout/aviso-de-demonstracao';
 
 export async function generateStaticParams() {
   const consultations = await getConsultations();
@@ -156,6 +157,7 @@ export default async function ConsultationDetailPage({
           {isOpen ? (
             <div className="mt-10">
               <h2 className="text-2xl">{dict.consultations.participate}</h2>
+              <AvisoDeDemonstracao dict={dict} />
               <ConsultationForm
                 dict={dict}
                 locale={locale}

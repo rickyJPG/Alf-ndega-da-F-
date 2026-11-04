@@ -15,6 +15,7 @@ import { occurrenceStatusLabel, occurrenceStatusTone } from '@/lib/occurrence-st
 import { Tabs } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/format';
+import { AvisoDeDemonstracao } from '@/components/layout/aviso-de-demonstracao';
 
 const LocationMap = dynamic(() =>
   import('@/components/features/location-map').then((module) => module.LocationMap),
@@ -91,6 +92,7 @@ export default async function OccurrencesPage({
               label: dict.reports.newReport,
               content: (
                 <div className="max-w-2xl">
+                  <AvisoDeDemonstracao dict={dict} />
                   <ReportForm dict={dict} locale={locale} freguesias={freguesias} />
                 </div>
               ),

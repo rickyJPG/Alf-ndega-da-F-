@@ -13,6 +13,7 @@ import {
   getServices,
 } from '@/content';
 import { allNavigationHrefs } from '@/lib/navigation';
+import { emDemonstracao } from '@/lib/demo';
 
 /**
  * Mapa do sítio com alternativas hreflang para as quatro línguas.
@@ -37,7 +38,22 @@ function entry(path: string, lastModified: string, priority: number, changeFrequ
   } satisfies MetadataRoute.Sitemap[number];
 }
 
+/**
+ * Lido a cada pedido, e não fixado na compilação.
+ *
+ * É o que faz com que ligar `DEMO_MODE` baste para o portal deixar de se
+ * oferecer aos motores de busca, sem ninguém ter de recompilar — e, mais
+ * importante, com que o contrário também seja verdade: tirar a variável
+ * repõe o comportamento normal no arranque seguinte. São duas respostas
+ * minúsculas; torná-las dinâmicas não custa desempenho nenhum.
+ */
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Numa demonstração o mapa vem vazio: não há nada aqui que deva ser
+  // encontrado por quem procura o portal do Município.
+  if (emDemonstracao()) return [];
+
   const today = new Date().toISOString().slice(0, 10);
 
   const [services, news, archived, events, documents, consultations, meetings, freguesias] =

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { site } from './site';
 import { locales, localeHtmlLang, localePath, defaultLocale, type Locale } from '@/i18n/config';
 import { lerContactos, telefoneInternacional } from '@/lib/admin/contactos';
+import { emDemonstracao } from '@/lib/demo';
 
 /**
  * Metadados comuns e JSON-LD.
@@ -53,7 +54,20 @@ export function buildMetadata({
       canonical: url,
       languages: languageAlternates(path),
     },
-    robots: noIndex ? { index: false, follow: true } : undefined,
+    /**
+     * Em demonstração, nenhuma página se deixa indexar nem seguir.
+     *
+     * Tem de ser decidido aqui e não só no layout: esta função devolve
+     * sempre a chave `robots`, e no Next uma chave definida pela página
+     * **substitui** a do layout. Com `undefined`, apagava a regra que o
+     * layout tinha posto — e o `noindex` da demonstração desaparecia em
+     * todas as páginas que passam por aqui, que são quase todas.
+     */
+    robots: emDemonstracao()
+      ? { index: false, follow: false }
+      : noIndex
+        ? { index: false, follow: true }
+        : undefined,
     openGraph: {
       type,
       url,

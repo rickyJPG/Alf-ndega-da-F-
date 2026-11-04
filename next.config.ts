@@ -14,6 +14,17 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
 
+  /**
+   * Onde fica o resultado da compilação.
+   *
+   * Normalmente `.next`. A bateria de testes usa isto para compilar uma
+   * segunda vez com `DEMO_MODE=true` para outra pasta, e assim poder
+   * verificar o portal em demonstração sem destruir o build normal — as
+   * duas coisas não cabem no mesmo sítio porque a faixa de demonstração e o
+   * `noindex` ficam decididos na compilação.
+   */
+  distDir: process.env.NEXT_DIST_DIR || '.next',
+
   // Sprechende URLs statt der alten /pages/<id>-Struktur.
   async redirects() {
     return legacyRedirects.map((entry) => ({

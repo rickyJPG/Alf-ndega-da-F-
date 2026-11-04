@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { defaultLocale, isLocale, locales } from '@/i18n/config';
+import { demonstracaoTerminada } from '@/lib/demo';
 
 const LOCALE_COOKIE = 'cmadf_locale';
 
@@ -22,6 +23,27 @@ const LOCALE_COOKIE = 'cmadf_locale';
  */
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+
+  /**
+   * Demonstração fora do prazo: o portal inteiro passa a ser um ecrã só.
+   *
+   * Tem de ser aqui e não no layout público. As páginas do portal são
+   * geradas na compilação, e uma página gerada não volta a perguntar as
+   * horas — a demonstração só terminaria na próxima recompilação, que é
+   * coisa que ninguém vai fazer a meio de uma demonstração. A middleware
+   * corre a cada pedido e lê as variáveis do servidor nesse momento, por
+   * isso é o único sítio onde um prazo acaba mesmo sozinho.
+   *
+   * `/admin`, `/dados` e `/ficheiros` não passam por aqui (ver o `matcher`
+   * em baixo), mas são servidos dinamicamente e fecham-se a si próprios —
+   * cada um com a sua verificação.
+   */
+  if (demonstracaoTerminada() && pathname !== '/demonstracao-terminada') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/demonstracao-terminada';
+    url.search = '';
+    return NextResponse.rewrite(url);
+  }
   const firstSegment = pathname.split('/')[1] ?? '';
 
   // /pt/… é um duplicado do endereço canónico — redirecionar para a raiz.

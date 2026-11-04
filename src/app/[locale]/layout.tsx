@@ -10,6 +10,7 @@ import { preferencesBootstrapScript } from '@/lib/preferences';
 import { governmentOrganizationJsonLd, websiteJsonLd, languageAlternates, absoluteUrl } from '@/lib/seo';
 import { getActiveAlerts } from '@/content';
 import { portalBloqueado } from '@/lib/admin/bloqueio';
+import { emDemonstracao } from '@/lib/demo';
 
 import { JsonLd } from '@/components/seo/json-ld';
 import { SiteHeader } from '@/components/layout/site-header';
@@ -20,6 +21,7 @@ import { Analytics } from '@/components/layout/analytics';
 import { BackToTop } from '@/components/layout/back-to-top';
 import { ServiceWorkerRegistration } from '@/components/layout/service-worker';
 import { PortalBloqueado } from '@/components/layout/portal-bloqueado';
+import { FaixaDeDemonstracao } from '@/components/layout/faixa-de-demonstracao';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -63,10 +65,13 @@ export async function generateMetadata({
       icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
     },
     formatDetection: { telephone: true, address: true },
-    // Enquanto o interruptor estiver ligado, o ecrã de bloqueio não tem
-    // nada que interesse a um motor de busca — nem que fique indexado à
-    // espera de ser desbloqueado.
-    ...(bloqueado ? { robots: { index: false, follow: false } } : {}),
+    // Fora do índice em três casos. Com o interruptor ligado, porque o
+    // ecrã de bloqueio não tem nada que interesse a um motor de busca —
+    // nem que fique indexado à espera de ser desbloqueado. E em
+    // demonstração, viva ou terminada, porque uma demonstração indexada é
+    // um sítio falso do Município a aparecer nas pesquisas de quem procura
+    // o verdadeiro.
+    ...(bloqueado || emDemonstracao() ? { robots: { index: false, follow: false } } : {}),
   };
 }
 
@@ -87,6 +92,10 @@ export default async function LocaleLayout({
   // vale a pena ir buscar avisos nem preparar a página — mostra-se logo o
   // ecrã de bloqueio. `/admin` não passa por este layout, por isso continua
   // acessível para o desligar.
+  // O fim do prazo da demonstração **não** se verifica aqui, de propósito:
+  // este layout corre na compilação, e uma verificação de data feita na
+  // compilação fica congelada no resultado. Quem trata disso é a middleware,
+  // que corre a cada pedido — ver `src/middleware.ts`.
   const bloqueado = await portalBloqueado();
 
   if (bloqueado) {
@@ -131,6 +140,8 @@ export default async function LocaleLayout({
         <a href="#pesquisa-cabecalho" className="sr-only-focusable">
           {dict.common.skipToSearch}
         </a>
+
+        <FaixaDeDemonstracao dict={dict} />
 
         <AlertBar alerts={alerts} locale={locale} dict={dict} />
         <SiteHeader locale={locale} dict={dict} />

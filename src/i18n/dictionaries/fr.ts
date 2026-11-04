@@ -9,6 +9,12 @@ export const fr: Dictionary = {
     closeMenu: 'Fermer le menu',
     close: 'Fermer',
     search: 'Rechercher',
+    demoBanner:
+      'Version de démonstration',
+    demoBannerLead:
+      'Ce site est une démonstration. Ce n’est pas le portail officiel de la Municipalité et les informations présentées ici n’ont aucune valeur officielle.',
+    demoFormNotice:
+      'Version de démonstration : n’envoyez pas de données personnelles réelles.',
     searchLabel: 'Rechercher sur le portail',
     searchPlaceholder: 'Rechercher services, documents, actualités…',
     seeAll: 'Voir tout',

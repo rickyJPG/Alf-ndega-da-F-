@@ -5,6 +5,8 @@
 
 # Next.js
 /.next/
+# Segundo build, com DEMO_MODE, usado pela bateria de testes.
+/.next-demonstracao/
 /out/
 next-env.d.ts
 

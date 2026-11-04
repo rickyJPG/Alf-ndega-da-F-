@@ -14,6 +14,12 @@ export const pt = {
     closeMenu: 'Fechar menu',
     close: 'Fechar',
     search: 'Pesquisar',
+    demoBanner:
+      'Versão de demonstração',
+    demoBannerLead:
+      'Este sítio é uma demonstração. Não é o portal oficial do Município e a informação aqui apresentada não tem valor oficial.',
+    demoFormNotice:
+      'Versão de demonstração: não envie dados pessoais reais.',
     searchLabel: 'Pesquisar no portal',
     searchPlaceholder: 'Pesquisar serviços, documentos, notícias…',
     seeAll: 'Ver todos',
